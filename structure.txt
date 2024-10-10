@@ -1,0 +1,292 @@
+program +
+
+    Department +
+
+        About   
+            slider +
+                ImageFile
+                Title
+                Short Description
+                CtaButtonTitle
+                CtaButtonLink
+            SectionAbout
+                ImageFile
+                Title
+                Description
+            Vision
+                Description
+            Mission
+                Description
+            CoreValue
+                Description
+            DepartmentSectionImage
+                CtaButtonTitle
+                CtaButtonLink
+            Testimontal +
+                ImageFile
+                Name
+                Description
+            ProgrammeEducationalObjectives +
+                listPoint
+                listPoint
+                listPoint
+                listPoint
+            ProgrammeOutcomes +
+                listPoint
+                listPoint
+                listPoint
+                listPoint
+             programmeSpecificOutcomes +
+                listPoint
+                listPoint
+                listPoint
+                listPoint
+            contact
+                name
+                Description
+                emailId
+                phoneNumber  
+
+        Faculties         
+            Title
+            ImageFile
+            Description
+            teachingStaff +
+                faculty
+                qualification
+                email
+                uniqueId
+                profileId
+            nonTeachingStaff +
+                name
+                qualification
+                designation
+
+        Infrasturcture
+            Title
+            ImageFile
+            description
+            buildings +
+                Title
+                ImageFile
+                description
+
+        Achievements
+            Title
+            ImageFile
+            description
+            Staff Achievements +
+                listPoint
+                listPoint
+                listPoint
+            StudentAchievements +
+                year+
+                    Title
+                    achievementsImageFile
+                    description
+            StudentAchievementsTableFormat +
+                year+
+                    studentName
+                    eventNature
+                    eventName
+                    periodDate
+                    organizedBy
+                    awards
+             StudentAchievementsAppeciationList +
+                year+
+                    studentName
+                    yearOfStudent
+                    eventName
+                    projectName
+                    supervisor
+                    status
+
+        Placement
+            Title
+            ImageFile
+            description             
+            studentPlaced +
+                Year +
+                    studentRegNumber
+                    studentName
+                    companyName
+
+        Events
+            Title
+            ImageFile
+            description
+            EventDetails +
+                ImageFile
+                ImageFile
+                Description
+
+        Syllabus
+            Title
+            ImageFile
+            description
+            Regulation +
+                programType
+                Title
+                pdfLink
+            questionBank +
+                programType
+                Title
+                pdfLink
+
+        departmentLibrary
+            Title
+            ImageFile
+            description
+            SectionAbout
+                ImageFile
+                Title
+                Description
+                records +
+                    Title
+                    noOfBooks
+
+        Research
+            Title
+            ImageFile
+            description
+            phdHoldersList +
+                nameOfThePhdHolder
+                facultyUnderWhichPhdAwarded
+                areaOfResearch
+                yearOfAward
+            annaUniversityRecognizedSuperviorsNameList +
+                nameOfTheSupervior
+                areaOfResearch
+                AnnaUniversityRecognitionNo
+                noofCandidatesUnderDeptResearchCentre
+                noofCandidatesUnderOtherUniversity
+                noofCandidatesPursuingPhd
+            ListOfCandidatesPursuingPhdUnderDepartmentSupervisors +
+                nameOfTheCandidate
+                yearOfRegistration
+                supervisorName
+                areaOfResearch
+                status
+            ListOfDepartmentFacultiesPursuingPhd +
+                nameOfTheCandidate
+                yearOfRegistration
+                regNo
+                supervisorName
+                universityRegistered
+                areaOfResearch
+                status
+            phdAwardedUnderDepartmentSupervisor +
+                NameofTheResearchScholar
+                regNo
+                university
+                supervisorName
+                titleOfTheThesis
+                vivaVoceDate
+            supervisor +
+                Name
+                profileLink
+            Funds +
+                year +
+                    nameOfPi
+                    titleOfTheProject
+                    amount
+                    fundingAgency
+                    OrderNoAndDate
+                    status
+            ValueAddedGroup +
+                Group +
+                    faculty +
+                        Activies +
+
+        Publications
+            Title
+            ImageFile
+            description
+            patent +
+                NameOfTheInventors
+                titleOfThePatents
+                patentNumber
+                publishedDate
+            bookChapter +
+                year +
+                    description
+                journalPublication +
+                    year +
+                    description
+                ConferenceList +
+                    description
+                    description
+                    description
+
+        Newsletter
+            Title
+            ImageFile
+            description
+            Newsletter +
+                year
+                pdfLink
+
+        Magazines
+            Title
+            ImageFile
+            description
+            Magazines +
+                year
+                pdfLink
+
+        Videos
+            Title
+            ImageFile
+            description
+            Videos +
+                Title
+                YoutubeLink
+                
+        Activies
+            Title
+            ImageFile
+            description
+            departmentActivity 
+                year +
+                    nameOfTheTeacherWhoAttendProgramme
+                    titleOfTheProgramme
+                    Organizer
+                    Duration
+            StudentParticipation
+                year +
+                    eventDate
+                    eventName
+                    ConductedBy
+                    nameOfTheStudentsParticipated
+            InterInstituteEventsWinningPrize
+                year +
+                    eventDate
+                    eventName
+                    ConductedBy
+                    nameOfTheStudentsParticipated                
+                    prizeWon
+
+
+
+            
+            
+
+
+
+
+
+
+                    
+            
+
+
+
+
+
+
+            
+            
+            
+
+            
+                
