@@ -15,27 +15,39 @@ Route::get('/menus', [MenuController::class, 'index']);
 Route::middleware(['XSS'])->namespace('Web')->group(function () {
     // Home Route
     Route::get('/', 'HomeController@index')->name('home');
-        // Department Route
-        Route::get('/department', 'DepartmentController@index')->name('department');
-        Route::get('/department/{slug}', 'DepartmentController@show')->name('department.single');
-        Route::get('department/{slug}/faculty', 'DepartmentController@showFaculty')->name('department.faculty');
+
+    // Department Route
+    Route::get('/department', 'DepartmentController@index')->name('department');
+    // Route::get('/department/{slug}', 'DepartmentController@show')->name('department.single');
+    // Route::get('department/{slug}/faculty', 'DepartmentController@showFaculty')->name('department.faculty');
+
+    Route::get('/department/{slug}/{section?}', 'DepartmentController@show');
+    Route::post('/department/{section}/{departmentId?}', 'DepartmentController@storeOrUpdate');
+
     // Course Route
     Route::get('/course', 'CourseController@index')->name('course');
     Route::get('/course/{slug}', 'CourseController@show')->name('course.single');
+
     // Event Route
     Route::get('/event', 'EventController@index')->name('event');
     Route::get('/event/{id}/{slug}', 'EventController@show')->name('event.single');
+
     // Faq Route
     Route::get('/faq', 'FaqController@index')->name('faq');
+
     // Gallery Route
     Route::get('/gallery', 'GalleryController@index')->name('gallery');
+
     // News Route
     Route::get('/news', 'NewsController@index')->name('news');
     Route::get('/news/{id}/{slug}', 'NewsController@show')->name('news.single');
+
     // Page Route
     Route::get('/page/{slug}', 'PageController@show')->name('page.single');
+
     // Application Route
     Route::resource('application', 'ApplicationController');
+
     // SetCookie Route
     Route::get('/set-cookie', 'HomeController@setCookie')->name('setCookie');
 });
