@@ -1,11 +1,12 @@
 @extends('web.layouts.master')
-@section('title', __($department->title))
+{{-- @section('title', __($department->title)) --}}
 @section('content')
     <!-- main-area -->
     <main>
         <section id="home" class="slider-area fix p-relative">
             <div class="slider-active" style="background: #141b22;">
-                @foreach($sliders as $slider)
+               {{--
+                 @foreach($sliders as $slider)
                 <div class="single-slider slider-bg" style="background-image: url({{ asset('uploads/slider/'.$slider->attach) }}); background-size: cover;">
                     <div class="overlay"></div>
                     <div class="container">
@@ -26,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
+                @endforeach --}}
             </div>
         </section>  
          <!-- breadcrumb-area -->
@@ -36,7 +37,7 @@
                       <div class="col-xl-12 col-lg-12">
                           <div class="breadcrumb-wrap text-left">
                               <div class="breadcrumb-title">
-                                  <h2>{{$department->title}}</h2>
+                                  <h2>{{--$department->title--}}</h2>
                               </div>
                           </div>
                       </div>
@@ -45,7 +46,7 @@
                               <ol class="breadcrumb">
                                   <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('navbar_home') }}</a></li>
                                   <li class="breadcrumb-item" ><a href="{{ route('department') }}">{{ __('navbar_department') }}</a></li>
-                                  <li class="breadcrumb-item active" aria-current="page"> {{$department->title}}</li>
+                                  <li class="breadcrumb-item active" aria-current="page"> {{--$department->title--}}</li>
                               </ol>
                           </nav>
                       </div>
@@ -59,14 +60,14 @@
                 <div class="lower-content">
                     <div class="row">
                         <div class="text-column col-lg-9 col-md-9 col-sm-12">
-                            <h2>{{$department->title }}</h2>
+                            <h2>{{--$department->title--}}</h2>
                             <div class="upper-box">
                                 <div class="single-item-carousel owl-carousel owl-theme">
                                     {{-- <figure class="image"><img src="{{ asset('uploads/course/'.$course->attach) }}" alt="Course"></figure> --}}
                                 </div>
                             </div>
                             <div class="inner-column">
-                                  <p>{!! $department->title !!}</p>  
+                                  <p>{{-- {!! $department->title !!} --}}</p>  
                                   <p> What is Lorem Ipsum?</p>
                                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
                                         <p>Why do we use it?</p>

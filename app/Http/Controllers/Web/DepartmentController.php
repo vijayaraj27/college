@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+//use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Web\Department;
@@ -102,49 +102,16 @@ class DepartmentController extends Controller
            ->get();
 
         // Return the response
-        return response()->json($data);
+       // return response()->json($data);
+    
+       $response = [
+                    'data' => $data,
+                    'section' => $section
+                ];
+
+        return view('web.department-single', $data);
     }
-
-    // Common function to handle Add/Update
-    public function storeOrUpdate(Request $request, $section, $departmentId)
-    {
-        // Define the table name dynamically based on section
-        $table = 'department_' . $section;
-
-        // Validate if table exists in the schema
-        if (!Schema::hasTable($table)) {
-            return response()->json(['error' => 'Invalid section provided.'], 400);
-        }
-
-        // Validation rules based on table structure
-        $rules = $this->getValidationRules($section);
-
-        // Validate input
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        // Check if record exists for the department
-        $record = DB::table($table)->where('departmentId', $departmentId)->first();
-
-        // Prepare data to insert or update
-        $data = $request->except('_method', '_token'); // Exclude Laravel's hidden fields
-        $data['departmentId'] = $departmentId;
-        $data['updatedAt'] = now(); // Add updated timestamp
-
-        if ($record) {
-            // Update if the record exists
-            DB::table($table)->where('departmentId', $departmentId)->update($data);
-            return response()->json(['message' => 'Data updated successfully']);
-        } else {
-            // Insert new record
-            $data['createdAt'] = now(); // Add created timestamp
-            DB::table($table)->insert($data);
-            return response()->json(['message' => 'Data added successfully']);
-        }
-    }
-
+    
     // Common function to handle Add/Update
     public function storeOrUpdate(Request $request, $section, $departmentId)
     {
