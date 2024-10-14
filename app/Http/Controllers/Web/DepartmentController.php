@@ -101,15 +101,23 @@ class DepartmentController extends Controller
            ->where('departmentId', $department->id)
            ->get();
 
+           $sliders = Slider::where('language_id', Language::version()->id);
+           //                          ->where('department_id', $department->id) // Filter by department ID
+           //                          ->where('status', '1')
+           //                          ->orderBy('id', 'asc')
+           //                          ->get();
+
         // Return the response
        // return response()->json($data);
     
        $response = [
                     'data' => $data,
-                    'section' => $section
+                    'section' => $section,
+                    'sliders' => $sliders,
+                    'department' => $department
                 ];
 
-        return view('web.department-single', $data);
+        return view('web.department-single', $response);
     }
     
     // Common function to handle Add/Update

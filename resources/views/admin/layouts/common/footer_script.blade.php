@@ -212,6 +212,24 @@
         directionality : 'rtl',
         language: '{{ $version->code }}',
       });
+
+
+      function initTextEditor() {
+        tinymce.remove('.texteditor'); // Remove any existing instances first
+        tinymce.init({
+            selector: '.texteditor',
+            height: 200,
+            setup: function (editor) {
+                editor.on('init change', function () {
+                    editor.save();
+                });
+            },
+            plugins: 'advcode code',
+            directionality: '{{ $version->is_rtl ? 'rtl' : 'ltr' }}',  // Dynamically choose the direction
+            language: '{{ $version->code }}'
+        });
+    }
+
     </script>
     @else
     <script type="text/javascript">
@@ -228,5 +246,23 @@
         directionality : 'ltr',
         language: '{{ $version->code }}',
       });
+
+
+      function initTextEditor() {
+        tinymce.remove('.texteditor'); // Remove any existing instances first
+        tinymce.init({
+            selector: '.texteditor',
+            height: 200,
+            setup: function (editor) {
+                editor.on('init change', function () {
+                    editor.save();
+                });
+            },
+            plugins: 'advcode code',
+            directionality: '{{ $version->is_rtl ? 'rtl' : 'ltr' }}',  // Dynamically choose the direction
+            language: '{{ $version->code }}'
+        });
+    }
+    
     </script>
     @endif

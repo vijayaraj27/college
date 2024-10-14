@@ -37,12 +37,20 @@ class AboutUsController extends Controller
     $data['view']   = $this->view;
     $data['path']   = $this->path;
     $data['access'] = $this->access;
-    $query = AboutUs::where('language_id', Language::version()->id);
+  //$query = AboutUs::where('language_id', Language::version()->id);
+  $query = AboutUs::query();
     if(Auth::user()->department_id == 0){
-        $query->where('department_id', 0);
+        //$query->where('department_id', 0);
+        $query->where('departmentId', 1);
     } else {
-        $query->where('department_id', Auth::user()->department_id);
+        $query->where('departmentId', 1);
+       // $query->where('department_id', Auth::user()->department_id);
     }
+    $row =  $query->first();
+
+    $data['programmeEducationalObjectives'] = json_decode($row->programmeEducationalObjectives, true);
+    $data['programmeOutcomes'] = json_decode($row->programmeOutcomes, true);
+    $data['programmeSpecificOutcomes'] = json_decode($row->programmeSpecificOutcomes, true);
     $data['row'] = $query->first();
     //dd(Auth::user()->department_id);
     return view($this->view.'.index', $data);

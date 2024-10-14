@@ -1,11 +1,16 @@
 @extends('web.layouts.master')
-{{-- @section('title', __($department->title)) --}}
-@section('content')
+  @section('title', __($department->title)) 
+  
+ 
+  @section('content')
+    <!-- Your content here -->
+
+ 
     <!-- main-area -->
     <main>
         <section id="home" class="slider-area fix p-relative">
             <div class="slider-active" style="background: #141b22;">
-               {{--
+          
                  @foreach($sliders as $slider)
                 <div class="single-slider slider-bg" style="background-image: url({{ asset('uploads/slider/'.$slider->attach) }}); background-size: cover;">
                     <div class="overlay"></div>
@@ -27,17 +32,18 @@
                         </div>
                     </div>
                 </div>
-                @endforeach --}}
+                @endforeach     
             </div>
         </section>  
          <!-- breadcrumb-area -->
          <section class="breadcrumb-area d-flex  p-relative align-items-center">
             <div class="container">
+                  
                   <div class="row align-items-center">
                       <div class="col-xl-12 col-lg-12">
                           <div class="breadcrumb-wrap text-left">
                               <div class="breadcrumb-title">
-                                  <h2>{{--$department->title--}}</h2>
+                                  <h2>{{$department->title}}</h2>
                               </div>
                           </div>
                       </div>
@@ -46,13 +52,14 @@
                               <ol class="breadcrumb">
                                   <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('navbar_home') }}</a></li>
                                   <li class="breadcrumb-item" ><a href="{{ route('department') }}">{{ __('navbar_department') }}</a></li>
-                                  <li class="breadcrumb-item active" aria-current="page"> {{--$department->title--}}</li>
+                                  <li class="breadcrumb-item active" aria-current="page"> {{$department->title}}</li>
                               </ol>
                           </nav>
                       </div>
                   </div>
               </div>  
           </section>
+          
           <!-- breadcrumb-area-end -->
         <!-- course Detail -->
        <section class="project-detail">
@@ -60,14 +67,14 @@
                 <div class="lower-content">
                     <div class="row">
                         <div class="text-column col-lg-9 col-md-9 col-sm-12">
-                            <h2>{{--$department->title--}}</h2>
+                            <h2>{{$department->title}}</h2>
                             <div class="upper-box">
                                 <div class="single-item-carousel owl-carousel owl-theme">
-                                    {{-- <figure class="image"><img src="{{ asset('uploads/course/'.$course->attach) }}" alt="Course"></figure> --}}
+                                {{--  <figure class="image"><img src="{{ asset('uploads/course/'.$course->attach) }}" alt="Course"></figure> --}}
                                 </div>
                             </div>
                             <div class="inner-column">
-                                  <p>{{-- {!! $department->title !!} --}}</p>  
+                                  <p> {!! $department->title !!} </p>  
                                   <p> What is Lorem Ipsum?</p>
                                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
                                         <p>Why do we use it?</p>
@@ -77,23 +84,19 @@
                                                         <p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
                                                             <p>Where can I get some?</p>
                                                                 <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
-5
-	paragraphs
-	words
-	bytes
-	lists
-	Start with 'Lorem
-ipsum dolor sit amet...'</p>
+ 
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <aside class="sidebar-widget info-column">
                                 <div class="inner-column3">
                                     <h3>{{ __('Details') }}</h3>
+
+                                    
                                     <ul class="project-info clearfix">
-                                        @if(!empty($department->slug))
+                                     @if(!empty($department->slug))
                                         <li>
-                                            <a href="{{ route('department.single', ['slug' => $department->slug ]) }}/faculty"> <strong>{{ __('field_faculty') }} </strong> </a>                                        
+                                            {{-- <a href="{{ route('department.single', ['slug' => $department->slug ]) }}/faculty"> <strong>{{ __('field_faculty') }} </strong> </a>         --}}
                                         </li>
                                         <li>
                                             <strong><a>Infrastructure</a> </strong> 
@@ -137,10 +140,11 @@ ipsum dolor sit amet...'</p>
                             </aside>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div>  
+            </div>    
         </section>  
         <!--End course Detail -->
     </main>
     <!-- main-area-end -->
+
 @endsection
