@@ -62,64 +62,64 @@ class AboutUsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        // Field Validation
-        $request->validate([
-            'label' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'attach' => 'nullable|image',
-            'vision_image' => 'nullable|image',
-            'mission_image' => 'nullable|image',
-        ]);
-        $id = $request->id;
-        // -1 means no data row found
-        if($id == -1){
-            // Insert Data
-            $aboutUs = new AboutUs;
-            $aboutUs->language_id = Language::version()->id;
-            $aboutUs->label = $request->label;
-            $aboutUs->title = $request->title;
-            $aboutUs->department_id = Auth::user()->department_id;
-            $aboutUs->short_desc = $request->short_desc;
-            $aboutUs->description = $request->description;
-            $aboutUs->button_text = $request->button_text;
-            $aboutUs->video_id = $request->video_id;
-            $aboutUs->features = json_encode($request->features, JSON_UNESCAPED_UNICODE);
-            $aboutUs->attach = $this->uploadImage($request, 'attach', $this->path, null, 800);
-            $aboutUs->vision_title = $request->vision_title;
-            $aboutUs->vision_desc = $request->vision_desc;
-            $aboutUs->vision_icon = $request->vision_icon;
-            $aboutUs->vision_image = $this->uploadImage($request, 'vision_image', $this->path, 500, 280);
-            $aboutUs->mission_title = $request->mission_title;
-            $aboutUs->mission_desc = $request->mission_desc;
-            $aboutUs->mission_icon = $request->mission_icon;
-            $aboutUs->mission_image = $this->uploadImage($request, 'mission_image', $this->path, 500, 280);
-            $aboutUs->save();
-        }
-        else{
-            // Update Data
-            $aboutUs = AboutUs::find($id);
-            $aboutUs->label = $request->label;
-            $aboutUs->title = $request->title;
-            $aboutUs->department_id = Auth::user()->department_id;
-            $aboutUs->short_desc = $request->short_desc;
-            $aboutUs->description = $request->description;
-            $aboutUs->button_text = $request->button_text;
-            $aboutUs->video_id = $request->video_id;
-            $aboutUs->features = json_encode($request->features, JSON_UNESCAPED_UNICODE);
-            $aboutUs->attach = $this->updateImage($request, 'attach', $this->path, null, 800, $aboutUs, 'attach');
-            $aboutUs->vision_title = $request->vision_title;
-            $aboutUs->vision_desc = $request->vision_desc;
-            $aboutUs->vision_icon = $request->vision_icon;
-            $aboutUs->vision_image = $this->updateImage($request, 'vision_image', $this->path, 500, 280, $aboutUs, 'vision_image');
-            $aboutUs->mission_title = $request->mission_title;
-            $aboutUs->mission_desc = $request->mission_desc;
-            $aboutUs->mission_icon = $request->mission_icon;
-            $aboutUs->mission_image = $this->updateImage($request, 'mission_image', $this->path, 500, 280, $aboutUs, 'mission_image');
-            $aboutUs->save();
-        }
-        Toastr::success(__('msg_updated_successfully'), __('msg_success'));
-        return redirect()->back();
+{
+
+    print_r($request->all()); //exit;
+    // Field Validation
+    $request->validate([
+        'sectionAbout.image_file' => 'nullable',
+        'sectionAbout.title' => 'required',
+        'sectionAbout.description' => 'required',
+        'vision' => 'required',
+        'mission' => 'required',
+        'coreValue' => 'required',
+        'programmeEducationalObjectives' => 'required|array',
+        'programmeOutcomes' => 'required|array',
+        'programmeSpecificOutcomes' => 'required|array',
+        'contact.name' => 'required',
+        'contact.email' => 'required|email',
+        'contact.phone' => 'required',
+    ]);
+
+    $id = $request->id;
+
+    if ($id == -1) {
+        // Insert Data
+        $aboutUs = new AboutUs;
+    } else {
+        // Update Data
+        $aboutUs = AboutUs::find($id);
     }
+
+    // About Section
+    $aboutUs->label = $request->sectionAbout['title'];
+    $aboutUs->description = $request->sectionAbout['description'];
+    
+    // Vision, Mission, Core Values
+    $aboutUs->vision_desc = $request->vision;
+    $aboutUs->mission_desc = $request->mission;
+    $aboutUs->core_values = $request->coreValue;
+
+    // Programme Outcomes (store as JSON)
+    $aboutUs->programmeEducationalObjectives = json_encode($request->programmeEducationalObjectives, JSON_UNESCAPED_UNICODE);
+    $aboutUs->programmeOutcomes = json_encode($request->programmeOutcomes, JSON_UNESCAPED_UNICODE);
+    $aboutUs->programmeSpecificOutcomes = json_encode($request->programmeSpecificOutcomes, JSON_UNESCAPED_UNICODE);
+  
+    // Contact Information
+    $aboutUs->contact_name = $request->contact['name'];
+    $aboutUs->contact_email = $request->contact['email'];
+    $aboutUs->contact_phone = $request->contact['phone'];
+
+    // Handle images (if any are uploaded)
+    if ($request->hasFile('sectionAbout.image_file')) {
+        $aboutUs->attach = $this->uploadImage($request, 'sectionAbout.image_file', $this->path, null, 800);
+    }
+    
+    // Handle other fields as necessary
+    $aboutUs->save();
+
+    Toastr::success(__('msg_updated_successfully'), __('msg_success'));
+    return redirect()->back();
+}
+
 }

@@ -8,13 +8,18 @@
         <div class="row">
             <div class="col-sm-12">
                
-                @csrf
+          
                 <div class="card">
                     <div class="card-header">
                         <h3 class="bold">Department About Us Form</h3>
 
                         <?php 
-//                        echo "<pre>"; echo     print_r($row);  echo "</pre>";
+//                        
+//  echo "<pre>";
+//   echo     print_r($row);
+// //echo $contact = json_decode($row->contact, true);
+//  echo "</pre>";
+//  exit;
 $sectionAbout = json_decode($row->sectionAbout, true);
 $image_file = $sectionAbout['image_file'];
 $title = $sectionAbout['title'];
@@ -24,10 +29,10 @@ $contact = json_decode($row->contact, true);
                     </div>
                     <div class="card-block">
                         <form id="aboutUsForm" class="needs-validation" method="POST" action="{{ route($route.'.store') }}" method="post" enctype="multipart/form-data">
-                            @csrf
+                             @csrf  
                             <div class="row">
                                     <!-- Slider Section -->
-                                    <div id="sliderContainer">
+                                    {{-- <div id="sliderContainer" style="display:none">
                                         <h4>Slider</h4>
                                         <div class="slider-entry row">
                                                 <div class="form-group col-md-6"> <input type="text" class="form-control" name="slider[0][image_file]" placeholder="Image File" required> </div>
@@ -38,9 +43,10 @@ $contact = json_decode($row->contact, true);
                                                 <div class="form-group col-md-12 text-end"> <button type="button" class="removeSliderBtn btn btn-danger w-auto" onclick="removeSlider(this)">Remove</button> </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-12 text-center">  <button type="button" id="addSliderBtn" class="btn btn-info" onclick="addSlider()">Add Slider</button> </div>
+                                    <div class="form-group col-md-12 text-center" style="display:none">  <button type="button" id="addSliderBtn" class="btn btn-info" onclick="addSlider()">Add Slider</button> </div> --}}
 
                                     <!-- Section About -->
+                                     <input type="hidden" name="id" value="{{ isset($row->id)?$row->id:'' }}" />
                                     <h4>About Section</h4>
                                     <div class="form-group col-md-6">  <input type="text" class="form-control" name="sectionAbout[image_file]" placeholder="Image File" required value="{{ isset($image_file)?$image_file:'' }}" > </div>
                                     <div class="form-group col-md-6"> <input type="text"  class="form-control" name="sectionAbout[title]" placeholder="Title" required value="{{ isset($title)?$title:'' }}"> </div>
@@ -60,10 +66,11 @@ $contact = json_decode($row->contact, true);
 
                                     <!-- Department Section Image -->
                                     <h4>Department Section Image</h4>
-                                    <div class="form-group col-md-6">  <input type="text" class="form-control texteditor"   name="departmentSectionImage[image_file]" placeholder="Image File" required> </div>
+                                    <div class="form-group col-md-6">  <input type="text" class="form-control texteditor"   name="departmentSectionImage" value="{{$row->departmentSectionImage}}" placeholder="Image File" required> </div>
 
                                     <!-- Testimonials -->
-                                    <div id="testimonialContainer">
+                                    {{-- 
+                                    <div id="testimonialContainer" style="display:none">
                                         <h4>Testimonials</h4>
                                         <div class="testimonial-entry">
                                             <div class="form-group col-md-6">  <input class="form-control" type="text" name="testimonial[0][name]" placeholder="Name" required> </div> 
@@ -71,7 +78,8 @@ $contact = json_decode($row->contact, true);
                                             <div class="form-group col-md-12 text-end">  <button type="button " class="removeTestimonialBtn  btn btn-danger w-auto" onclick="removeTestimonial(this)">Remove</button> </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-12 text-center">  <button type="button" id="addTestimonialBtn" class="btn btn-info" onclick="addTestimonial()">Add Testimonial</button> </div>
+                                    <div class="form-group col-md-12 text-center" style="display:none">  <button type="button" id="addTestimonialBtn" class="btn btn-info" onclick="addTestimonial()">Add Testimonial</button> </div>
+                                    --}}
 
                                     <!-- Programme Educational Objectives -->
                                     <div id="programmeEducationalContainer">
@@ -153,9 +161,9 @@ $contact = json_decode($row->contact, true);
 
                                     <!-- Contact -->
                                     <h4>Contact Information</h4>
-                                    <div class="form-group col-md-6">  <input class="form-control" type="text" name="contact[name]" placeholder="Name" required> </div>
-                                    <div class="form-group col-md-6">  <input class="form-control" type="email" name="contact[email]" placeholder="Email" required> </div>
-                                    <div class="form-group col-md-6">  <input class="form-control" type="text" name="contact[phone]" placeholder="Phone" required> </div>
+                                    <div class="form-group col-md-6">  <input class="form-control" type="text" name="contact[name]" value="{{$contact['name']}}" placeholder="Name" required /> </div>
+                                    <div class="form-group col-md-6">  <input class="form-control" type="email" name="contact[email]" value="{{$contact['email_id']}}" placeholder="Email" required /> </div>
+                                    <div class="form-group col-md-6">  <input class="form-control" type="text" name="contact[phone]" value="{{$contact['phone_number']}}" placeholder="Phone" required /> </div>
 
                                     <div class="form-group col-md-12">  <button type="submit" class="btn btn-success">Submit</button> </div>
 
