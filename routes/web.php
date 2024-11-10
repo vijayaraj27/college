@@ -18,8 +18,8 @@ Route::middleware(['XSS'])->namespace('Web')->group(function () {
 
     // Department Route
     Route::get('/department', 'DepartmentController@index')->name('department');
-    // Route::get('/department/{slug}', 'DepartmentController@show')->name('department.single');
-    // Route::get('department/{slug}/faculty', 'DepartmentController@showFaculty')->name('department.faculty');
+    Route::get('/department/{slug}', 'DepartmentController@show')->name('department.single');
+    Route::get('department/{slug}/faculty', 'DepartmentController@showFaculty')->name('department.faculty');
 
     Route::get('/department/{slug}/{section?}', 'DepartmentController@show');
     Route::post('/department/{section}/{departmentId?}', 'DepartmentController@storeOrUpdate');

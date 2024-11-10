@@ -9,7 +9,8 @@ class AboutUs extends Model
 {
     use HasFactory;
 
-    protected $table = 'department_about_us';
+ protected $table = 'department_about_us';
+   //protected $table = 'about_us';
     public $timestamps = true;
 
     const CREATED_AT = 'createdAt';

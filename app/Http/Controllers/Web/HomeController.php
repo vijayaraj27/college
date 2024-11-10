@@ -18,7 +18,7 @@ class HomeController extends Controller
     {
         // Sliders
         $data['sliders'] = Slider::where('language_id', Language::version()->id)
-                            ->where('status', '1')
+                           ->where('status', '1')
                             ->where('department_id', '0')
                             ->orderBy('id', 'asc')
                             ->get();
@@ -29,8 +29,8 @@ class HomeController extends Controller
                             ->get();
         // About Us
         $data['about'] = AboutUs::where('language_id', Language::version()->id)
-                            ->where('status', '1')
-                            ->where('department_id', '0')
+                        //    ->where('status', '1')
+                         //   ->where('department_id', '0')
                             ->first();
         // Call To Action
         $data['callToAction'] = CallToAction::where('language_id', Language::version()->id)
