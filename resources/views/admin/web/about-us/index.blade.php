@@ -20,15 +20,15 @@
 // //echo $contact = json_decode($row->contact, true);
 //  echo "</pre>";
 //  exit;
-$sectionAbout = json_decode($row->sectionAbout, true);
-$image_file = $sectionAbout['image_file'];
-$title = $sectionAbout['title'];
-$description = $sectionAbout['description'];
-$contact = json_decode($row->contact, true);                        
+$sectionAbout = $row ? json_decode($row->sectionAbout, true) : [];
+$image_file = $sectionAbout ? $sectionAbout['image_file'] : '';
+$title = $sectionAbout ? $sectionAbout['title'] : '';
+$description = $sectionAbout ? $sectionAbout['description'] : '';
+$contact = $row ? json_decode($row->contact, true) : [];                        
                         ?>
                     </div>
                     <div class="card-block">
-                        <form id="aboutUsForm" class="needs-validation" method="POST" action="{{ route($route.'.store') }}" method="post" enctype="multipart/form-data">
+                        <form id="aboutUsForm" class="needs-validation" method="POST" action="{{ route($route . '.store', ['departmentId' => $departmentId]) }}" method="post" enctype="multipart/form-data">
                              @csrf  
                             <div class="row">
                                     <!-- Slider Section -->
@@ -62,11 +62,11 @@ $contact = json_decode($row->contact, true);
 
                                     <!-- Core Values -->
                                     <h4>Core Values</h4>
-                                    <div class="form-group col-md-12">  <textarea class="form-control texteditor"  name="coreValue" placeholder="Core Values" required>{{ isset($row->coreValue)?$row->coreValue:'' }}</textarea> </div>
+                                    <div class="form-group col-md-12">  <textarea class="form-control texteditor"  name="coreValue" placeholder="Core Values" required>{{ isset($row->coreValue) ? $row->coreValue:'' }}</textarea> </div>
 
                                     <!-- Department Section Image -->
                                     <h4>Department Section Image</h4>
-                                    <div class="form-group col-md-6">  <input type="text" class="form-control texteditor"   name="departmentSectionImage" value="{{$row->departmentSectionImage}}" placeholder="Image File" required> </div>
+                                    <div class="form-group col-md-6">  <input type="text" class="form-control texteditor"   name="departmentSectionImage" value="{{$row ? $row->departmentSectionImage : ''}}" placeholder="Image File" required> </div>
 
                                     <!-- Testimonials -->
                                     {{-- 
@@ -161,9 +161,9 @@ $contact = json_decode($row->contact, true);
 
                                     <!-- Contact -->
                                     <h4>Contact Information</h4>
-                                    <div class="form-group col-md-6">  <input class="form-control" type="text" name="contact[name]" value="{{$contact['name']}}" placeholder="Name" required /> </div>
-                                    <div class="form-group col-md-6">  <input class="form-control" type="email" name="contact[email]" value="{{$contact['email_id']}}" placeholder="Email" required /> </div>
-                                    <div class="form-group col-md-6">  <input class="form-control" type="text" name="contact[phone]" value="{{$contact['phone_number']}}" placeholder="Phone" required /> </div>
+                                    <div class="form-group col-md-6">  <input class="form-control" type="text" name="contact[name]" value="{{$contact ? $contact['name'] : ''}}" placeholder="Name" required /> </div>
+                                    <div class="form-group col-md-6">  <input class="form-control" type="email" name="contact[email]" value="{{$contact ? $contact['email'] : ''}}" placeholder="Email" required /> </div>
+                                    <div class="form-group col-md-6">  <input class="form-control" type="text" name="contact[phone]" value="{{$contact ? $contact['phone'] : ''}}" placeholder="Phone" required /> </div>
 
                                     <div class="form-group col-md-12">  <button type="submit" class="btn btn-success">Submit</button> </div>
 
