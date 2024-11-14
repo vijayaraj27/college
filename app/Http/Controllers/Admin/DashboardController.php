@@ -2,8 +2,10 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\MeetingSchedule;
+
 use App\Models\PostalExchange;
 use Illuminate\Http\Request;
+use App\Models\Department;
 use App\Models\FeesCategory;
 use App\Models\ItemCategory;
 use App\Models\Application;
@@ -47,11 +49,11 @@ class DashboardController extends Controller
       $data['title'] = $this->title;
       $data['route'] = $this->route;
       $data['view'] = $this->view;
-      // $today_date = Carbon::parse(Carbon::today())->format('Y-m-d');
-      // $year = Carbon::parse(Carbon::today())->format('Y');
-      // $month = Carbon::parse(Carbon::today())->format('m');
-      // Counter Data
-      //$data['pending_applications'] = Application::where('status', '1')->get();
+      $today_date = Carbon::parse(Carbon::today())->format('Y-m-d');
+      $year = Carbon::parse(Carbon::today())->format('Y');
+      $month = Carbon::parse(Carbon::today())->format('m');
+    //  Counter Data
+      // $data['pending_applications'] = Application::where('status', '1')->get();
       // $data['active_students'] = Student::where('status', '1')->get();
       // $data['active_staffs'] = User::where('status', '1')->get();
       // $data['library_books'] = Book::where('status', '1')->get();
@@ -59,7 +61,7 @@ class DashboardController extends Controller
       // $data['daily_phone_logs'] = PhoneLog::where('date', $today_date)->where('status', '1')->get();
       // $data['daily_enqueries'] = Enquiry::where('date', $today_date)->where('status', '1')->get();
       // $data['daily_postals'] = PostalExchange::where('date', $today_date)->where('status', '1')->get();
-      // $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       // //Line Chart
       // $salaries = [];
       // $fees = [];
@@ -101,9 +103,13 @@ class DashboardController extends Controller
       // }
       // Doughnut Chart
       $data['programs'] = Program::where('status', '1')
-                            ->orderBy('title', 'asc')->get();
+                                  ->orderBy('title', 'asc')->get();
+      // $data['departments'] = Department::where('status', '1')
+      //                                   ->orderBy('title', 'asc')->get(); 
+                                        
+                                        $data['rows'] = Department::orderBy('title', 'asc')->get();
       // $data['fees_types'] = FeesCategory::where('status', '1')
-      //                       ->orderBy('title', 'asc')->get();
+      //                       ->orderBy('title', 'asc')->get();                     
       // $data['item_types'] = ItemCategory::where('status', '1')
       //                       ->orderBy('title', 'asc')->get();
       //Bar Chart
@@ -142,8 +148,8 @@ class DashboardController extends Controller
       // $user=Session::get('user');
     // exit;
       // return $user->name; 
-      return view($this->view.'.index', $data);
-      // ->with('months', json_encode($months,JSON_NUMERIC_CHECK))
+      return view($this->view.'.index', $data)
+             ->with('months', json_encode($months,JSON_NUMERIC_CHECK));
       // ->with('fees', json_encode($fees,JSON_NUMERIC_CHECK))
       // ->with('expenses', json_encode($expenses, JSON_NUMERIC_CHECK))
       // ->with('incomes', json_encode($incomes, JSON_NUMERIC_CHECK))
@@ -162,5 +168,18 @@ class DashboardController extends Controller
       // ->with('monthly_complains', json_encode($monthly_complains,JSON_NUMERIC_CHECK))
       // ->with('monthly_postals', json_encode($monthly_postals,JSON_NUMERIC_CHECK))
       // ->with('monthly_schedules', json_encode($monthly_schedules,JSON_NUMERIC_CHECK));
+   }
+
+   public function show($slug){
+      $data['title'] = " Department Section ";
+      $department = Department::where('slug', $slug)->first();
+      $data['baseurl'] = config('app.url');
+     // $data['adminUrl'] = route('admin.index');
+      $data['department'] =  $department;
+      if (!$department) {      
+        return redirect('/admin'); // Direct URL as a test      
+     }
+      $data['slug'] = $slug;     
+      return view('admin.dashboard.departmentslug', $data);       
    }
 }

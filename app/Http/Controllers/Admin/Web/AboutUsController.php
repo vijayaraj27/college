@@ -37,6 +37,7 @@ class AboutUsController extends Controller
         $data['view']   = $this->view;
         $data['path']   = $this->path;
         $data['access'] = $this->access;
+        $data['baseurl'] = config('app.url');
         //$query = AboutUs::where('language_id', Language::version()->id);
         $query = AboutUs::query();
         $query->where('departmentId', $departmentId);
@@ -55,7 +56,7 @@ class AboutUsController extends Controller
         $data['row'] = $query->first();
         $data['departmentId'] = $departmentId;
         // dd(Auth::user()->department_id);
-        // echo '<pre>';print_r($row);exit;
+       // echo '<pre>';print_r($row);exit;
         return view($this->view.'.index', $data);
     }
     /**
@@ -66,12 +67,11 @@ class AboutUsController extends Controller
      */
     public function store(Request $request, $departmentId = null)
     {
-
         // echo '<pre>';print_r($request->all()); exit;
 
         // Field Validation
         $request->validate([
-            'sectionAbout.image_file' => 'nullable',
+            'sectionAbout.image_file' => 'nullable|image',
             'sectionAbout.title' => 'required',
             'sectionAbout.description' => 'required',
             'vision' => 'required',
@@ -88,25 +88,34 @@ class AboutUsController extends Controller
         // Check if the row exists with the given departmentId
         $aboutUs = AboutUs::where('departmentId', $request->departmentId)->first();
 
-         // If exists, update the record; otherwise, create a new one
+
         if ($aboutUs) {
             $message = 'Record updated successfully';
         } else {
             $aboutUs = new AboutUs;
-            $aboutUs->departmentId  = $request->departmentId;
+            $aboutUs->departmentId = $departmentId;
             $aboutUs->designationId = 1;
             $aboutUs->slider = '';
             $aboutUs->testimonial = '';
             $message = 'Record created successfully';
         }
 
-        // Handle images (if any are uploaded)
-        // if ($request->hasFile('sectionAbout.image_file')) {
-        //     $aboutUs->attach = $this->uploadImage($request, 'sectionAbout.image_file', $this->path, null, 800);
-        // }
 
-        // About Section
-        $aboutUs->sectionAbout = json_encode($request->sectionAbout, JSON_UNESCAPED_UNICODE);
+        // Initialize sectionAbout as an array
+        $sectionAbout = $aboutUs->sectionAbout ? json_decode($aboutUs->sectionAbout, true) : [];
+
+        // Handle the image upload if the file exists
+        if ($request->hasFile('sectionAbout.image_file')) {
+            $sectionAbout['image_file'] = $this->uploadImage($request, 'sectionAbout.image_file', $this->path, null, 800);
+        }
+
+        // Add other fields to sectionAbout
+        $sectionAbout['title'] = $request->input('sectionAbout.title');
+        $sectionAbout['description'] = $request->input('sectionAbout.description');
+
+        // Assign updated sectionAbout back to the model
+        $aboutUs->sectionAbout = json_encode($sectionAbout, JSON_UNESCAPED_UNICODE);
+
         
         // Vision, Mission, Core Values
         $aboutUs->vision    = $request->vision;
@@ -123,9 +132,12 @@ class AboutUsController extends Controller
         // Contact Information
         $aboutUs->contact = json_encode($request->contact, JSON_UNESCAPED_UNICODE);
 
-        
+       // print_r($sectionAbout); exit;
         // Handle other fields as necessary
         $aboutUs->save();
+
+ 
+
 
         Toastr::success(__($message), __('msg_success'));
 

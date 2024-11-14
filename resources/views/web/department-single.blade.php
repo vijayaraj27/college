@@ -66,7 +66,54 @@
             <div class="container">
                 <div class="lower-content">
                     <div class="row">
-                        <div class="text-column col-lg-9 col-md-9 col-sm-12">
+ 
+                            <div class="text-column col-lg-12 col-md-12 col-sm-12">
+
+                            <ul class="d-flex flex-wrap listmargin clearfix">
+                                    
+                                        <li>
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.single', ['slug' => $department->slug ]) }}/faculty"> <strong>{{ __('field_faculty') }} </strong> </a>         
+                                        </li>
+                                        <li>
+                                            <strong><a class="btn ss-btn mr-10" >Infrastructure</a> </strong> 
+                                        </li>
+                                        <li>
+                                            <strong><a class="btn ss-btn mr-10" >Achievements</a> </strong> 
+                                        </li>
+                                        <li>
+                                            <strong><a class="btn ss-btn mr-10" >Placement</a></strong> 
+                                        </li>
+                                        <li>
+                                            <strong><a class="btn ss-btn mr-10" >Video Materials</a> </strong> 
+                                        </li>
+                                        <li>
+                                            <strong><a class="btn ss-btn mr-10" >Course Materials</a> </strong> 
+                                        </li>
+                                        <li>
+                                            <strong><a class="btn ss-btn mr-10" >Events</a> </strong> 
+                                        </li>
+                                        <li>
+                                            <strong><a class="btn ss-btn mr-10" >Newsletter</a> </strong> 
+                                        </li>
+                                        <li>
+                                            <strong><a class="btn ss-btn mr-10" >Syllabus</a> </strong> 
+                                        </li>
+                                        <li>
+                                            <strong><a class="btn ss-btn mr-10" >Department Library</a> </strong> 
+                                        </li>
+                                        <li>
+                                            <strong><a class="btn ss-btn mr-10" >Research</a> </strong> 
+                                        </li>
+                                        <li>
+                                            <strong><a class="btn ss-btn mr-10" >Publications</a> </strong> 
+                                        </li>
+                                        <li>
+                                            <strong><a class="btn ss-btn mr-10" >Activities</a> </strong> 
+                                        </li>
+                                      
+                                    </ul>
+ 
+                       
                             <h2>{{$department->title}}</h2>
                             <div class="upper-box">
                                 <div class="single-item-carousel owl-carousel owl-theme">
@@ -75,74 +122,89 @@
                             </div>
                             <div class="inner-column">
                                   <p> {!! $department->title !!} </p>  
-                                  <p> What is Lorem Ipsum?</p>
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                        <p>Why do we use it?</p>
-                                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-                                                <p>Where does it come from?</p>
-                                                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
-                                                        <p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
-                                                            <p>Where can I get some?</p>
-                                                                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
- 
+                                  <p> {!! $sectionAbout['description'] !!} </p>
                             </div>
                         </div>
-                        <div class="col-lg-3">
-                            <aside class="sidebar-widget info-column">
-                                <div class="inner-column3">
-                                    <h3>{{ __('Details') }}</h3>
-
-                                    
-                                    <ul class="project-info clearfix">
-                                     @if(!empty($department->slug))
-                                        <li>
-                                            {{-- <a href="{{ route('department.single', ['slug' => $department->slug ]) }}/faculty"> <strong>{{ __('field_faculty') }} </strong> </a>         --}}
-                                        </li>
-                                        <li>
-                                            <strong><a>Infrastructure</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Achievements</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Placement</a></strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Video Materials</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Course Materials</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Events</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Newsletter</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Syllabus</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Department Library</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Research</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Publications</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Activities</a> </strong> 
-                                        </li>
-                                        @endif
-                                    </ul>
-                                </div>
-                            </aside>
-                        </div>
+            
                     </div>
                 </div>  
             </div>    
-        </section>  
+        </section> 
+        <section class="section-2 with-bg  pb-60" id="feature">
+            <div class="container">
+                <div class="row align-items-center d-flex flex-wrap">
+                    <div class="col-lg-4 flex-box p-2 red-bg-home">
+                        <div class="section-body">
+                            <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="500" style="animation-duration: 1000ms;">Our Mission</h3>
+                            <p class="section-text wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="700" style="animation-duration: 1000ms;">
+                                {!! $mission !!} 
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex-box col-lg-4 wow fadeInRight animated"  data-animation="fadeInRightShorter" data-delay="400" style="animation-duration: 1000ms;">
+                        <figure>
+                            <img src="{{ asset('uploads/web/mission.jpg') }}" alt="banner" width="332" height="350">
+                        </figure>
+                    </div>
+                        <div class="flex-box col-lg-4 p-2 green-bg-home">
+                            <div class="section-body">
+                                <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="500" style="animation-duration: 1000ms;">Core Values</h3>
+                                <p class="section-text wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="700" style="animation-duration: 1000ms;">
+                                    {!! $coreValue !!} 
+                                </p>
+                            </div>
+                    </div>
+                    <div class="flex-box col-lg-4 wow fadeInRight animated"  data-animation="fadeInRightShorter" data-delay="400" style="animation-duration: 1000ms;">
+                        <figure>
+                            <img src="{{ asset('uploads/web/vision.jpg') }}" alt="banner" width="332" height="350">
+                        </figure>
+                    </div>
+                        <div class="flex-box col-lg-4 p-2 organe-bg-home">
+                            <div class="section-body p-2 ">
+                                <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="500" style="animation-duration: 1000ms;">Our Vision</h3>
+                                <p class="section-text wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="700" style="animation-duration: 1000ms;">
+                                    {!! $vision !!} 
+                                </p>
+                            </div>
+                    </div>
+                    <div class="flex-box col-lg-4 wow fadeInRight animated"  data-animation="fadeInRightShorter" data-delay="400" style="animation-duration: 1000ms;">
+                        <figure>
+                            <img src="{{ asset('uploads/web/values.jpg') }}" alt="banner" width="332" height="350">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </section>
+{{-- bg-parallax --}}
+        @if(count($testimonials) > 0)
+        <!-- testimonial-area -->
+        <section class="testimonial-area pt-60 pb-115 p-relative fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="testimonial-active wow fadeInUp animated" data-animation="fadeInUp" data-delay=".4s">
+                            @foreach($testimonials as $testimonial)
+                            <div class="single-testimonial text-center">
+                                <div class="qt-img">
+                                    <img src="{{ asset('web/img/testimonial/qt-icon.png') }}" alt="img">
+                                </div>
+                                <p>{!! $testimonial->description !!}</p>
+                                <div class="testi-author">
+                                    <img src="{{ asset('uploads/testimonial/'.$testimonial->attach) }}" alt="img">
+                                </div>
+                                <div class="ta-info">
+                                    <h6>{{ $testimonial->name }}</h6>
+                                    <span>{{ $testimonial->designation ?? '' }}</span>
+                                </div>                                    
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- testimonial-area-end -->
+        @endif
         <!--End course Detail -->
     </main>
     <!-- main-area-end -->

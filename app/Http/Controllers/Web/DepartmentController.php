@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Web\Department;
 use App\Models\Language;
 use App\Models\Web\Slider;
+use App\Models\Web\Testimonial;
 
 use DB;
 
@@ -99,21 +100,33 @@ class DepartmentController extends Controller
 
         $data = DB::table($tableName)
            ->where('departmentId', $department->id)
-           ->get();
+           ->first();
 
-           $sliders = Slider::where('language_id', Language::version()->id);
-           //                          ->where('department_id', $department->id) // Filter by department ID
-           //                          ->where('status', '1')
-           //                          ->orderBy('id', 'asc')
-           //                          ->get();
+           $sliders = Slider::where('language_id', Language::version()->id)->get();
+           $testimonials = Testimonial::where('language_id', Language::version()->id)
+                                        ->where('status', '1')
+                                        ->where('department_id', '0')
+                                        ->orderBy('id', 'desc')
+                                        ->get();
 
-        // Return the response
-       // return response()->json($data);
+        //  print_r($sliders); exit;
     
        $response = [
                     'data' => $data,
                     'section' => $section,
                     'sliders' => $sliders,
+                    'testimonials' => $testimonials,
+                    'departmentSectionImage' => json_decode($data->departmentSectionImage, true),
+                 //   'slider' => json_decode($data->slider, true),
+                    'sectionAbout' => json_decode($data->sectionAbout, true),
+                    'vision' => $data->vision,
+                    'mission' => $data->mission,
+                    'coreValue' => $data->coreValue,
+                   // 'testimonial' => json_decode($data->testimonial, true),
+                    'programmeEducationalObjectives' => json_decode($data->programmeEducationalObjectives, true),
+                    'programmeOutcomes' => json_decode($data->programmeOutcomes, true),
+                    'programmeSpecificOutcomes' => json_decode($data->programmeSpecificOutcomes, true),
+                    'contact' => json_decode($data->contact, true),
                     'department' => $department
                 ];
 

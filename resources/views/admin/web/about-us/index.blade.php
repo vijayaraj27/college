@@ -21,7 +21,11 @@
 //  echo "</pre>";
 //  exit;
 $sectionAbout = $row ? json_decode($row->sectionAbout, true) : [];
-$image_file = $sectionAbout ? $sectionAbout['image_file'] : '';
+//$image_file = $sectionAbout ? $sectionAbout['image_file'] : '';
+if (isset($_FILES['sectionAbout']['name']['image_file'])) {
+    // Handle the file upload, e.g., move it to a specific directory
+    $image_file = $_FILES['sectionAbout']['name']['image_file'];
+}
 $title = $sectionAbout ? $sectionAbout['title'] : '';
 $description = $sectionAbout ? $sectionAbout['description'] : '';
 $contact = $row ? json_decode($row->contact, true) : [];                        
@@ -48,7 +52,19 @@ $contact = $row ? json_decode($row->contact, true) : [];
                                     <!-- Section About -->
                                      <input type="hidden" name="id" value="{{ isset($row->id)?$row->id:'' }}" />
                                     <h4>About Section</h4>
-                                    <div class="form-group col-md-6">  <input type="text" class="form-control" name="sectionAbout[image_file]" placeholder="Image File" required value="{{ isset($image_file)?$image_file:'' }}" > </div>
+                                    <?php
+// if (isset($_FILES['sectionAbout']['name']['image_file'])) {
+//     // Handle the file upload, e.g., move it to a specific directory
+//     $imageFile = $_FILES['sectionAbout']['name']['image_file'];
+   
+// }
+// else{
+//     $imageFile = "";
+// }
+
+?>
+                                    <div class="form-group col-md-6">  <input type="file" class="form-control" name="sectionAbout[image_file]" placeholder="Image File" required value="" > 
+                                    <img alt="Section About Image" width ="70" height="70" src="{{ isset($sectionAbout['image_file']) ? $baseurl.'uploads/about-us/' . $sectionAbout['image_file'] : '' }}" /></div>
                                     <div class="form-group col-md-6"> <input type="text"  class="form-control" name="sectionAbout[title]" placeholder="Title" required value="{{ isset($title)?$title:'' }}"> </div>
                                     <div class="form-group col-md-12">  <textarea  class="form-control texteditor" name="sectionAbout[description]" placeholder="Description" required>{{ isset($description)?$description:'' }}</textarea> </div>
 

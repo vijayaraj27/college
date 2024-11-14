@@ -140,7 +140,7 @@
                         <div class="section-body">
                             <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="500" style="animation-duration: 1000ms;">Our Mission</h3>
                             <p class="section-text wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="700" style="animation-duration: 1000ms;">
-                                {!! $about->mission_desc !!} 
+                                {!! $mission !!} 
                             </p>
                         </div>
                     </div>
@@ -151,9 +151,9 @@
                     </div>
                         <div class="flex-box col-lg-4 p-2 green-bg-home">
                             <div class="section-body">
-                                <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="500" style="animation-duration: 1000ms;">{!!$about->value_title!!}</h3>
+                                <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="500" style="animation-duration: 1000ms;">Core Values</h3>
                                 <p class="section-text wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="700" style="animation-duration: 1000ms;">
-                                    {!! $about->value_desc!!} 
+                                    {!! $core_value !!} 
                                 </p>
                             </div>
                     </div>
@@ -164,9 +164,9 @@
                     </div>
                         <div class="flex-box col-lg-4 p-2 organe-bg-home">
                             <div class="section-body p-2 ">
-                                <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="500" style="animation-duration: 1000ms;">{!!$about->vision_title!!}</h3>
+                                <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="500" style="animation-duration: 1000ms;">Our Vision</h3>
                                 <p class="section-text wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="700" style="animation-duration: 1000ms;">
-                                    {!! $about->vision_desc!!} 
+                                    {!! $vision !!} 
                                 </p>
                             </div>
                     </div>

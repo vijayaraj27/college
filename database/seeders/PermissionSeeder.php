@@ -551,6 +551,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'profile-edit', 'group' => 'My Profile', 'title' => 'Edit'],
             ['name' => 'profile-account', 'group' => 'My Profile', 'title' => 'Account'],
             //*** Setting Modules ***//
+            ['name' => 'role-view', 'group' => 'Dashboard', 'title' => 'View'],
         ];
         DB::table('permissions')->insert($permissions);
     }

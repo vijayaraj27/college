@@ -12,6 +12,54 @@
 <!-- Start Content-->
 <div class="main-body">
     <div class="page-wrapper">
+
+
+    <div class="col-md-12">
+    <div class="card">
+                    <div class="card-header">
+                        <h5>{{ $title }} {{ __('list') }}</h5>
+                    </div>
+                    <div class="card-block">
+                        <!-- [ Data table ] start -->
+                        <div class="table-responsive">
+                            <table id="basic-table" class="display table nowrap table-striped table-hover" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>{{ __('field_title') }}</th>
+                                        <th>{{ __('field_status') }}</th>
+                                        <th>{{ __('field_action') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  @foreach( $rows as $key => $row )
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $row->title }}</td>
+                                        <td>
+                                            @if( $row->status == 1 )
+                                            <span class="badge badge-pill badge-success">{{ __('status_active') }}</span>
+                                            @else
+                                            <span class="badge badge-pill badge-danger">{{ __('status_inactive') }}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                           
+                                            <a   class="btn btn-icon btn-primary btn-sm"  href="./dashboard/{{ $row->slug }}">
+                                                <i class="far fa-eye"></i>
+</a>
+         
+                                      
+                                        </td>
+                                    </tr>
+                                  @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- [ Data table ] end -->
+                    </div>
+                </div>
+    </div>
         <!-- [ Main Content ] start -->
         {{-- <div class="row">
             <!-- [ bitcoin-wallet section ] start-->
