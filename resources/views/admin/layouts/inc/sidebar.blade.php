@@ -118,6 +118,9 @@
                 @can('about-us-view')
                 <li class="{{ Request::is('admin/web/about-us*') ? 'active' : '' }}"><a href="{{ route('admin.about-us.index') }}" class="">{{ trans_choice('module_about_us', 1) }}</a></li>
                 @endcan
+                @can('achievements-view')
+                <li class="{{ Request::is('admin/web/achievements*') ? 'active' : '' }}"><a href="{{ route('admin.achievements.index') }}" class="">{{ trans_choice('Achievements', 1) }}</a></li>
+                @endcan
                 @canany(['course-view', 'course-create'])
                 <li class="{{ Request::is('admin/web/course*') ? 'active' : '' }}"><a href="{{ route('admin.course.index') }}" class="">{{ trans_choice('module_course', 2) }}</a></li>
                 @endcanany

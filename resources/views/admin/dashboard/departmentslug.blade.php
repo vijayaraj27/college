@@ -33,10 +33,10 @@
                                         </li>
                                     
                                         <li>
-                                            <a class="btn btn-primary m-2" href="{{$baseurl}}admin/academic/faculty"> <strong>Faculty</strong> </a>         
+                                            <a class="btn btn-primary m-2" href="{{$baseurl}}admin/academic/faculty" target="_blank" > <strong>Faculty</strong> </a>         
                                         </li>
                                         <li>
-                                            <strong><a class="btn btn-primary m-2" >Infrastructure</a> </strong> 
+                                            <strong><a class="btn btn-primary m-2"  href="{{$baseurl}}admin/web/achievements/{{$department->id}}" target="_blank" >Infrastructure</a> </strong> 
                                         </li>
                                         <li>
                                             <strong><a class="btn btn-primary m-2" >Achievements</a> </strong> 

@@ -10,6 +10,7 @@
 |
 */
 use App\Http\Controllers\MenuController;
+
 Route::get('/menus', [MenuController::class, 'index']);
 // Web Routes
 Route::middleware(['XSS'])->namespace('Web')->group(function () {
@@ -357,6 +358,7 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
         Route::resource('slider', 'SliderController');
         Route::resource('feature', 'FeatureController');
         Route::resource('about-us', 'AboutUsController');
+        Route::resource('achievements', 'AchievementsController');
         Route::resource('course', 'CourseController');
         Route::resource('web-event', 'WebEventController');
         Route::resource('news', 'NewsController');

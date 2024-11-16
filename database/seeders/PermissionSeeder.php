@@ -479,6 +479,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'slider-edit', 'group' => 'Slider', 'title' => 'Edit'],
             ['name' => 'slider-delete', 'group' => 'Slider', 'title' => 'Delete'],
             ['name' => 'about-us-view', 'group' => 'About Us', 'title' => 'Manage'],
+            ['name' => 'acheivements-view', 'group' => 'Acheivements', 'title' => 'Manage'],
             ['name' => 'feature-view', 'group' => 'Feature', 'title' => 'View'],
             ['name' => 'feature-create', 'group' => 'Feature', 'title' => 'Create'],
             ['name' => 'feature-edit', 'group' => 'Feature', 'title' => 'Edit'],
