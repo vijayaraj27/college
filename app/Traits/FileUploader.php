@@ -155,9 +155,57 @@ trait FileUploader {
         }
         return $deleted = true;
     }
+
     /**
+ * @param Request|UploadedFile $requestOrFile
+ */
+public function uploadImage($requestOrFile, $attach, $directory, $width, $height)
+{
+    // Check if the input is a Request or UploadedFile
+    $file = $requestOrFile instanceof Request 
+        ? $requestOrFile->file($attach)
+        : $requestOrFile;
+
+    if ($file && $file->isValid()) {
+        // Valid extension check
+        $valid_extensions = ['jpg', 'jpeg', 'png', 'gif', 'ico', 'svg', 'webp'];
+        $file_ext = $file->getClientOriginalExtension();
+        if (in_array($file_ext, $valid_extensions, true)) {
+            // Upload New File
+            $filenameWithExt = $file->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            $fileNameToStore = str_replace(
+                [' ', '-', '&', '#', '$', '%', '^', ';', ':'],
+                '_',
+                $filename
+            ) . '_' . time() . '.' . $extension;
+
+            // Create Folder Location
+            $path = public_path('uploads/' . $directory . '/');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0777, true, true);
+            }
+
+            // Resize and crop as fit image here ($width width, $height height)
+            $thumbnailpath = $path . $fileNameToStore;
+            $img = Image::make($file->getRealPath())
+                ->resize($width, $height, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+                ->save($thumbnailpath);
+
+            return $fileNameToStore;
+        }
+    }
+
+    return null; // Return null if file is invalid or not present
+}
+
+    /*
      * @param Request $request
-     */
+     
     public function uploadImage(Request $request, $attach, $directory, $width, $height) {
         // File upload, fit and store inside public folder 
         if($request->hasFile($attach)){
@@ -189,6 +237,7 @@ trait FileUploader {
         }
         return $fileNameToStore;
     }
+        */
 /**
  * 
  * 

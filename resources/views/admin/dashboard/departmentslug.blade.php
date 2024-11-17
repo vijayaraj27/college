@@ -40,7 +40,10 @@
                                                 </ul>
                                         </li>
                                         <li>
-                                            <strong><a class="btn btn-primary m-2"  href="{{$baseurl}}admin/web/infrastructure/{{$department->id}}" target="_blank" >Infrastructure</a> </strong> 
+                                            <strong><a class="btn btn-primary m-2"  href="{{$baseurl}}admin/web/infrastructures/{{$department->id}}_basic" target="_blank" >Infrastructure</a> </strong> 
+                                                <ul>
+                                                    <li><strong><a class="btn btn-primary m-2" href="{{$baseurl}}admin/web/infrastructures/{{$department->id}}_buildings" target="_blank"  >Buildings</a> </strong></li>                                                    
+                                                </ul>
                                         </li>
                                         <li>
                                             <strong><a class="btn btn-primary m-2" href="{{$baseurl}}admin/web/achievements/{{$department->id}}_basic" target="_blank" >Achievements</a> </strong> 
@@ -53,7 +56,10 @@
                                                 </ul>
                                         </li>
                                         <li>
-                                            <strong><a class="btn btn-primary m-2" >Placement</a></strong> 
+                                            <strong><a class="btn btn-primary m-2"  href="{{$baseurl}}admin/web/placements/{{$department->id}}_basic" target="_blank"  >Placement</a></strong> 
+                                                <ul>
+                                                    <li><strong><a class="btn btn-primary m-2" href="{{$baseurl}}admin/web/placements/{{$department->id}}_student_placed" target="_blank"  >Student Placed</a> </strong></li>                                                    
+                                                </ul>
                                         </li>
                                         <li>
                                             <strong><a class="btn btn-primary m-2" >Video Materials</a> </strong> 
