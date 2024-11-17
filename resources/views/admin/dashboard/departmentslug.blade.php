@@ -36,10 +36,17 @@
                                             <a class="btn btn-primary m-2" href="{{$baseurl}}admin/academic/faculty" target="_blank" > <strong>Faculty</strong> </a>         
                                         </li>
                                         <li>
-                                            <strong><a class="btn btn-primary m-2"  href="{{$baseurl}}admin/web/achievements/{{$department->id}}" target="_blank" >Infrastructure</a> </strong> 
+                                            <strong><a class="btn btn-primary m-2"  href="{{$baseurl}}admin/web/infrastructure/{{$department->id}}" target="_blank" >Infrastructure</a> </strong> 
                                         </li>
                                         <li>
-                                            <strong><a class="btn btn-primary m-2" >Achievements</a> </strong> 
+                                            <strong><a class="btn btn-primary m-2" href="{{$baseurl}}admin/web/achievements/{{$department->id}}_basic" target="_blank" >Achievements</a> </strong> 
+                                            <ul>
+                                            <li><strong><a class="btn btn-primary m-2" href="{{$baseurl}}admin/web/achievements/{{$department->id}}_staff-achivements" target="_blank"  >Staff Achievements</a> </strong></li>
+                                                    <li><strong><a class="btn btn-primary m-2" href="{{$baseurl}}admin/web/achievements/{{$department->id}}_student-achivements" target="_blank"  >Student Achievements</a> </strong></li>
+                                                    <li><strong><a class="btn btn-primary m-2" href="{{$baseurl}}admin/web/achievements/{{$department->id}}_student-achivements-table" target="_blank"  >Student Achievements Table </a> </strong></li>
+                                                    <li><strong><a class="btn btn-primary m-2" href="{{$baseurl}}admin/web/achievements/{{$department->id}}_student-achivements-appreciation" target="_blank"  >Student Achievements Appreciation</a> </strong></li>
+                                                    
+                                                </ul>
                                         </li>
                                         <li>
                                             <strong><a class="btn btn-primary m-2" >Placement</a></strong> 

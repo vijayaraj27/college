@@ -93,13 +93,14 @@ class AchievementsController extends Controller
         }
 
         if($request->section === 'basic'){
+            //echo "Two "; exit;
             // Handle the image upload if the file exists
-            if ($request->hasFile('imageFile')) {
-                $Achievements->imageFile = $this->uploadImage($request, 'imageFile', $this->path, null, 800);
+            if ($request->hasFile('imageFile')) {            
+                $Achievements->imageFile = $this->uploadImage($request, 'imageFile', $this->path, null, 800);                 
             }
 
             $Achievements->title = $request->title;
-            $Achievements->description = $request->description;
+            $Achievements->description = $request->description;            
         }else if($request->section === 'staff-achivements'){
             $Achievements->staffAchievements = json_encode($request->staffAchievements, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'student-achivements'){

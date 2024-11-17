@@ -36,7 +36,9 @@ trait FileUploader {
         else{
             $fileNameToStore = Null;
         }
-        return $fileNameToStore;
+         
+     return $fileNameToStore;
+
     }
     /*public function uploadMedia(Request $request, $attach, $directory) {
         // File upload, fit and store inside AWS S3

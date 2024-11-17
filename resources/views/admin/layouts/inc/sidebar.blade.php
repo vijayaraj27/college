@@ -106,7 +106,7 @@
                 <span class="pcoded-mtext">{{ trans_choice('module_front_web', 2) }}</span>
             </a>
             <ul class="pcoded-submenu">
-                @can('topbar-setting-view')
+               {{-- @can('topbar-setting-view')
                 <li class="{{ Request::is('admin/web/topbar-setting*') ? 'active' : '' }}"><a href="{{ route('admin.topbar-setting.index') }}" class="">{{ trans_choice('module_topbar_setting', 1) }}</a></li>
                 @endcan
                 @can('social-setting-view')
@@ -139,12 +139,14 @@
                 @canany(['testimonial-view', 'testimonial-create'])
                 <li class="{{ Request::is('admin/web/testimonial*') ? 'active' : '' }}"><a href="{{ route('admin.testimonial.index') }}" class="">{{ trans_choice('module_testimonial', 2) }}</a></li>
                 @endcanany
-                @canany(['page-view', 'page-create'])
-                <li class="{{ Request::is('admin/web/page*') ? 'active' : '' }}"><a href="{{ route('admin.page.index') }}" class="">{{ trans_choice('module_footer_page', 2) }}</a></li>
-                @endcanany
+
                 @can('call-to-action-view')
                 <li class="{{ Request::is('admin/web/call-to-action*') ? 'active' : '' }}"><a href="{{ route('admin.call-to-action.index') }}" class="">{{ trans_choice('module_call_to_action', 1) }}</a></li>
-                @endcan
+                @endcan --}}
+
+@canany(['page-view', 'page-create'])
+                <li class="{{ Request::is('admin/web/page*') ? 'active' : '' }}"><a href="{{ route('admin.page.index') }}" class="">{{ trans_choice('module_footer_page', 2) }}</a></li>
+                @endcanany                
             </ul>
         </li>
         @endcanany
