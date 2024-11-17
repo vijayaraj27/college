@@ -46,32 +46,26 @@ class AchievementsController extends Controller
         }
 
 
-    public function show($departmentId,$section="")
+    public function show($slug)
     {
+        $result = explode('_', $slug);
+        $departmentId = $result[0];
+        $section= $result[1];
+
         $data['title']  = $this->title;
         $data['route']  = $this->route;
         $data['view']   = $this->view;
         $data['path']   = $this->path;
         $data['access'] = $this->access;
         $data['baseurl'] = config('app.url');
-        //$query = Achievements::where('language_id', Language::version()->id);
-        $query = Achievements::query();
-        $query->where('departmentId', $departmentId);
-        // if(Auth::user()->department_id == 0){
-        //     $query->where('department_id', 0);
-        //     $query->where('departmentId', 1);
-        // } else {
-        //     $query->where('departmentId', 1);
-        //    $query->where('department_id', Auth::user()->department_id);
-        // }
-        $row =  $query->first();
-
-
-        $data['row'] = $query->first();
         $data['departmentId'] = $departmentId;
         $data['section'] = $section;
-        // dd(Auth::user()->department_id);
-       // echo '<pre>';print_r($row);exit;
+
+        $query = Achievements::query();
+        $query->where('departmentId', $departmentId);
+        $data['row'] =  $query->first();
+
+        // echo '<pre>';print_r($data['row']);exit;
         return view($this->view.'.index', $data);
     }
     /**
@@ -82,86 +76,43 @@ class AchievementsController extends Controller
      */
     public function store(Request $request, $departmentId = null)
     {
-        echo '<pre>';print_r($request->all()); exit;
+        // echo $request->section;
+        // echo '<pre>';print_r($request->all()); exit;
 
-        /*
-
-        // Field Validation
-        $request->validate([
-            'sectionAbout.image_file' => 'nullable|image',
-            'sectionAbout.title' => 'required',
-            'sectionAbout.description' => 'required',
-            'vision' => 'required',
-            'mission' => 'required',
-            'coreValue' => 'required',
-            'programmeEducationalObjectives' => 'required|array',
-            'programmeOutcomes' => 'required|array',
-            'programmeSpecificOutcomes' => 'required|array',
-            'contact.name' => 'required',
-            'contact.email' => 'required|email',
-            'contact.phone' => 'required',
-        ]);
 
         // Check if the row exists with the given departmentId
         $Achievements = Achievements::where('departmentId', $request->departmentId)->first();
-
 
         if ($Achievements) {
             $message = 'Record updated successfully';
         } else {
             $Achievements = new Achievements;
-            $Achievements->departmentId = $departmentId;
+            $Achievements->departmentId = $request->departmentId;
             $Achievements->designationId = 1;
-            $Achievements->slider = '';
-            $Achievements->testimonial = '';
             $message = 'Record created successfully';
         }
 
+        if($request->section === 'basic'){
+            // Handle the image upload if the file exists
+            if ($request->hasFile('imageFile')) {
+                $Achievements->imageFile = $this->uploadImage($request, 'imageFile', $this->path, null, 800);
+            }
 
-        // Initialize sectionAbout as an array
-        $sectionAbout = $Achievements->sectionAbout ? json_decode($Achievements->sectionAbout, true) : [];
-
-        // Handle the image upload if the file exists
-        if ($request->hasFile('sectionAbout.image_file')) {
-            $sectionAbout['image_file'] = $this->uploadImage($request, 'sectionAbout.image_file', $this->path, null, 800);
+            $Achievements->title = $request->title;
+            $Achievements->description = $request->description;
+        }else if($request->section === 'staff-achivements'){
+            $Achievements->staffAchievements = json_encode($request->staffAchievements, JSON_UNESCAPED_UNICODE);
+        }else if($request->section === 'student-achivements'){
+            $studentAchievements = [];
+            $Achievements->studentAchievements = json_encode($studentAchievements, JSON_UNESCAPED_UNICODE);
+        }else if($request->section === 'student-achivements-table'){
+            $Achievements->studentAchievementsTableFormat = json_encode($request->studentAchievementsTableFormat, JSON_UNESCAPED_UNICODE);
+        }else if($request->section === 'student-achivements-appreciation'){
+            $Achievements->studentAchievementsAppeciationList = json_encode($request->studentAchievementsAppeciationList, JSON_UNESCAPED_UNICODE);
         }
 
-        // Add other fields to sectionAbout
-        $sectionAbout['title'] = $request->input('sectionAbout.title');
-        $sectionAbout['description'] = $request->input('sectionAbout.description');
-
-        // Assign updated sectionAbout back to the model
-        $Achievements->sectionAbout = json_encode($sectionAbout, JSON_UNESCAPED_UNICODE);
-
-        
-        // Vision, Mission, Core Values
-        $Achievements->vision    = $request->vision;
-        $Achievements->mission   = $request->mission;
-        $Achievements->coreValue = $request->coreValue;
-
-        $Achievements->departmentSectionImage = json_encode($request->departmentSectionImage, JSON_UNESCAPED_UNICODE);
-
-        // Programme Outcomes (store as JSON)
-        $Achievements->programmeEducationalObjectives = json_encode($request->programmeEducationalObjectives, JSON_UNESCAPED_UNICODE);
-        $Achievements->programmeOutcomes = json_encode($request->programmeOutcomes, JSON_UNESCAPED_UNICODE);
-        $Achievements->programmeSpecificOutcomes = json_encode($request->programmeSpecificOutcomes, JSON_UNESCAPED_UNICODE);
-      
-        // Contact Information
-        $Achievements->contact = json_encode($request->contact, JSON_UNESCAPED_UNICODE);
-
-       // print_r($sectionAbout); exit;
-        // Handle other fields as necessary
         $Achievements->save();
-
- 
-
-
         Toastr::success(__($message), __('msg_success'));
-
         return redirect()->back();
-        */
     }
-
-   
-
 }
