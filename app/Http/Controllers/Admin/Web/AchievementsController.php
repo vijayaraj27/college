@@ -76,8 +76,8 @@ class AchievementsController extends Controller
      */
     public function store(Request $request, $departmentId = null)
     {
-        // echo $request->section;
-        // echo '<pre>';print_r($request->all()); exit;
+        echo $request->section;
+        echo '<pre>';print_r($request->all()); exit;
 
 
         // Check if the row exists with the given departmentId
@@ -104,12 +104,36 @@ class AchievementsController extends Controller
         }else if($request->section === 'staff-achivements'){
             $Achievements->staffAchievements = json_encode($request->staffAchievements, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'student-achivements'){
-            $studentAchievements = [];
+            // Get the submitted data
+            $studentAchievements = $request->input('studentAchievements');
+
+            // Check if studentAchievements exists and is an array
+            if (is_array($studentAchievements)) {
+                foreach ($studentAchievements as $yearIndex => $yearData) {
+                    // Check if 'achievements' key exists and is an array
+                    if (isset($yearData['achievements']) && is_array($yearData['achievements'])) {
+                        foreach ($yearData['achievements'] as $achievementIndex => $achievement) {
+                            
+                            // Construct the dynamic file input name
+                            $fileInputName = "studentAchievements.{$yearIndex}.achievements.{$achievementIndex}.image";
+
+                            // Check if the file exists in the request
+                            if ($request->hasFile($fileInputName)) {
+                                // Call the uploadImage function and get the new file name
+                                $uploadedFileName = $this->uploadImage($request, $fileInputName, $this->path, null, 800);
+
+                                // Map the uploaded file name to the 'image' key
+                                $studentAchievements[$yearIndex]['achievements'][$achievementIndex]['image'] = $uploadedFileName;
+                            }
+                        }
+                    }
+                }
+            }
             $Achievements->studentAchievements = json_encode($studentAchievements, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'student-achivements-table'){
             $Achievements->studentAchievementsTableFormat = json_encode($request->studentAchievementsTableFormat, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'student-achivements-appreciation'){
-            $Achievements->studentAchievementsAppeciationList = json_encode($request->studentAchievementsAppeciationList, JSON_UNESCAPED_UNICODE);
+            $Achievements->studentAchievementsAppeciationList = json_encode($request->studentAchievementsAppreciation, JSON_UNESCAPED_UNICODE);
         }
 
         $Achievements->save();
