@@ -33,7 +33,11 @@
                                         </li>
                                     
                                         <li>
-                                            <a class="btn btn-primary m-2" href="{{$baseurl}}admin/academic/faculty" target="_blank" > <strong>Faculty</strong> </a>         
+                                            <a class="btn btn-primary m-2" href="{{$baseurl}}admin/web/faculties/{{$department->id}}_basic" target="_blank" > <strong>Faculty</strong> </a>         
+                                            <ul>
+                                                    <li><strong><a class="btn btn-primary m-2" href="{{$baseurl}}admin/web/faculties/{{$department->id}}_teaching-staff" target="_blank"  >Teaching Staff</a> </strong></li>
+                                                    <li><strong><a class="btn btn-primary m-2" href="{{$baseurl}}admin/web/faculties/{{$department->id}}_non-teaching-staff" target="_blank"  >Non Teaching Staff</a> </strong></li>
+                                                </ul>
                                         </li>
                                         <li>
                                             <strong><a class="btn btn-primary m-2"  href="{{$baseurl}}admin/web/infrastructure/{{$department->id}}" target="_blank" >Infrastructure</a> </strong> 

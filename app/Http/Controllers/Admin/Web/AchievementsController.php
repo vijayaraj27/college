@@ -76,10 +76,7 @@ class AchievementsController extends Controller
      */
     public function store(Request $request, $departmentId = null)
     {
-        echo $request->section;
-        echo '<pre>';print_r($request->all()); exit;
-
-
+ 
         // Check if the row exists with the given departmentId
         $Achievements = Achievements::where('departmentId', $request->departmentId)->first();
 
