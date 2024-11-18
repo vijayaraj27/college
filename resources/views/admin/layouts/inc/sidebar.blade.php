@@ -17,12 +17,12 @@
                 @canany(['department-create', 'department-view'])
                 <li class="{{ Request::is('admin/staff/department*') ? 'active' : '' }}"><a href="{{ route('admin.department.index') }}" class="">{{ trans_choice('module_department', 2) }}</a></li>
                 @endcanany
-                @canany(['faculty-create', 'faculty-view'])
+               {{-- @canany(['faculty-create', 'faculty-view'])
                 <li class="{{ Request::is('admin/academic/faculty*') ? 'active' : '' }}"><a href="{{ route('admin.faculty.index') }}" class="">{{ trans_choice('module_faculty', 2) }}</a></li>
                 @endcanany
                 @canany(['program-create', 'program-view'])
                 <li class="{{ Request::is('admin/academic/program*') ? 'active' : '' }}"><a href="{{ route('admin.program.index') }}" class="">{{ trans_choice('module_program', 2) }}</a></li>
-                @endcanany
+                @endcanany --}}
             </ul>
         </li>
       @endcanany
