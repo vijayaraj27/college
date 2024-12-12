@@ -15,19 +15,24 @@
 
                     <!-- Department Achievements Main Section -->
                     <div class="card-block">
-                        <form id="achievementsForm" class="needs-validation" method="POST" action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}" enctype="multipart/form-data">
+                        <form id="achievementsForm" class="needs-validation" method="POST"
+                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File" required>
-                                    <img alt="Section Achievements Image" width="70" height="70" 
-                                        src="{{ isset($row->imageFile) ? $baseurl . 'uploads/about-us/' . $row->imageFile : '' }}" />
+                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File" >
+                                    <img alt="Section Achievements Image" width="70" height="70"
+                                        src="{{ isset($row->imageFile) ? $baseurl . 'uploads/achievements/' . $row->imageFile : '' }}" />
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <input type="text" class="form-control" name="title" placeholder="Title" required value="{{ isset($row->title) ? $row->title : '' }}">
+                                    <input type="text" class="form-control" name="title" placeholder="Title" required
+                                        value="{{ isset($row->title) ? $row->title : '' }}">
                                 </div>
                                 <div class="form-group col-md-12">
-                                    <textarea class="form-control texteditor" name="description" placeholder="Description" required>{{ isset($row->description) ? $row->description : '' }}</textarea>
+                                    <textarea class="form-control texteditor" name="description"
+                                        placeholder="Description"
+                                        required>{{ isset($row->description) ? $row->description : '' }}</textarea>
                                 </div>
                             </div>
                             <div class="text-center">
@@ -44,41 +49,51 @@
                     </div>
 
                     <div class="card-block">
-                        <form id="staffAchievementsForm" class="needs-validation" method="POST" action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}" enctype="multipart/form-data">
+                        <form id="staffAchievementsForm" class="needs-validation" method="POST"
+                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <!-- Staff Achievements Section -->
                                 <div id="sectionStaffAchievementsContainer" class="col-md-12">
                                     <h4>Section Staff Achievements</h4>
                                     @php
-                                        // Decode the JSON string to an array
-                                        $staffAchievements = isset($row->staffAchievements) ? json_decode($row->staffAchievements, true) : [];
+                                    // Decode the JSON string to an array
+                                    $staffAchievements = isset($row->staffAchievements) ?
+                                    json_decode($row->staffAchievements, true) : [];
                                     @endphp
                                     @if(!empty($staffAchievements))
-                                        @foreach($staffAchievements as $index => $objective)
-                                            <div class="sectionStaffAchievements-entry row mb-2">
-                                                <div class="form-group col-md-9">
-                                                    <textarea class="form-control" name="staffAchievements[{{ $index }}]" placeholder="Staff Achievement" required>{{ $objective }}</textarea>
-                                                </div>
-                                                <div class="form-group col-md-3 text-end">
-                                                    <button type="button" class="btn btn-danger removesectionStaffAchievementsBtn" onclick="removeStaffAchievement(this)">Remove</button>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <div class="sectionStaffAchievements-entry row mb-2">
-                                            <div class="form-group col-md-9">
-                                                <textarea class="form-control" name="staffAchievements[0]" placeholder="Staff Achievement" required></textarea>
-                                            </div>
-                                            <div class="form-group col-md-3 text-end">
-                                                <button type="button" class="btn btn-danger removesectionStaffAchievementsBtn" onclick="removeStaffAchievement(this)">Remove</button>
-                                            </div>
+                                    @foreach($staffAchievements as $index => $objective)
+                                    <div class="sectionStaffAchievements-entry row mb-2">
+                                        <div class="form-group col-md-9">
+                                            <textarea class="form-control" name="staffAchievements[{{ $index }}]"
+                                                placeholder="Staff Achievement" required>{{ $objective }}</textarea>
                                         </div>
+                                        <div class="form-group col-md-3 text-end">
+                                            <button type="button"
+                                                class="btn btn-danger removesectionStaffAchievementsBtn"
+                                                onclick="removeStaffAchievement(this)">Remove</button>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @else
+                                    <div class="sectionStaffAchievements-entry row mb-2">
+                                        <div class="form-group col-md-9">
+                                            <textarea class="form-control" name="staffAchievements[0]"
+                                                placeholder="Staff Achievement" required></textarea>
+                                        </div>
+                                        <div class="form-group col-md-3 text-end">
+                                            <button type="button"
+                                                class="btn btn-danger removesectionStaffAchievementsBtn"
+                                                onclick="removeStaffAchievement(this)">Remove</button>
+                                        </div>
+                                    </div>
                                     @endif
                                 </div>
 
                                 <div class="col-md-12 text-center">
-                                    <button type="button" id="addStaffAchievementBtn" class="btn btn-info" onclick="addStaffAchievement()">Add Achievement</button>
+                                    <button type="button" id="addStaffAchievementBtn" class="btn btn-info"
+                                        onclick="addStaffAchievement()">Add Achievement</button>
                                 </div>
                             </div>
                             <div class="text-center mt-4">
@@ -96,104 +111,133 @@
                     </div>
 
                     <div class="card-block">
-                    <form id="studentAchievementsForm" class="needs-validation" method="POST" action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}" enctype="multipart/form-data">
-    @csrf
-    <div class="row">
-        <!-- Student Achievements Section -->
-        <div id="studentAchievementsContainer" class="col-md-12">
-            <h4>Student Achievements</h4>
-            @php
-                // Decode the JSON string to an array
-                $studentAchievements = isset($row->studentAchievements) ? json_decode($row->studentAchievements, true) : [];
-            @endphp
+                        <form id="studentAchievementsForm" class="needs-validation" method="POST"
+                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <!-- Student Achievements Section -->
+                                <div id="studentAchievementsContainer" class="col-md-12">
+                                    <h4>Student Achievements</h4>
+                                    @php
+                                    // Decode the JSON string to an array
+                                    $studentAchievements = isset($row->studentAchievements) ?
+                                    json_decode($row->studentAchievements, true) : [];
+                                    @endphp
 
-            @if(!empty($studentAchievements))
-                @foreach($studentAchievements as $key => $studentAchievement)
-                    <div class="student-year-entry mb-4">
-                        <!-- Year Input -->
-                        <div class="row">
-                            <div class="form-group col-md-10">
-                                <input type="text" class="form-control" name="studentAchievements[{{ $key }}][year]" placeholder="Year" value="{{ $studentAchievement['year'] }}" required>
-                            </div>
-                            <div class="form-group col-md-2 text-end">
-                                <button type="button" class="btn btn-danger" onclick="removeYearStaffAcheivements(this)">Remove Year</button>
-                            </div>
-                        </div>
+                                    @if(!empty($studentAchievements))
+                                    @foreach($studentAchievements as $key => $studentAchievement)
+                                    <div class="student-year-entry mb-4">
+                                        <!-- Year Input -->
+                                        <div class="row">
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control"
+                                                    name="studentAchievements[{{ $key }}][year]" placeholder="Year"
+                                                    value="{{ $studentAchievement['year'] }}" required>
+                                            </div>
+                                            <div class="form-group col-md-2 text-end">
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="removeYearStaffAcheivements(this)">Remove Year</button>
+                                            </div>
+                                        </div>
 
-                        <!-- Achievements for the Year -->
-                        <div class="year-achievements-container">
-                            @foreach($studentAchievement['achievements'] as $achievementIndex => $achievement)
-                                <div class="student-achievement-entry row mb-2">
-                                    <div class="form-group col-md-6">
-                                        <input type="text" class="form-control" name="studentAchievements[{{ $key }}][achievements][{{ $achievementIndex }}][title]" placeholder="Achievement Title" value="{{ $achievement['title'] }}" required>
+                                        <!-- Achievements for the Year -->
+                                        <div class="year-achievements-container">
+                                            @foreach($studentAchievement['achievements'] as $achievementIndex =>
+                                            $achievement)
+                                            <div class="student-achievement-entry row mb-2">
+                                                <div class="form-group col-md-6">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievements[{{ $key }}][achievements][{{ $achievementIndex }}][title]"
+                                                        placeholder="Achievement Title"
+                                                        value="{{ $achievement['title'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <input type="file" class="form-control"
+                                                        name="studentAchievements[{{ $key }}][achievements][{{ $achievementIndex }}][image]"
+                                                        accept="image/*">
+                                                    @if(isset($achievement['image']))
+                                                    <img src="{{ asset('uploads/achievements/' . $achievement['image']) }}"
+                                                        alt="Achievement Image" width="70" height="70">
+                                                    @endif
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <textarea class="form-control"
+                                                        name="studentAchievements[{{ $key }}][achievements][{{ $achievementIndex }}][description]"
+                                                        placeholder="Achievement Description"
+                                                        required>{{ $achievement['description'] }}</textarea>
+                                                </div>
+                                                <div class="form-group col-md-6 text-end">
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeAchievement(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+
+                                        <!-- Add Achievement Button -->
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-info"
+                                                onclick="addAchievement(this, {{ $key }})">Add Achievement</button>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <input type="file" class="form-control" name="studentAchievements[{{ $key }}][achievements][{{ $achievementIndex }}][image]" accept="image/*">
-                                        @if(isset($achievement['image']))
-                                            <img src="{{ asset('uploads/achievements/' . $achievement['image']) }}" alt="Achievement Image" width="70" height="70">
-                                        @endif
+                                    @endforeach
+                                    @else
+                                    <!-- Default Template for New Entry -->
+                                    <div class="student-year-entry mb-4">
+                                        <div class="row">
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control"
+                                                    name="studentAchievements[0][year]" placeholder="Year" required>
+                                            </div>
+                                            <div class="form-group col-md-2 text-end">
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="removeYearStaffAcheivements(this)">Remove Year</button>
+                                            </div>
+                                        </div>
+                                        <div class="year-achievements-container">
+                                            <div class="student-achievement-entry row mb-2">
+                                                <div class="form-group col-md-6">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievements[0][achievements][0][title]"
+                                                        placeholder="Achievement Title" required>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <input type="file" class="form-control"
+                                                        name="studentAchievements[0][achievements][0][image]"
+                                                        accept="image/*">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <textarea class="form-control"
+                                                        name="studentAchievements[0][achievements][0][description]"
+                                                        placeholder="Achievement Description" required></textarea>
+                                                </div>
+                                                <div class="form-group col-md-6 text-end">
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeAchievement(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-info"
+                                                onclick="addAchievement(this, 0)">Add Achievement</button>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <textarea class="form-control" name="studentAchievements[{{ $key }}][achievements][{{ $achievementIndex }}][description]" placeholder="Achievement Description" required>{{ $achievement['description'] }}</textarea>
-                                    </div>
-                                    <div class="form-group col-md-6 text-end">
-                                        <button type="button" class="btn btn-danger" onclick="removeAchievement(this)">Remove</button>
-                                    </div>
+                                    @endif
                                 </div>
-                            @endforeach
-                        </div>
 
-                        <!-- Add Achievement Button -->
-                        <div class="text-end">
-                            <button type="button" class="btn btn-info" onclick="addAchievement(this, {{ $key }})">Add Achievement</button>
-                        </div>
-                    </div>
-                @endforeach
-            @else
-                <!-- Default Template for New Entry -->
-                <div class="student-year-entry mb-4">
-                    <div class="row">
-                        <div class="form-group col-md-10">
-                            <input type="text" class="form-control" name="studentAchievements[0][year]" placeholder="Year" required>
-                        </div>
-                        <div class="form-group col-md-2 text-end">
-                            <button type="button" class="btn btn-danger" onclick="removeYearStaffAcheivements(this)">Remove Year</button>
-                        </div>
-                    </div>
-                    <div class="year-achievements-container">
-                        <div class="student-achievement-entry row mb-2">
-                            <div class="form-group col-md-6">
-                                <input type="text" class="form-control" name="studentAchievements[0][achievements][0][title]" placeholder="Achievement Title" required>
+                                <!-- Add Year Button -->
+                                <div class="col-md-12 text-center mt-4">
+                                    <button type="button" id="addYearStaffAcheivementsBtn" class="btn btn-primary"
+                                        onclick="addYearStaffAcheivements()">Add Year</button>
+                                </div>
                             </div>
-                            <div class="form-group col-md-6">
-                                <input type="file" class="form-control" name="studentAchievements[0][achievements][0][image]" accept="image/*">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <textarea class="form-control" name="studentAchievements[0][achievements][0][description]" placeholder="Achievement Description" required></textarea>
-                            </div>
-                            <div class="form-group col-md-6 text-end">
-                                <button type="button" class="btn btn-danger" onclick="removeAchievement(this)">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-end">
-                        <button type="button" class="btn btn-info" onclick="addAchievement(this, 0)">Add Achievement</button>
-                    </div>
-                </div>
-            @endif
-        </div>
 
-        <!-- Add Year Button -->
-        <div class="col-md-12 text-center mt-4">
-            <button type="button" id="addYearStaffAcheivementsBtn" class="btn btn-primary" onclick="addYearStaffAcheivements()">Add Year</button>
-        </div>
-    </div>
-
-    <!-- Submit Button -->
-    <div class="text-center mt-4">
-        <button type="submit" class="btn btn-success">Save Student Achievements</button>
-    </div>
-</form>
+                            <!-- Submit Button -->
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-success">Save Student Achievements</button>
+                            </div>
+                        </form>
 
                     </div>
                     @endif
@@ -206,107 +250,156 @@
                     </div>
 
                     <div class="card-block">
-                        <form id="studentAchievementsTableFormat" class="needs-validation" method="POST" action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                        <form id="studentAchievementsTableFormat" class="needs-validation" method="POST"
+                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
                             @csrf
                             <div class="row">
                                 <!-- Student Achievements Section -->
                                 <div id="studentAchievementsContainerstudentAchievementsTableFormat" class="col-md-12">
                                     <h4>Student Achievements </h4>
                                     @php
-                                        // Decode the JSON string to an array
-                                        $studentAchievementsTableFormat = isset($row->studentAchievementsTableFormat) ? json_decode($row->studentAchievementsTableFormat, true) : [];
-                                        //echo "<pre>";print_r($studentAchievementsTableFormat);exit;
+                                    // Decode the JSON string to an array
+                                    $studentAchievementsTableFormat = isset($row->studentAchievementsTableFormat) ?
+                                    json_decode($row->studentAchievementsTableFormat, true) : [];
+                                    //echo "
+
                                     @endphp
                                     @if(!empty($studentAchievementsTableFormat))
-                                        @foreach($studentAchievementsTableFormat as $tableKey => $studentAchievementsTable)
-                                            <?php // echo "<pre>";print_r($studentAchievementsTable);exit;?>
+                                    @foreach($studentAchievementsTableFormat as $tableKey => $studentAchievementsTable)
+                                    <?php // echo "<pre>";print_r($studentAchievementsTable);exit;?>
 
-                                            <div class="student-year-entry mb-4">
-                                                <div class="row">
-                                                    <div class="form-group col-md-10">                                                        
-                                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[{{ $tableKey }}][year]" placeholder="Year" value="{{ $studentAchievementsTable['year'] }}" required>
+                                    <div class="student-year-entry mb-4">
+                                        <div class="row">
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control"
+                                                    name="studentAchievementsTableFormat[{{ $tableKey }}][year]"
+                                                    placeholder="Year" value="{{ $studentAchievementsTable['year'] }}"
+                                                    required>
 
-                                                    </div>
-                                                    <div class="form-group col-md-2 text-end">
-                                                        <button type="button" class="btn btn-danger" onclick="removeYearStudentAchievements(this)">Remove Year</button>
-                                                    </div>
-                                                </div>
-                                                <div class="year-achievements-container">
-                                                    @foreach($studentAchievementsTable['achievements'] as $achievementIndex => $achievement)
-                                                        <div class="student-achievement-entry row mb-2">
-                                                            <div class="form-group col-md-3">
-                                                                <input type="text" class="form-control" name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][studentName]" placeholder="Student Name" value="{{ $achievement['studentName'] }}" required>
-                                                            </div>
-                                                            <div class="form-group col-md-2">
-                                                                <input type="text" class="form-control" name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][eventNature]" placeholder="Event Nature" value="{{ $achievement['eventNature'] }}" required>
-                                                            </div>
-                                                            <div class="form-group col-md-2">
-                                                                <input type="text" class="form-control" name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][eventName]" placeholder="Event Name" value="{{ $achievement['eventName'] }}" required>
-                                                            </div>
-                                                            <div class="form-group col-md-2">
-                                                                <input type="text" class="form-control" name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][periodDate]" placeholder="Period Date" value="{{ $achievement['periodDate'] }}" required>
-                                                            </div>
-                                                            <div class="form-group col-md-2">
-                                                                <input type="text" class="form-control" name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][organizedBy]" placeholder="Organized By" value="{{ $achievement['organizedBy'] }}" required>                                                                
-                                                            </div>
-                                                            <div class="form-group col-md-1">
-                                                                <input type="text" class="form-control" name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][awards]" placeholder="Awards" value="{{ $achievement['awards'] }}" required>
-                                                            </div>
-                                                            <div class="form-group col-md-2 text-end">
-                                                                <button type="button" class="btn btn-danger" onclick="removeAchievement(this)">Remove</button>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                                <div class="text-end">
-                                                    <button type="button" class="btn btn-info" onclick="addAchievement(this, {{ isset($achievementIndex) ? $achievementIndex : 0 }})">Add Achievement</button>
-                                                </div>
                                             </div>
-                                        @endforeach
-                                    @else
-                                        <div class="student-year-entry mb-4">
-                                            <div class="row">
-                                                <div class="form-group col-md-10">
-                                                    <input type="text" class="form-control" name="studentAchievementsTableFormat[0][year]" placeholder="Year" required>
-                                                </div>
-                                                <div class="form-group col-md-2 text-end">
-                                                    <button type="button" class="btn btn-danger" onclick="removeYearStudentAchievements(this)">Remove Year</button>
-                                                </div>
-                                            </div>
-                                            <div class="year-achievements-container">
-                                                <div class="student-achievement-entry row mb-2">
-                                                    <div class="form-group col-md-3">
-                                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[0][achievements][0][studentName]" placeholder="Student Name" required>
-                                                    </div>
-                                                    <div class="form-group col-md-2">
-                                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[0][achievements][0][eventNature]" placeholder="Event Nature" required>
-                                                    </div>
-                                                    <div class="form-group col-md-2">
-                                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[0][achievements][0][eventName]" placeholder="Event Name" required>
-                                                    </div>
-                                                    <div class="form-group col-md-2">
-                                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[0][achievements][0][periodDate]" placeholder="Period Date" required>
-                                                    </div>
-                                                    <div class="form-group col-md-2">
-                                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[0][achievements][0][organizedBy]" placeholder="Organized By" required>
-                                                    </div>
-                                                    <div class="form-group col-md-1">
-                                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[0][achievements][0][awards]" placeholder="Awards" required>
-                                                    </div>
-                                                    <div class="form-group col-md-2 text-end">
-                                                        <button type="button" class="btn btn-danger" onclick="removeAchievementstudentAchievementsTableFormat(this)">Remove</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="text-end">
-                                                <button type="button" class="btn btn-info" onclick="addAchievementstudentAchievementsTableFormat(this, 0)">Add Achievement</button>
+                                            <div class="form-group col-md-2 text-end">
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="removeYearStudentAchievements(this)">Remove Year</button>
                                             </div>
                                         </div>
+                                        <div class="year-achievements-container">
+                                            @foreach($studentAchievementsTable['achievements'] as $achievementIndex =>
+                                            $achievement)
+                                            <div class="student-achievement-entry row mb-2">
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][studentName]"
+                                                        placeholder="Student Name"
+                                                        value="{{ $achievement['studentName'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][eventNature]"
+                                                        placeholder="Event Nature"
+                                                        value="{{ $achievement['eventNature'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][eventName]"
+                                                        placeholder="Event Name" value="{{ $achievement['eventName'] }}"
+                                                        required>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][periodDate]"
+                                                        placeholder="Period Date"
+                                                        value="{{ $achievement['periodDate'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][organizedBy]"
+                                                        placeholder="Organized By"
+                                                        value="{{ $achievement['organizedBy'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-1">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][awards]"
+                                                        placeholder="Awards" value="{{ $achievement['awards'] }}"
+                                                        required>
+                                                </div>
+                                                <div class="form-group col-md-2 text-end">
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeAchievement(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-info"
+                                                onclick="addAchievement(this, {{ isset($achievementIndex) ? $achievementIndex : 0 }})">Add
+                                                Achievement</button>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @else
+                                    <div class="student-year-entry mb-4">
+                                        <div class="row">
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control"
+                                                    name="studentAchievementsTableFormat[0][year]" placeholder="Year"
+                                                    required>
+                                            </div>
+                                            <div class="form-group col-md-2 text-end">
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="removeYearStudentAchievements(this)">Remove Year</button>
+                                            </div>
+                                        </div>
+                                        <div class="year-achievements-container">
+                                            <div class="student-achievement-entry row mb-2">
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievementsTableFormat[0][achievements][0][studentName]"
+                                                        placeholder="Student Name" required>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievementsTableFormat[0][achievements][0][eventNature]"
+                                                        placeholder="Event Nature" required>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievementsTableFormat[0][achievements][0][eventName]"
+                                                        placeholder="Event Name" required>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievementsTableFormat[0][achievements][0][periodDate]"
+                                                        placeholder="Period Date" required>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievementsTableFormat[0][achievements][0][organizedBy]"
+                                                        placeholder="Organized By" required>
+                                                </div>
+                                                <div class="form-group col-md-1">
+                                                    <input type="text" class="form-control"
+                                                        name="studentAchievementsTableFormat[0][achievements][0][awards]"
+                                                        placeholder="Awards" required>
+                                                </div>
+                                                <div class="form-group col-md-2 text-end">
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeAchievementstudentAchievementsTableFormat(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-info"
+                                                onclick="addAchievementstudentAchievementsTableFormat(this, 0)">Add
+                                                Achievement</button>
+                                        </div>
+                                    </div>
                                     @endif
                                 </div>
 
                                 <div class="col-md-12 text-center mt-4">
-                                    <button type="button" id="addYearStudentAchievementsBtn" class="btn btn-primary" onclick="addYearStudentAchievementsstudentAchievementsTableFormat()">Add Year</button>
+                                    <button type="button" id="addYearStudentAchievementsBtn" class="btn btn-primary"
+                                        onclick="addYearStudentAchievementsstudentAchievementsTableFormat()">Add
+                                        Year</button>
                                 </div>
                             </div>
                             <div class="text-center mt-4">
@@ -316,12 +409,13 @@
                     </div>
 
                     <script>
-                        // Add a new year
-                        function addYearStudentAchievementsstudentAchievementsTableFormat() {
-                            const container = document.getElementById('studentAchievementsContainerstudentAchievementsTableFormat');
-                            const yearIndex = container.getElementsByClassName('student-year-entry').length;
+                    // Add a new year
+                    function addYearStudentAchievementsstudentAchievementsTableFormat() {
+                        const container = document.getElementById(
+                            'studentAchievementsContainerstudentAchievementsTableFormat');
+                        const yearIndex = container.getElementsByClassName('student-year-entry').length;
 
-                            const newYear = `
+                        const newYear = `
                                 <div class="student-year-entry mb-4">
                                     <div class="row">
                                         <div class="form-group col-md-10">
@@ -360,23 +454,24 @@
                                         <button type="button" class="btn btn-info" onclick="addAchievementstudentAchievementsTableFormat(this, ${yearIndex})">Add Achievement</button>
                                     </div>
                                 </div>`;
-                            container.insertAdjacentHTML('beforeend', newYear);
+                        container.insertAdjacentHTML('beforeend', newYear);
+                    }
+
+                    // Remove a year
+                    function removeYearStudentAchievementstf(button) {
+
+                        if (confirm('Are you sure you want to remove this ?')) {
+                            button.closest('.student-year-entry').remove();
                         }
+                    }
 
-                        // Remove a year
-                        function removeYearStudentAchievementstf(button) {
-                           
-                            if (confirm('Are you sure you want to remove this ?')) {
-                                button.closest('.student-year-entry').remove();
-                            }
-                        }
+                    // Add a new achievement
+                    function addAchievementstudentAchievementsTableFormat(button, yearIndex) {
+                        const container = button.closest('.student-year-entry').querySelector(
+                            '.year-achievements-container');
+                        const achievementIndex = container.getElementsByClassName('student-achievement-entry').length;
 
-                        // Add a new achievement
-                        function addAchievementstudentAchievementsTableFormat(button, yearIndex) {
-                            const container = button.closest('.student-year-entry').querySelector('.year-achievements-container');
-                            const achievementIndex = container.getElementsByClassName('student-achievement-entry').length;
-
-                            const newAchievement = `
+                        const newAchievement = `
                                 <div class="student-achievement-entry row mb-2">
                                     <div class="form-group col-md-3">
                                         <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][studentName]" placeholder="Student Name" required>
@@ -400,18 +495,18 @@
                                         <button type="button" class="btn btn-danger" onclick="removeAchievementstudentAchievementsTableFormat(this)">Remove</button>
                                     </div>
                                 </div>`;
-                            container.insertAdjacentHTML('beforeend', newAchievement);
+                        container.insertAdjacentHTML('beforeend', newAchievement);
+                    }
+
+                    // Remove an achievement
+                    function removeAchievementstudentAchievementsTableFormat(button) {
+                        //button.closest('.student-achievement-entry').remove();
+                        if (confirm('Are you sure you want to remove this ?')) {
+                            button.closest('.student-achievement-entry').remove();
+
                         }
 
-                        // Remove an achievement
-                        function removeAchievementstudentAchievementsTableFormat(button) {
-                            //button.closest('.student-achievement-entry').remove();
-                            if (confirm('Are you sure you want to remove this ?')) {
-                                button.closest('.student-achievement-entry').remove();
-                                
-                            }
-                                
-                        }
+                    }
                     </script>
                     @endif
 
@@ -422,16 +517,21 @@
                     </div>
 
                     <div class="card-block">
-                        <form id="studentAchievementsAppreciationForm" class="needs-validation" method="POST" action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                        <form id="studentAchievementsAppreciationForm" class="needs-validation" method="POST"
+                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
                             @csrf
                             <div class="row">
                                 <!-- Student Achievements Appreciation List Section -->
                                 <div id="studentAchievementsAppreciationContainer" class="col-md-12">
                                     <h4>Student Achievements Appreciation List</h4>
                                     @php
-                                        // Decode the JSON string to an array
-                                        $studentAchievementsAppeciationList = isset($row->studentAchievementsAppeciationList) ? json_decode($row->studentAchievementsAppeciationList, true) : [];
-                                        // echo "<pre>";print_r($studentAchievementsAppeciationList);exit;
+                                    // Decode the JSON string to an array
+                                    $studentAchievementsAppeciationList =
+                                    isset($row->studentAchievementsAppeciationList) ?
+                                    json_decode($row->studentAchievementsAppeciationList, true) : [];
+                                    // echo "
+                                    /*
+                                    <pre>";print_r($studentAchievementsAppeciationList);exit; */
                                     @endphp
                                     @if(!empty($studentAchievementsAppeciationList))
                                         @foreach($studentAchievementsAppeciationList as $appKey => $studentAchievementsAppeciation)

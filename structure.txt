@@ -241,6 +241,14 @@ program +
             Videos +
                 Title
                 YoutubeLink
+
+        Courses
+            Title
+            ImageFile
+            description
+            courses +
+                Title
+                pdfLink
                 
         Activies
             Title

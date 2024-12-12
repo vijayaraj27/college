@@ -19,7 +19,7 @@
                             @csrf
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File" required>
+                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File" >
                                     <img alt="Section Infrastructures Image" width="70" height="70" 
                                         src="{{ isset($row->imageFile) ? $baseurl . 'uploads/infrastructures/' . $row->imageFile : '' }}" />
                                 </div>
