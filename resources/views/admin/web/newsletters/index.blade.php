@@ -95,7 +95,8 @@
                                         <!-- Add NewsletterLink Button (Visible Always) -->
                                         <div class="text-end">
                                             <button type="button" class="btn btn-info"
-                                                onclick="addAchievementAppreciation(this)">Add NewsletterLink</button>
+                                                onclick="addAchievementAppreciation(this)"><i class="fa fa-plus"></i>
+                                                Add NewsletterLink</button>
                                         </div>
                                     </div>
                                     @if(empty($newslettersList))

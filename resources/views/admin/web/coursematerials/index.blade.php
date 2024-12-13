@@ -21,7 +21,7 @@
                             @csrf
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File" >
+                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File">
                                     <img alt="Section Course Material Image" width="70" height="70"
                                         src="{{ isset($row->imageFile) ? $baseurl . 'uploads/coursematerials/' . $row->imageFile : '' }}" />
                                 </div>
@@ -94,7 +94,8 @@
                                         <!-- Add Course Link Button (Visible Always) -->
                                         <div class="text-end">
                                             <button type="button" class="btn btn-info"
-                                                onclick="addAchievementAppreciation(this)">Add Course Link</button>
+                                                onclick="addAchievementAppreciation(this)"><i class="fa fa-plus"></i>
+                                                Add Course Link</button>
                                         </div>
                                     </div>
                                     @if(empty($coursesList))

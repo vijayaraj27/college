@@ -21,7 +21,7 @@
                             @csrf
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File" >
+                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File">
                                     <img alt="Section Video Section Image" width="70" height="70"
                                         src="{{ isset($row->imageFile) ? $baseurl . 'uploads/videomaterials/' . $row->imageFile : '' }}" />
                                 </div>
@@ -94,7 +94,8 @@
                                         <!-- Add Video Link Button (Visible Always) -->
                                         <div class="text-end">
                                             <button type="button" class="btn btn-info"
-                                                onclick="addAchievementAppreciation(this)">Add Video Link</button>
+                                                onclick="addAchievementAppreciation(this)"><i class="fa fa-plus"></i>
+                                                Add Video Link</button>
                                         </div>
                                     </div>
                                     @if(empty($videosList))

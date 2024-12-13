@@ -183,14 +183,14 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     // Route::resource('staff/work-shift-type', 'WorkShiftTypeController');
     // Route::resource('staff/staff-note', 'StaffNoteController');
     // Route::resource('staff/tax-setting', 'TaxSettingController');
-    // // Staff Routes
+    // Staff Routes
    Route::resource('staff/user','UserController');
   Route::get('staff/user-status/{id}', 'UserController@status')->name('user.status');
   Route::post('staff/user-send-password/{id}', 'UserController@sendPassword')->name('user.send-password');
     // // Route::get('staff/user-print-password/{id}', 'UserController@printPassword')->name('user.print-password');
    Route::post('staff/user-password-change', 'UserController@passwordChange')->name('user-password-change');
-     Route::get('staff/user-import', 'UserController@import')->name('user.import');
-     Route::post('staff/user-import-store', 'UserController@importStore')->name('user.import.store');
+    Route::get('staff/user-import', 'UserController@import')->name('user.import');
+    Route::post('staff/user-import-store', 'UserController@importStore')->name('user.import.store');
     // // Staff Attendance Routes
     // Route::resource('staff-daily-attendance', 'StaffAttendanceController');
     // Route::get('staff-daily-report', 'StaffAttendanceController@report')->name('staff-daily-attendance.report');

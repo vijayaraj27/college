@@ -124,14 +124,19 @@ program +
             Title
             ImageFile
             description
+            syllabus +
+                regulationType
+                Title
+                pdfLink            
             Regulation +
                 programType
+                regulationType
                 Title
                 pdfLink
-            questionBank +
-                programType
+            questionBank +                
                 Title
                 pdfLink
+
 
         departmentLibrary
             Title

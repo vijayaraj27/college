@@ -138,26 +138,34 @@
                                     </li>
                                     <li>
                                         <strong><a class="btn btn-primary m-2"
-                                                href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                href="{{$baseurl}}admin/web/syllabus/{{$department->id}}_basic"
                                                 target="_blank">Syllabus</a> </strong>
                                         <ul>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/syllabus/{{$department->id}}_syllabus"
+                                                        target="_blank">Syllabus List</a> </strong></li>
+                                            <li><strong><a class="btn btn-primary m-2"
+                                                        href="{{$baseurl}}admin/web/syllabus/{{$department->id}}_regulation"
                                                         target="_blank">Regulation</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/syllabus/{{$department->id}}_questionBank"
                                                         target="_blank">question
                                                         Bank</a> </strong></li>
+
                                         </ul>
                                     </li>
                                     <li>
-                                        <strong><a class="btn btn-primary m-2">Department Library</a> </strong>
+                                        <strong><a class="btn btn-primary m-2"
+                                                href="{{$baseurl}}admin/web/library/{{$department->id}}_basic"
+                                                target="_blank">Department Library</a> </strong>
                                         <ul>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/library/{{$department->id}}_sectionAbout"
                                                         target="_blank">Section
                                                         About</a> </strong></li>
-
+                                            <li><strong><a class="btn btn-primary m-2"
+                                                        href="{{$baseurl}}admin/web/library/{{$department->id}}_record"
+                                                        target="_blank">Department Library Records</a> </strong></li>
                                         </ul>
                                     </li>
                                     <li>

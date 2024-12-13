@@ -182,6 +182,7 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     // // Human Resource Routes
   Route::resource('staff/designation', 'DesignationController');
     Route::resource('staff/department', 'DepartmentController');
+    
     // Route::resource('staff/work-shift-type', 'WorkShiftTypeController');
     // Route::resource('staff/staff-note', 'StaffNoteController');
     // Route::resource('staff/tax-setting', 'TaxSettingController');
@@ -343,7 +344,7 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     // Application Setting
     // Route::resource('setting/application-setting', 'ApplicationSettingController');
     // Field Setting Routescls
- //Route::get('setting/field-user', 'FieldController@user')->name('field.user');
+    //Route::get('setting/field-user', 'FieldController@user')->name('field.user');
     // Route::get('setting/field-student', 'FieldController@student')->name('field.student');
     // Route::get('setting/field-application', 'FieldController@application')->name('field.application');
     // Route::get('setting/student-panel', 'FieldController@panel')->name('student.panel');
@@ -364,6 +365,8 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
         Route::resource('coursematerials','CoursematerialsController');
         Route::resource('magazines','MagazinesController');
         Route::resource('newsletters','NewsLettersController');
+        Route::resource('syllabus','SyllabusController');
+        Route::resource('library','LibraryController');
         Route::resource('faculties', 'FacultiesController');
         Route::resource('infrastructures', 'InfrastructuresController');
         Route::resource('course', 'CourseController');
@@ -376,6 +379,7 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
         Route::resource('call-to-action', 'CallToActionController');
         Route::resource('social-setting', 'SocialSettingController');
         Route::resource('topbar-setting', 'TopbarSettingController');
+        Route::resource('regulation', 'RegulationController'); 
     });
 });
  

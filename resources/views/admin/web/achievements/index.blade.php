@@ -21,7 +21,7 @@
                             @csrf
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File" >
+                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File">
                                     <img alt="Section Achievements Image" width="70" height="70"
                                         src="{{ isset($row->imageFile) ? $baseurl . 'uploads/achievements/' . $row->imageFile : '' }}" />
                                 </div>
@@ -93,7 +93,8 @@
 
                                 <div class="col-md-12 text-center">
                                     <button type="button" id="addStaffAchievementBtn" class="btn btn-info"
-                                        onclick="addStaffAchievement()">Add Achievement</button>
+                                        onclick="addStaffAchievement()"><i class="fa fa-plus"></i> Add
+                                        Achievement</button>
                                 </div>
                             </div>
                             <div class="text-center mt-4">
@@ -178,7 +179,8 @@
                                         <!-- Add Achievement Button -->
                                         <div class="text-end">
                                             <button type="button" class="btn btn-info"
-                                                onclick="addAchievement(this, {{ $key }})">Add Achievement</button>
+                                                onclick="addAchievement(this, {{ $key }})"><i class="fa fa-plus"></i>
+                                                Add Achievement</button>
                                         </div>
                                     </div>
                                     @endforeach
@@ -220,7 +222,8 @@
                                         </div>
                                         <div class="text-end">
                                             <button type="button" class="btn btn-info"
-                                                onclick="addAchievement(this, 0)">Add Achievement</button>
+                                                onclick="addAchievement(this, 0)"><i class="fa fa-plus"></i> Add
+                                                Achievement</button>
                                         </div>
                                     </div>
                                     @endif
@@ -229,7 +232,8 @@
                                 <!-- Add Year Button -->
                                 <div class="col-md-12 text-center mt-4">
                                     <button type="button" id="addYearStaffAcheivementsBtn" class="btn btn-primary"
-                                        onclick="addYearStaffAcheivements()">Add Year</button>
+                                        onclick="addYearStaffAcheivements()"><i class="fa fa-plus"></i> Add
+                                        Year</button>
                                 </div>
                             </div>
 
@@ -451,7 +455,7 @@
                                         </div>
                                     </div>
                                     <div class="text-end">
-                                        <button type="button" class="btn btn-info" onclick="addAchievementstudentAchievementsTableFormat(this, ${yearIndex})">Add Achievement</button>
+                                        <button type="button" class="btn btn-info" onclick="addAchievementstudentAchievementsTableFormat(this, ${yearIndex})"><i class="fa fa-plus"></i> Add Achievement</button>
                                     </div>
                                 </div>`;
                         container.insertAdjacentHTML('beforeend', newYear);
@@ -572,7 +576,7 @@
                                                     @endforeach
                                                 </div>
                                                 <div class="text-end">
-                                                    <button type="button" class="btn btn-info" onclick="addAchievementAppreciation(this, {{ isset($appreciationIndex) ? $appreciationIndex : 0 }})">Add Appreciation</button>
+                                                    <button type="button" class="btn btn-info" onclick="addAchievementAppreciation(this, {{ isset($appreciationIndex) ? $appreciationIndex : 0 }})"><i class="fa fa-plus"></i> Add Appreciation</button>
                                                 </div>
                                             </div>
                                         @endforeach
@@ -612,14 +616,14 @@
                                                 </div>
                                             </div>
                                             <div class="text-end">
-                                                <button type="button" class="btn btn-info" onclick="addAchievementAppreciation(this, 0)">Add Appreciation</button>
+                                                <button type="button" class="btn btn-info" onclick="addAchievementAppreciation(this, 0)"><i class="fa fa-plus"></i> Add Appreciation</button>
                                             </div>
                                         </div>
                                     @endif
                                 </div>
 
                                 <div class="col-md-12 text-center mt-4">
-                                    <button type="button" id="addYearStudentAchievementsAppreciationBtn" class="btn btn-primary" onclick="addYearStudentAchievementsAppreciation()">Add Year</button>
+                                    <button type="button" id="addYearStudentAchievementsAppreciationBtn" class="btn btn-primary" onclick="addYearStudentAchievementsAppreciation()"><i class="fa fa-plus"></i> Add Year</button>
                                 </div>
                             </div>
                             <div class="text-center mt-4">

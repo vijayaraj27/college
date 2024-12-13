@@ -21,7 +21,7 @@
                             @csrf
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File" >
+                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File">
                                     <img alt="Section Placements Image" width="70" height="70"
                                         src="{{ isset($row->imageFile) ? $baseurl . 'uploads/placements/' . $row->imageFile : '' }}" />
                                 </div>
@@ -147,7 +147,8 @@
                                         </div>
                                         <div class="text-end">
                                             <button type="button" class="btn btn-info"
-                                                onclick="addAchievementAppreciation(this, '{{ $year }}')">Add Student
+                                                onclick="addAchievementAppreciation(this, '{{ $year }}')"><i
+                                                    class="fa fa-plus"></i> Add Student
                                                 Placement</button>
                                         </div>
                                     </div>
