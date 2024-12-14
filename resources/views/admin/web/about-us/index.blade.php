@@ -65,14 +65,21 @@ $contact = $row ? json_decode($row->contact, true) : [];
 // }
 
 ?>
-                                <div class="form-group col-md-6"> <input type="file" class="form-control"
-                                        name="sectionAbout[image_file]" placeholder="Image File" required value="">
+                                <div class="form-group col-md-6">
+
+                                    <label for="photo">{{ __('field_photo') }}:
+                                        <span>{{ __('image_size', ['height' => 400, 'width' => 400]) }}</span>
+                                        <span>*</span></label>
+                                    <input type="file" class="form-control" name="sectionAbout[image_file]"
+                                        placeholder="Image File" required value="">
                                     <img alt="Section About Image" width="70" height="70"
                                         src="{{ isset($sectionAbout['image_file']) ? $baseurl.'uploads/about-us/' . $sectionAbout['image_file'] : '' }}" />
                                 </div>
-                                <div class="form-group col-md-6"> <input type="text" class="form-control"
-                                        name="sectionAbout[title]" placeholder="Title" required
-                                        value="{{ isset($title)?$title:'' }}"> </div>
+                                <div class="form-group col-md-6">
+                                    <label> Title </label>
+                                    <input type="text" class="form-control" name="sectionAbout[title]"
+                                        placeholder="Title" required value="{{ isset($title)?$title:'' }}">
+                                </div>
                                 <div class="form-group col-md-12"> <textarea class="form-control texteditor"
                                         name="sectionAbout[description]" placeholder="Description"
                                         required>{{ isset($description)?$description:'' }}</textarea> </div>

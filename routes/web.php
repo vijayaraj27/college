@@ -369,6 +369,9 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
         Route::resource('library','LibraryController');
         Route::resource('faculties', 'FacultiesController');
         Route::resource('infrastructures', 'InfrastructuresController');
+        Route::resource('activities', 'ActivitiesController');
+        Route::resource('research', 'ResearchController');
+        Route::resource('publication', 'PublicationController');
         Route::resource('course', 'CourseController');
         Route::resource('web-event', 'WebEventController');
         Route::resource('news', 'NewsController');

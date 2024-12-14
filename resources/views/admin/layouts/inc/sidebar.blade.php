@@ -147,6 +147,11 @@
     </ul>
     </li>
     @endcanany
+
+
+    @if(Auth::user()->is_admin=='1')
+
+
     @canany(['topbar-setting-view', 'social-setting-view', 'slider-view', 'slider-create', 'about-us-view',
     'feature-view', 'feature-create', 'course-view', 'course-create', 'web-event-view', 'web-event-create', 'news-view',
     'news-create', 'gallery-view', 'gallery-create', 'faq-view', 'faq-create', 'testimonial-view', 'testimonial-create',
@@ -218,6 +223,9 @@
     </ul>
     </li>
     @endcanany
+
+    @endif
+
     @canany(['setting-view', 'province-view', 'province-create', 'district-view', 'district-create', 'language-view',
     'language-create', 'translations-view', 'translations-create', 'mail-setting-view', 'sms-setting-view',
     'application-setting-view', 'schedule-setting-view', 'bulk-import-export-view', 'role-view', 'role-edit',

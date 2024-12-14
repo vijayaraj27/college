@@ -21,11 +21,15 @@
                             @csrf
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File">
+                                    <label for="photo">{{ __('field_photo') }}:
+                                        <span>{{ __('image_size', ['height' => 400, 'width' => 400]) }}</span>
+                                        <span>*</span></label> <input type="file" class="form-control" name="imageFile"
+                                        placeholder="Image File">
                                     <img alt="Section Achievements Image" width="70" height="70"
                                         src="{{ isset($row->imageFile) ? $baseurl . 'uploads/achievements/' . $row->imageFile : '' }}" />
                                 </div>
                                 <div class="form-group col-md-6">
+                                    <label> Title </label>
                                     <input type="text" class="form-control" name="title" placeholder="Title" required
                                         value="{{ isset($row->title) ? $row->title : '' }}">
                                 </div>
