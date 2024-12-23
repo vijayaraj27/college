@@ -157,9 +157,9 @@ class UserController extends Controller
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
             'department' => 'required',
-            'designation' => 'required',
+            'designation' => 'nullable',
             'gender' => 'required',
-            'dob' => 'required|date',
+            'dob' => 'nullable|date',
             'joining_date' => 'nullable|date',
             'ending_date' => 'nullable|date|after_or_equal:joining_date',
             'phone' => 'required',
@@ -167,10 +167,10 @@ class UserController extends Controller
           //  'contract_type' => 'required',
           //  'salary_type' => 'required',
             'roles' => 'required',
-            'photo' => 'nullable|image',
-            'signature' => 'nullable|image',
-            'resume' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip,rar,csv,xls,xlsx,ppt,pptx|max:20480',
-            'joining_letter' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip,rar,csv,xls,xlsx,ppt,pptx|max:20480',
+           // 'photo' => 'nullable|image',
+           // 'signature' => 'nullable|image',
+          //  'resume' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip,rar,csv,xls,xlsx,ppt,pptx|max:20480',
+           // 'joining_letter' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip,rar,csv,xls,xlsx,ppt,pptx|max:20480',
         ]);
         // Random Password
         $password = str_random(8);
@@ -345,9 +345,9 @@ class UserController extends Controller
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
             'department' => 'required',
-            'designation' => 'required',
+            'designation' => 'nullable',
             'gender' => 'required',
-            'dob' => 'required|date',
+          //  'dob' => 'nullable|date',
             'joining_date' => 'nullable|date',
             'ending_date' => 'nullable|date|after_or_equal:joining_date',
             'phone' => 'required',
@@ -355,10 +355,10 @@ class UserController extends Controller
             //'contract_type' => 'required',
            // 'salary_type' => 'required',
             'roles' => 'required',
-            'photo' => 'nullable|image',
-            'signature' => 'nullable|image',
-            'resume' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip,rar,csv,xls,xlsx,ppt,pptx|max:20480',
-            'joining_letter' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip,rar,csv,xls,xlsx,ppt,pptx|max:20480',
+            // 'photo' => 'nullable|image',
+            // 'signature' => 'nullable|image',
+            // 'resume' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip,rar,csv,xls,xlsx,ppt,pptx|max:20480',
+            // 'joining_letter' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip,rar,csv,xls,xlsx,ppt,pptx|max:20480',
         ]);
         // Update Data
         try{

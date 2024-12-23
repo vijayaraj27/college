@@ -160,8 +160,8 @@
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_joining_date') }}
                                 </div>
-                            </div>-->
-                                    @endif
+                            </div
+                                    @endif>-->
                                     <div class="form-group col-md-4">
                                         <label for="email">{{ __('field_email') }} <span>*</span></label>
                                         <input type="email" class="form-control" name="email" id="email"
@@ -188,6 +188,25 @@
                                         </div>
                                     </div>
                                     @endif
+                                    <fieldset>
+                                        <div class="form-group col-md-12">
+                                            <label for="program">{{ __('field_assign') }}
+                                                {{ __('field_program') }}</label>
+                                            @foreach($programs as $key => $program)
+                                            <br />
+                                            <div class="checkbox d-inline">
+                                                <input type="checkbox" name="programs[]" id="program-{{ $key }}"
+                                                    value="{{ $program->id }}" @if( old('programs')==$program->id )
+                                                checked
+                                                @endif>
+                                                <label for="program-{{ $key }}" class="cr">{{ $program->title }}</label>
+                                            </div>
+                                            @endforeach
+                                            <div class="invalid-feedback">
+                                                {{ __('required_field') }} {{ __('field_program') }}
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                     {{-- @if(field('user_religion')->status == 1)
                             <div class="form-group col-md-4">
                                 <label for="religion">{{ __('field_religion') }}</label>
@@ -384,155 +403,148 @@
                         {{ __('required_field') }} {{ __('field_note') }}
                     </div>
                 </div>
-                {{-- <div class="form-group col-md-12">
-                                <label for="program">{{ __('field_assign') }} {{ __('field_program') }}</label>
-                @foreach($programs as $key => $program)
-                <br />
-                <div class="checkbox d-inline">
-                    <input type="checkbox" name="programs[]" id="program-{{ $key }}" value="{{ $program->id }}" @if(
-                        old('programs')==$program->id ) checked @endif>
-                    <label for="program-{{ $key }}" class="cr">{{ $program->title }}</label>
+                {{--  -- }}
+            </fieldset>
+            <!-- Form End--->
+        </content>
+        @endif
+        <h3>{{ __('tab_payroll_details') }}</h3>
+        <content class="form-step">
+            <!-- Form Start--->
+            <fieldset class="row scheduler-border">
+                <div class="form-group col-md-4">
+                    <label for="contract_type">{{ __('field_contract_type') }} <span>*</span></label>
+                    <select class="form-control" name="contract_type" id="contract_type" required>
+                        <option value="">{{ __('select') }}</option>
+                        <option value="1" @if( old('contract_type')==1 ) selected @endif>
+                            {{ __('contract_type_full_time') }}
+                        </option>
+                        <option value="2" @if( old('contract_type')==2 ) selected @endif>
+                            {{ __('contract_type_part_time') }}
+                        </option>
+                    </select>
+                    <div class="invalid-feedback">
+                        {{ __('required_field') }} {{ __('field_contract_type') }}
+                    </div>
                 </div>
-                @endforeach
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('field_program') }}
+                <div class="form-group col-md-4">
+                    <label for="work_shift">{{ __('field_work_shift') }} <span>*</span></label>
+                    <select class="form-control" name="work_shift" id="work_shift" required>
+                        <option value="">{{ __('select') }}</option>
+                        @foreach($work_shifts as $shift )
+                        <option value="{{ $shift->id }}" @if( old('work_shift')==$shift->id ) selected
+                            @endif>{{ $shift->title }}</option>
+                        @endforeach
+                    </select>
+                    <div class="invalid-feedback">
+                        {{ __('required_field') }} {{ __('field_work_shift') }}
+                    </div>
                 </div>
-    </div> -- }}
-    </fieldset>
-    <!-- Form End--->
-    </content>
-    @endif
-    <h3>{{ __('tab_payroll_details') }}</h3>
-    <content class="form-step">
-        <!-- Form Start--->
-        <fieldset class="row scheduler-border">
-            <div class="form-group col-md-4">
-                <label for="contract_type">{{ __('field_contract_type') }} <span>*</span></label>
-                <select class="form-control" name="contract_type" id="contract_type" required>
-                    <option value="">{{ __('select') }}</option>
-                    <option value="1" @if( old('contract_type')==1 ) selected @endif>{{ __('contract_type_full_time') }}
-                    </option>
-                    <option value="2" @if( old('contract_type')==2 ) selected @endif>{{ __('contract_type_part_time') }}
-                    </option>
-                </select>
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('field_contract_type') }}
+                <div class="form-group col-md-4">
+                    <label for="salary_type">{{ __('field_salary_type') }} <span>*</span></label>
+                    <select class="form-control" name="salary_type" id="salary_type" required>
+                        <option value="">{{ __('select') }}</option>
+                        <option value="1" @if( old('salary_type')==1 ) selected @endif>{{ __('salary_type_fixed') }}
+                        </option>
+                        <option value="2" @if( old('salary_type')==2 ) selected @endif>{{ __('salary_type_hourly') }}
+                        </option>
+                    </select>
+                    <div class="invalid-feedback">
+                        {{ __('required_field') }} {{ __('field_salary_type') }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="work_shift">{{ __('field_work_shift') }} <span>*</span></label>
-                <select class="form-control" name="work_shift" id="work_shift" required>
-                    <option value="">{{ __('select') }}</option>
-                    @foreach($work_shifts as $shift )
-                    <option value="{{ $shift->id }}" @if( old('work_shift')==$shift->id ) selected
-                        @endif>{{ $shift->title }}</option>
-                    @endforeach
-                </select>
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('field_work_shift') }}
+                <div class="form-group col-md-4">
+                    <label for="basic_salary">{{ __('salary_type_hourly') }} / {{ __('salary_type_fixed') }}
+                        {{ __('field_salary') }} ({!! $setting->currency_symbol !!}) <span>*</span></label>
+                    <input type="text" class="form-control autonumber" name="basic_salary" id="basic_salary"
+                        value="{{ old('basic_salary') }}" required>
+                    <div class="invalid-feedback">
+                        {{ __('required_field') }} {{ __('salary_type_hourly') }} / {{ __('salary_type_fixed') }}
+                        {{ __('field_salary') }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="salary_type">{{ __('field_salary_type') }} <span>*</span></label>
-                <select class="form-control" name="salary_type" id="salary_type" required>
-                    <option value="">{{ __('select') }}</option>
-                    <option value="1" @if( old('salary_type')==1 ) selected @endif>{{ __('salary_type_fixed') }}
-                    </option>
-                    <option value="2" @if( old('salary_type')==2 ) selected @endif>{{ __('salary_type_hourly') }}
-                    </option>
-                </select>
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('field_salary_type') }}
+                @if(field('user_epf_no')->status == 1)
+                <div class="form-group col-md-4">
+                    <label for="epf_no">{{ __('field_epf_no') }}</label>
+                    <input type="text" class="form-control" name="epf_no" id="epf_no" value="{{ old('epf_no') }}">
+                    <div class="invalid-feedback">
+                        {{ __('required_field') }} {{ __('field_epf_no') }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="basic_salary">{{ __('salary_type_hourly') }} / {{ __('salary_type_fixed') }}
-                    {{ __('field_salary') }} ({!! $setting->currency_symbol !!}) <span>*</span></label>
-                <input type="text" class="form-control autonumber" name="basic_salary" id="basic_salary"
-                    value="{{ old('basic_salary') }}" required>
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('salary_type_hourly') }} / {{ __('salary_type_fixed') }}
-                    {{ __('field_salary') }}
+                @endif
+            </fieldset>
+            <!-- Form End--->
+        </content>
+        @if(field('user_bank_account')->status == 1)
+        <h3>{{ __('tab_bank_info') }}</h3>
+        <content class="form-step">
+            <!-- Form Start--->
+            <fieldset class="row scheduler-border">
+                <div class="form-group col-md-4">
+                    <label for="bank_account_name">{{ __('field_bank_account_name') }}</label>
+                    <input type="text" class="form-control" name="bank_account_name" id="bank_account_name"
+                        value="{{ old('bank_account_name') }}">
+                    <div class="invalid-feedback">
+                        {{ __('required_field') }} {{ __('field_bank_account_name') }}
+                    </div>
                 </div>
-            </div>
-            @if(field('user_epf_no')->status == 1)
-            <div class="form-group col-md-4">
-                <label for="epf_no">{{ __('field_epf_no') }}</label>
-                <input type="text" class="form-control" name="epf_no" id="epf_no" value="{{ old('epf_no') }}">
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('field_epf_no') }}
+                <div class="form-group col-md-4">
+                    <label for="bank_account_no">{{ __('field_bank_account_no') }}</label>
+                    <input type="text" class="form-control autonumber" name="bank_account_no" id="bank_account_no"
+                        value="{{ old('bank_account_no') }}">
+                    <div class="invalid-feedback">
+                        {{ __('required_field') }} {{ __('field_bank_account_no') }}
+                    </div>
                 </div>
-            </div>
-            @endif
-        </fieldset>
-        <!-- Form End--->
-    </content>
-    @if(field('user_bank_account')->status == 1)
-    <h3>{{ __('tab_bank_info') }}</h3>
-    <content class="form-step">
-        <!-- Form Start--->
-        <fieldset class="row scheduler-border">
-            <div class="form-group col-md-4">
-                <label for="bank_account_name">{{ __('field_bank_account_name') }}</label>
-                <input type="text" class="form-control" name="bank_account_name" id="bank_account_name"
-                    value="{{ old('bank_account_name') }}">
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('field_bank_account_name') }}
+                <div class="form-group col-md-4">
+                    <label for="bank_name">{{ __('field_bank_name') }}</label>
+                    <input type="text" class="form-control" name="bank_name" id="bank_name"
+                        value="{{ old('bank_name') }}">
+                    <div class="invalid-feedback">
+                        {{ __('required_field') }} {{ __('field_bank_name') }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="bank_account_no">{{ __('field_bank_account_no') }}</label>
-                <input type="text" class="form-control autonumber" name="bank_account_no" id="bank_account_no"
-                    value="{{ old('bank_account_no') }}">
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('field_bank_account_no') }}
+                <div class="form-group col-md-4">
+                    <label for="ifsc_code">{{ __('field_ifsc_code') }}</label>
+                    <input type="text" class="form-control" name="ifsc_code" id="ifsc_code"
+                        value="{{ old('ifsc_code') }}">
+                    <div class="invalid-feedback">
+                        {{ __('required_field') }} {{ __('field_ifsc_code') }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="bank_name">{{ __('field_bank_name') }}</label>
-                <input type="text" class="form-control" name="bank_name" id="bank_name" value="{{ old('bank_name') }}">
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('field_bank_name') }}
+                <div class="form-group col-md-4">
+                    <label for="bank_brach">{{ __('field_bank_brach') }}</label>
+                    <input type="text" class="form-control" name="bank_brach" id="bank_brach"
+                        value="{{ old('bank_brach') }}">
+                    <div class="invalid-feedback">
+                        {{ __('required_field') }} {{ __('field_bank_brach') }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="ifsc_code">{{ __('field_ifsc_code') }}</label>
-                <input type="text" class="form-control" name="ifsc_code" id="ifsc_code" value="{{ old('ifsc_code') }}">
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('field_ifsc_code') }}
+                <div class="form-group col-md-4">
+                    <label for="tin_no">{{ __('field_tin_no') }}</label>
+                    <input type="text" class="form-control" name="tin_no" id="tin_no" value="{{ old('tin_no') }}">
+                    <div class="invalid-feedback">
+                        {{ __('required_field') }} {{ __('field_tin_no') }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="bank_brach">{{ __('field_bank_brach') }}</label>
-                <input type="text" class="form-control" name="bank_brach" id="bank_brach"
-                    value="{{ old('bank_brach') }}">
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('field_bank_brach') }}
+            </fieldset>
+            <!-- Form End--->
+        </content>
+        @endif --}}
+        <h3>{{ __('Photos uploads') }}</h3>
+        <content class="form-step">
+            <!-- Form Start--->
+            <fieldset class="row scheduler-border">
+                <div class="form-group col-md-6">
+                    <label for="photo">{{ __('field_photo') }}:
+                        <span>{{ __('image_size', ['height' => 300, 'width' => 300]) }}</span></label>
+                    <input type="file" class="form-control" name="photo" id="photo" value="{{ old('photo') }}">
+                    <div class="invalid-feedback">
+                        {{ __('required_field') }} {{ __('field_photo') }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="tin_no">{{ __('field_tin_no') }}</label>
-                <input type="text" class="form-control" name="tin_no" id="tin_no" value="{{ old('tin_no') }}">
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('field_tin_no') }}
-                </div>
-            </div>
-        </fieldset>
-        <!-- Form End--->
-    </content>
-    @endif --}}
-    <h3>{{ __('Photos uploads') }}</h3>
-    <content class="form-step">
-        <!-- Form Start--->
-        <fieldset class="row scheduler-border">
-            <div class="form-group col-md-6">
-                <label for="photo">{{ __('field_photo') }}:
-                    <span>{{ __('image_size', ['height' => 300, 'width' => 300]) }}</span></label>
-                <input type="file" class="form-control" name="photo" id="photo" value="{{ old('photo') }}">
-                <div class="invalid-feedback">
-                    {{ __('required_field') }} {{ __('field_photo') }}
-                </div>
-            </div>
+
+            </fieldset>
             {{-- @if(field('user_signature')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="signature">{{ __('field_signature') }}:
@@ -541,43 +553,43 @@
             <div class="invalid-feedback">
                 {{ __('required_field') }} {{ __('field_signature') }}
             </div>
-</div>
-@endif
-@if(field('user_resume')->status == 1)
-<div class="form-group col-md-6">
-    <label for="resume">{{ __('field_resume') }}</label>
-    <input type="file" class="form-control" name="resume" id="resume" value="{{ old('resume') }}">
-    <div class="invalid-feedback">
-        {{ __('required_field') }} {{ __('field_resume') }}
     </div>
-</div>
-@endif
-@if(field('user_joining_letter')->status == 1)
-<div class="form-group col-md-6">
-    <label for="joining_letter">{{ __('field_joining_letter') }}</label>
-    <input type="file" class="form-control" name="joining_letter" id="joining_letter"
-        value="{{ old('joining_letter') }}">
-    <div class="invalid-feedback">
-        {{ __('required_field') }} {{ __('field_joining_letter') }}
+    @endif
+    @if(field('user_resume')->status == 1)
+    <div class="form-group col-md-6">
+        <label for="resume">{{ __('field_resume') }}</label>
+        <input type="file" class="form-control" name="resume" id="resume" value="{{ old('resume') }}">
+        <div class="invalid-feedback">
+            {{ __('required_field') }} {{ __('field_resume') }}
+        </div>
     </div>
-</div>
-@endif --}}
-</fieldset>
-{{-- @if(field('user_documents')->status == 1)
+    @endif
+    @if(field('user_joining_letter')->status == 1)
+    <div class="form-group col-md-6">
+        <label for="joining_letter">{{ __('field_joining_letter') }}</label>
+        <input type="file" class="form-control" name="joining_letter" id="joining_letter"
+            value="{{ old('joining_letter') }}">
+        <div class="invalid-feedback">
+            {{ __('required_field') }} {{ __('field_joining_letter') }}
+        </div>
+    </div>
+    @endif --}}
+
+    {{-- @if(field('user_documents')->status == 1)
                             <fieldset class="row scheduler-border">
                             <legend>{{ __('field_upload') }} {{ __('field_document') }}</legend>
-<div class="container-fluid">
-    <div id="newDocument" class="clearfix"></div>
-    <div class="form-group">
-        <button id="addDocument" type="button" class="btn btn-info"><i class="fas fa-plus"></i>
-            {{ __('btn_add_new') }}</button>
+    <div class="container-fluid">
+        <div id="newDocument" class="clearfix"></div>
+        <div class="form-group">
+            <button id="addDocument" type="button" class="btn btn-info"><i class="fas fa-plus"></i>
+                {{ __('btn_add_new') }}</button>
+        </div>
     </div>
-</div>
-</fieldset>
-@endif --}}
-<!-- Form End--->
-</content>
-</form>
+    </fieldset>
+    @endif --}}
+    <!-- Form End--->
+    </content>
+    </form>
 </div>
 </div>
 </div>
