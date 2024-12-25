@@ -3,11 +3,11 @@ namespace App\Http\Controllers\Admin\Web;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\FileUploader;
-use App\Models\Web\Placements;
-use App\Models\Language;
+use App\Models\Web\Publications;
+
 use Toastr;
-use Auth;
-class PlacementsController extends Controller
+
+class PublicationsController extends Controller
 {
     use FileUploader;
     /**
@@ -18,11 +18,11 @@ class PlacementsController extends Controller
     public function __construct()
     {
         // Module Data
-        $this->title    = trans_choice('Placements', 1);
-        $this->route    = 'admin.placements';
-        $this->view     = 'admin.web.placements';
-        $this->path     = 'placements';
-        $this->access   = 'placements';
+        $this->title    = trans_choice('Publications', 1);
+        $this->route    = 'admin.publications';
+        $this->view     = 'admin.web.publications';
+        $this->path     = 'publications';
+        $this->access   = 'publications';
         $this->middleware('permission:'.$this->access.'-view');
     }
     /**
@@ -40,7 +40,7 @@ class PlacementsController extends Controller
             $data['access'] = $this->access;
             $data['baseurl'] = config('app.url');
 
-            $data['placements'] = Placements::all(); // Example: Fetch all placements.
+            $data['publications'] = Publications::all(); // Example: Fetch all publications.
 
             return view($this->view.'.index', $data);
         }
@@ -63,13 +63,17 @@ class PlacementsController extends Controller
         $data['departmentId'] = $departmentId;
         $data['section'] = $section;
 
-        $query = Placements::query();
+        $query = Publications::query();
         $query->where('departmentId', $departmentId);
-        $data['row'] =  $query->first();
-        //$data['studentPlaced'] = json_decode($data['row']['studentPlaced'], true);
-        $data['studentPlaced'] = $data['row'] ? json_decode($data['row']['studentPlaced'], true) : [];
+        $data['row'] =  $query->first();       
+        
+            $data['record'] = isset($data['row']['record']) && is_string($data['row']['record']) 
+            ? array_values(json_decode($data['row']['record'], true) ?? []) 
+            : [];
 
-     //  echo '<pre>';print_r($data['row']['studentPlaced']);exit;
+            //record
+
+
         return view($this->view.'.index', $data);
     }
     /**
@@ -82,35 +86,48 @@ class PlacementsController extends Controller
     {
  
         // Check if the row exists with the given departmentId
-        $Placements = Placements::where('departmentId', $request->departmentId)->first();
+        $Publications = Publications::where('departmentId', $request->departmentId)->first();
 
         if (Auth::user()->department_id != 0 && $request->departmentId != Auth::user()->department_id) {
             Toastr::error(__("Sorry you can't edit some other information without their access"), __('msg_error'));
             return redirect()->back();
         }
 
-        if ($Placements) {
+        if ($Publications) {
             $message = 'Record updated successfully';
         } else {
-            $Placements = new Placements;
-            $Placements->departmentId = $request->departmentId;
-            $Placements->designationId = 1;
+            $Publications = new Publications;
+            $Publications->departmentId = $request->departmentId;
+            $Publications->designationId = 1;
             $message = 'Record created successfully';
         }
 
         if($request->section === 'basic'){
-            //echo "Two "; exit;
-            // Handle the image upload if the file exists
+            
             if ($request->hasFile('imageFile')) {            
-                $Placements->imageFile = $this->uploadImage($request, 'imageFile', $this->path, null, 800);                 
+                $Publications->imageFile = $this->uploadImage($request, 'imageFile', $this->path, null, 800);                 
             }
+            
+            $Publications->title = $request->title;
+            $Publications->description = $request->description;            
 
-            $Placements->title = $request->title;
-            $Placements->description = $request->description;            
-        }else if($request->section === 'student-placed'){
-            $Placements->studentPlaced = json_encode($request->studentPlaced, JSON_UNESCAPED_UNICODE);
-        }       
-        $Placements->save();
+        }else if($request->section === 'sectionAbout'){
+            if ($request->hasFile('imageFile2')) {            
+                $Publications->imageFile2 = $this->uploadImage($request, 'imageFile2', $this->path, null, 800);                 
+            }
+            
+            $Publications->title2 = $request->title2;
+            $Publications->description2 = $request->description2;  
+        }else if($request->section === 'patent'){
+            $Publications->patent = json_encode($request->patent, JSON_UNESCAPED_UNICODE);
+        }else if($request->section === 'bookchapter'){
+            $Publications->bookChapter = json_encode($request->bookChapter, JSON_UNESCAPED_UNICODE);
+        }else if($request->section === 'journalpublication'){
+            $Publications->journalPublication = json_encode($request->journalPublication, JSON_UNESCAPED_UNICODE);
+        }else if($request->section === 'conferenceList'){
+            $Publications->conferenceList = json_encode($request->conferenceList, JSON_UNESCAPED_UNICODE);
+        }        
+        $Publications->save();
         Toastr::success(__($message), __('msg_success'));
         return redirect()->back();
     }

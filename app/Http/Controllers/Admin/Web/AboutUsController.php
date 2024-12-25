@@ -88,12 +88,16 @@ class AboutUsController extends Controller
         // Check if the row exists with the given departmentId
         $aboutUs = AboutUs::where('departmentId', $request->departmentId)->first();
 
+        if (Auth::user()->department_id != 0 && $request->departmentId != Auth::user()->department_id) {
+            Toastr::error(__("Sorry you can't edit some other information without their access"), __('msg_error'));
+            return redirect()->back();
+        }
 
         if ($aboutUs) {
             $message = 'Record updated successfully';
         } else {
             $aboutUs = new AboutUs;
-            $aboutUs->departmentId = $departmentId;
+            $aboutUs->departmentId = $request->departmentId;
             $aboutUs->designationId = 1;
             $aboutUs->slider = '';
             $aboutUs->testimonial = '';
@@ -134,12 +138,13 @@ class AboutUsController extends Controller
 
        // print_r($sectionAbout); exit;
         // Handle other fields as necessary
-        $aboutUs->save();
-
- 
-
-
-        Toastr::success(__($message), __('msg_success'));
+        // try {
+            $aboutUs->save();
+            Toastr::success(__('Successfully saved!'), __('msg_success'));
+        // } catch (\Exception $e) {
+        //     Toastr::error(__('Failed to save: ') . $e->getMessage(), __('msg_error'));
+        //     return redirect()->back()->withInput();
+        // }
 
         return redirect()->back();
     }

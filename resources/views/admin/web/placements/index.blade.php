@@ -50,201 +50,223 @@
                     @if($section === 'student-placed')
                     <!-- Student Placements Appreciation List -->
                     <div class="card-header">
-                        <h3 class="bold">Student Placements Appreciation List</h3>
-                    </div>
-                    <div class="card-block">
-                        <form id="studentPlacedForm" class="needs-validation" method="POST"
-                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
-                            @csrf
-                            <div class="row">
-                                <!-- Student Placements Appreciation List Section -->
-                                <div id="studentPlacedContainer" class="col-md-12">
-                                    <h4>Student Placements Appreciation List</h4>
-                                    @php
-                                    $studentPlacedList = isset($row->studentPlaced) ? json_decode($row->studentPlaced,
-                                    true) : [];
 
-                                    // print_r($studentPlacedList);
-                                    @endphp
+                        <!-- Student Placed -->
+                        <div class="card-header">
+                            <h3 class="bold">Student Placed</h3>
+                        </div>
 
-                                    @if(!empty($studentPlacedList))
-
-                                    <!-- @foreach($studentPlacedList as $year => $placements)
-                                    <div class="student-achievement-appreciation-year-entry mb-4"
-                                        id="studentPlacedYearEntry{{ $year }}">
-                                        <div class="row">
-                                            <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
-                                                    name="studentPlaced[{{ $year }}][year]" placeholder="Year"
-                                                    value="{{ $year }}" readonly>
-                                            </div>
-                                            <div class="form-group col-md-2 text-end">
-                                                <button type="button" class="btn btn-danger"
-                                                    onclick="removeYearStudentPlacementsAppreciation(this)">Remove
-                                                    Year</button>
-                                            </div>
-                                        </div>
-                                        <div class="year-appreciations-container">
-                                            @foreach($placements as $index => $placement)
-                                            <div class="student-achievement-appreciation-entry row mb-2"
-                                                id="studentAchievementAppreciationEntry{{ $year }}_{{ $index }}">
-                                                @foreach(['studentRegNumber' => 'Registration Number', 'studentName' =>
-                                                'Student Name', 'companyName' => 'Company Name'] as $key =>
-                                                $placeholder)
-                                                <div class="form-group col-md-4">
-                                                    <input type="text" class="form-control"
-                                                        name="studentPlaced[{{ $year }}][placements][{{ $index }}][{{ $key }}]"
-                                                        placeholder="{{ $placeholder }}"
-                                                        value="{{ $placement[$key] ?? '' }}" required>
-                                                </div>
-                                                @endforeach
-                                                <div class="form-group col-md-2 text-end">
-                                                    <button type="button" class="btn btn-danger"
-                                                        onclick="removeAchievementAppreciation(this)">Remove</button>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                        <div class="text-end">
-                                            <button type="button" class="btn btn-info"
-                                                onclick="addAchievementAppreciation(this, '{{ $year }}')">Add Student
-                                                Placement</button>
-                                        </div>
-                                    </div>
-                                    @endforeach -->
-
-                                    @foreach($studentPlacedList as $year => $placements)
-                                    <div class="student-achievement-appreciation-year-entry mb-4"
-                                        id="studentPlacedYearEntry{{ $year }}">
-                                        <div class="row">
-                                            <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
-                                                    name="studentPlaced[{{ $year }}][year]" placeholder="Year"
-                                                    value="{{ $year }}" readonly>
-                                            </div>
-                                            <div class="form-group col-md-2 text-end">
-                                                <button type="button" class="btn btn-danger"
-                                                    onclick="removeYearStudentPlacementsAppreciation(this)">Remove
-                                                    Year</button>
-                                            </div>
-                                        </div>
-                                        <div class="year-appreciations-container">
-                                            @foreach($placements['placements'] as $index => $placement)
-                                            <div class="student-achievement-appreciation-entry row mb-2"
-                                                id="studentAchievementAppreciationEntry{{ $year }}_{{ $index }}">
-                                                @foreach(['studentRegNumber' => 'Registration Number', 'studentName' =>
-                                                'Student Name', 'companyName' => 'Company Name'] as $key =>
-                                                $placeholder)
-                                                <div class="form-group col-md-4">
-                                                    <input type="text" class="form-control"
-                                                        name="studentPlaced[{{ $year }}][placements][{{ $index }}][{{ $key }}]"
-                                                        placeholder="{{ $placeholder }}"
-                                                        value="{{ $placement[$key] ?? '' }}" required>
-                                                </div>
-                                                @endforeach
-                                                <div class="form-group col-md-2 text-end">
-                                                    <button type="button" class="btn btn-danger"
-                                                        onclick="removeAchievementAppreciation(this)">Remove</button>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                        <div class="text-end">
-                                            <button type="button" class="btn btn-info"
-                                                onclick="addAchievementAppreciation(this, '{{ $year }}')"><i
-                                                    class="fa fa-plus"></i> Add Student
-                                                Placement</button>
-                                        </div>
-                                    </div>
-                                    @endforeach
-
-                                    @else
-                                    <div class="alert alert-info">
-                                        <p>No student placements found. Please add a new year and achievements.</p>
-                                    </div>
-                                    @endif
-                                </div>
-
-                                <div class="col-md-12 text-center mt-4">
-                                    <button type="button" id="addYearStudentPlacementsAppreciationBtn"
-                                        class="btn btn-primary" onclick="addYearStudentPlacementsAppreciation()">Add
-                                        Year</button>
-                                </div>
-                            </div>
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-success">Save Student Placements
-                                    list </button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <script>
-                    // Add a new year
-                    function addYearStudentPlacementsAppreciation() {
-                        const container = document.getElementById('studentPlacedContainer');
-                        const year = new Date().getFullYear();
-                        const newYear = `
-                            <div class="student-achievement-appreciation-year-entry mb-4" id="studentPlacedYearEntry${year}">
+                        <div class="card-block">
+                            <form id="studentPlacedForm" class="needs-validation" method="POST"
+                                action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                                @csrf
                                 <div class="row">
-                                    <div class="form-group col-md-10">
-                                        <input type="text" class="form-control" name="studentPlaced[${year}][year]" placeholder="Year" value="${year}" readonly>
+                                    <!-- Student Placed Section -->
+                                    <div id="studentPlacedContainer" class="col-md-12">
+                                        <h4>Student Placed</h4>
+                                        @php
+                                        // Decode the stored JSON string to an array
+                                        $studentPlaced = isset($row->studentPlaced) ? json_decode($row->studentPlaced,
+                                        true) : [];
+                                        @endphp
+
+                                        @if(!empty($studentPlaced))
+                                        @foreach($studentPlaced as $yearIndex => $placement)
+                                        <div class="placement-year-entry mb-4">
+                                            <div class="row">
+                                                <div class="form-group col-md-10">
+                                                    <input type="text" class="form-control"
+                                                        name="studentPlaced[{{ $yearIndex }}][year]" placeholder="Year"
+                                                        value="{{ $placement['year'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-2 text-end">
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeYearPlacement(this)">Remove Year</button>
+                                                </div>
+                                            </div>
+                                            <div class="year-placements-container">
+                                                @foreach($placement['placements'] as $placementIndex =>
+                                                $placementDetail)
+                                                <div class="placement-entry row mb-2">
+                                                    <div class="form-group col-md-4">
+                                                        <input type="text" class="form-control"
+                                                            name="studentPlaced[{{ $yearIndex }}][placements][{{ $placementIndex }}][studentRegNumber]"
+                                                            placeholder="Student Registration Number"
+                                                            value="{{ $placementDetail['studentRegNumber'] }}" required>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <input type="text" class="form-control"
+                                                            name="studentPlaced[{{ $yearIndex }}][placements][{{ $placementIndex }}][studentName]"
+                                                            placeholder="Student Name"
+                                                            value="{{ $placementDetail['studentName'] }}" required>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <input type="text" class="form-control"
+                                                            name="studentPlaced[{{ $yearIndex }}][placements][{{ $placementIndex }}][companyName]"
+                                                            placeholder="Company Name"
+                                                            value="{{ $placementDetail['companyName'] }}" required>
+                                                    </div>
+                                                    <div class="form-group col-md-2 text-end">
+                                                        <button type="button" class="btn btn-danger"
+                                                            onclick="removePlacement(this)">Remove</button>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                            <div class="text-end">
+                                                <button type="button" class="btn btn-info"
+                                                    onclick="addPlacement(this, {{ $yearIndex }})">Add
+                                                    Placement</button>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                        @else
+                                        <div class="placement-year-entry mb-4">
+                                            <div class="row">
+                                                <div class="form-group col-md-10">
+                                                    <input type="text" class="form-control"
+                                                        name="studentPlaced[0][year]" placeholder="Year" required>
+                                                </div>
+                                                <div class="form-group col-md-2 text-end">
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeYearPlacement(this)">Remove Year</button>
+                                                </div>
+                                            </div>
+                                            <div class="year-placements-container">
+                                                <div class="placement-entry row mb-2">
+                                                    <div class="form-group col-md-4">
+                                                        <input type="text" class="form-control"
+                                                            name="studentPlaced[0][placements][0][studentRegNumber]"
+                                                            placeholder="Student Registration Number" required>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <input type="text" class="form-control"
+                                                            name="studentPlaced[0][placements][0][studentName]"
+                                                            placeholder="Student Name" required>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <input type="text" class="form-control"
+                                                            name="studentPlaced[0][placements][0][companyName]"
+                                                            placeholder="Company Name" required>
+                                                    </div>
+                                                    <div class="form-group col-md-2 text-end">
+                                                        <button type="button" class="btn btn-danger"
+                                                            onclick="removePlacement(this)">Remove</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <button type="button" class="btn btn-info"
+                                                    onclick="addPlacement(this, 0)">Add Placement</button>
+                                            </div>
+                                        </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="col-md-12 text-center mt-4">
+                                        <button type="button" id="addYearPlacementBtn" class="btn btn-primary"
+                                            onclick="addYearPlacement()">Add Year</button>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-success">Save Student Placement
+                                        Details</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <script>
+                        // Add a new year for student placements
+                        function addYearPlacement() {
+                            const container = document.getElementById('studentPlacedContainer');
+                            const yearIndex = container.getElementsByClassName('placement-year-entry').length;
+
+                            const newYear = `
+                        <div class="placement-year-entry mb-4">
+                            <div class="row">
+                                <div class="form-group col-md-10">
+                                    <input type="text" class="form-control" name="studentPlaced[${yearIndex}][year]" placeholder="Year" required>
+                                </div>
+                                <div class="form-group col-md-2 text-end">
+                                    <button type="button" class="btn btn-danger" onclick="removeYearPlacement(this)">Remove Year</button>
+                                </div>
+                            </div>
+                            <div class="year-placements-container">
+                                <div class="placement-entry row mb-2">
+                                    <div class="form-group col-md-4">
+                                        <input type="text" class="form-control" name="studentPlaced[${yearIndex}][placements][0][studentRegNumber]" placeholder="Student Registration Number" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <input type="text" class="form-control" name="studentPlaced[${yearIndex}][placements][0][studentName]" placeholder="Student Name" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <input type="text" class="form-control" name="studentPlaced[${yearIndex}][placements][0][companyName]" placeholder="Company Name" required>
                                     </div>
                                     <div class="form-group col-md-2 text-end">
-                                        <button type="button" class="btn btn-danger" onclick="removeYearStudentPlacementsAppreciation(this)">Remove Year</button>
+                                        <button type="button" class="btn btn-danger" onclick="removePlacement(this)">Remove</button>
                                     </div>
                                 </div>
-                                <div class="year-appreciations-container"></div>
-                                <div class="text-end">
-                                    <button type="button" class="btn btn-info" onclick="addAchievementAppreciation(this, ${year})">Add Student Placement</button>
-                                </div>
-                            </div>`;
-                        container.insertAdjacentHTML('beforeend', newYear);
-                    }
-
-                    // Remove a year
-                    function removeYearStudentPlacementsAppreciation(button) {
-                        if (confirm('Are you sure you want to remove this year and its placements?')) {
-                            button.closest('.student-achievement-appreciation-year-entry').remove();
+                            </div>
+                            <div class="text-end">
+                                <button type="button" class="btn btn-info" onclick="addPlacement(this, ${yearIndex})"><i class="fa fa-plus"></i> Add Placement</button>
+                            </div>
+                        </div>`;
+                            container.insertAdjacentHTML('beforeend', newYear);
                         }
-                    }
 
-                    // Add a new achievement
-                    function addAchievementAppreciation(button, year) {
-                        const container = button.closest('.student-achievement-appreciation-year-entry').querySelector(
-                            '.year-appreciations-container');
-                        const appreciationIndex = container.getElementsByClassName(
-                            'student-achievement-appreciation-entry').length;
-
-                        const newAchievement = `
-                            <div class="student-achievement-appreciation-entry row mb-2" id="studentAchievementAppreciationEntry${year}_${appreciationIndex}">
-                                ${['studentRegNumber', 'studentName', 'companyName'].map((key, i) => `
-                                <div class="form-group col-md-${12 / 3}">
-                                    <input type="text" class="form-control" name="studentPlaced[${year}][placements][${appreciationIndex}][${key}]" placeholder="${key.replace(/([A-Z])/g, ' $1')}" required>
-                                </div>
-                                `).join('')}
-                                <div class="form-group col-md-2 text-end">
-                                    <button type="button" class="btn btn-danger" onclick="removeAchievementAppreciation(this)">Remove</button>
-                                </div>
-                            </div>`;
-                        container.insertAdjacentHTML('beforeend', newAchievement);
-                    }
-
-                    // Remove an achievement
-                    function removeAchievementAppreciation(button) {
-                        if (confirm('Are you sure you want to remove this entry?')) {
-                            button.closest('.student-achievement-appreciation-entry').remove();
+                        // Remove a year for student placements
+                        function removeYearPlacement(button) {
+                            if (confirm('Are you sure you want to remove this?')) {
+                                button.closest('.placement-year-entry').remove();
+                            }
                         }
-                    }
-                    </script>
-                    @endif
+
+                        // Add a new placement for a specific year
+                        function addPlacement(button, yearIndex) {
+                            const container = button.closest('.placement-year-entry').querySelector(
+                                '.year-placements-container');
+                            const placementIndex = container.getElementsByClassName('placement-entry').length;
+
+                            const newPlacement = `
+                    <div class="placement-entry row mb-2">
+                        <div class="form-group col-md-4">
+                            <input type="text" class="form-control" name="studentPlaced[${yearIndex}][placements][${placementIndex}][studentRegNumber]" placeholder="Student Registration Number" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <input type="text" class="form-control" name="studentPlaced[${yearIndex}][placements][${placementIndex}][studentName]" placeholder="Student Name" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <input type="text" class="form-control" name="studentPlaced[${yearIndex}][placements][${placementIndex}][companyName]" placeholder="Company Name" required>
+                        </div>
+                        <div class="form-group col-md-2 text-end">
+                            <button type="button" class="btn btn-danger" onclick="removePlacement(this)">Remove</button>
+                        </div>
+                    </div>`;
+                            container.insertAdjacentHTML('beforeend', newPlacement);
+                        }
+
+                        // Remove a placement entry
+                        function removePlacement(button) {
+                            if (confirm('Are you sure you want to remove this?')) {
+                                button.closest('.placement-entry').remove();
+                            }
+                        }
+                        </script>
+                        @endif
 
 
+
+
+
+
+
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- End Content-->
+    <!-- End Content-->
 
 
-@endsection
+    @endsection

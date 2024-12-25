@@ -71,7 +71,7 @@ $contact = $row ? json_decode($row->contact, true) : [];
                                         <span>{{ __('image_size', ['height' => 400, 'width' => 400]) }}</span>
                                         <span>*</span></label>
                                     <input type="file" class="form-control" name="sectionAbout[image_file]"
-                                        placeholder="Image File" required value="">
+                                        placeholder="Image File" value="">
                                     <img alt="Section About Image" width="70" height="70"
                                         src="{{ isset($sectionAbout['image_file']) ? $baseurl.'uploads/about-us/' . $sectionAbout['image_file'] : '' }}" />
                                 </div>
@@ -106,8 +106,8 @@ $contact = $row ? json_decode($row->contact, true) : [];
                                 <h4>Department Section Image</h4>
                                 <div class="form-group col-md-6"> <input type="text" class="form-control texteditor"
                                         name="departmentSectionImage"
-                                        value="{{$row ? $row->departmentSectionImage : ''}}" placeholder="Image File"
-                                        required> </div>
+                                        value="{{$row ? $row->departmentSectionImage : ''}}" placeholder="">
+                                </div>
 
                                 <!-- Testimonials -->
                                 {{-- 

@@ -3,11 +3,11 @@ namespace App\Http\Controllers\Admin\Web;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\FileUploader;
-use App\Models\Web\Library;
+use App\Models\Web\Research;
 
 use Toastr;
 
-class LibraryController extends Controller
+class ResearchController extends Controller
 {
     use FileUploader;
     /**
@@ -18,11 +18,11 @@ class LibraryController extends Controller
     public function __construct()
     {
         // Module Data
-        $this->title    = trans_choice('Library', 1);
-        $this->route    = 'admin.library';
-        $this->view     = 'admin.web.library';
-        $this->path     = 'library';
-        $this->access   = 'library';
+        $this->title    = trans_choice('Research', 1);
+        $this->route    = 'admin.research';
+        $this->view     = 'admin.web.research';
+        $this->path     = 'research';
+        $this->access   = 'research';
         $this->middleware('permission:'.$this->access.'-view');
     }
     /**
@@ -40,7 +40,7 @@ class LibraryController extends Controller
             $data['access'] = $this->access;
             $data['baseurl'] = config('app.url');
 
-            $data['library'] = Library::all(); // Example: Fetch all library.
+            $data['research'] = Research::all(); // Example: Fetch all publications.
 
             return view($this->view.'.index', $data);
         }
@@ -63,7 +63,7 @@ class LibraryController extends Controller
         $data['departmentId'] = $departmentId;
         $data['section'] = $section;
 
-        $query = Library::query();
+        $query = Research::query();
         $query->where('departmentId', $departmentId);
         $data['row'] =  $query->first();       
         
@@ -86,42 +86,56 @@ class LibraryController extends Controller
     {
  
         // Check if the row exists with the given departmentId
-        $Library = Library::where('departmentId', $request->departmentId)->first();
+        $Research = Research::where('departmentId', $request->departmentId)->first();
 
         if (Auth::user()->department_id != 0 && $request->departmentId != Auth::user()->department_id) {
             Toastr::error(__("Sorry you can't edit some other information without their access"), __('msg_error'));
             return redirect()->back();
         }
 
-        if ($Library) {
+        if ($Research) {
             $message = 'Record updated successfully';
         } else {
-            $Library = new Library;
-            $Library->departmentId = $request->departmentId;
-            $Library->designationId = 1;
+            $Research = new Research;
+            $Research->departmentId = $request->departmentId;
+            $Research->designationId = 1;
             $message = 'Record created successfully';
         }
 
         if($request->section === 'basic'){
             
             if ($request->hasFile('imageFile')) {            
-                $Library->imageFile = $this->uploadImage($request, 'imageFile', $this->path, null, 800);                 
+                $Research->imageFile = $this->uploadImage($request, 'imageFile', $this->path, null, 800);                 
             }
             
-            $Library->title = $request->title;
-            $Library->description = $request->description;            
+            $Research->title = $request->title;
+            $Research->description = $request->description;            
 
         }else if($request->section === 'sectionAbout'){
             if ($request->hasFile('imageFile2')) {            
-                $Library->imageFile2 = $this->uploadImage($request, 'imageFile2', $this->path, null, 800);                 
+                $Research->imageFile2 = $this->uploadImage($request, 'imageFile2', $this->path, null, 800);                 
             }
             
-            $Library->title2 = $request->title2;
-            $Library->description2 = $request->description2;  
-        }else if($request->section === 'record'){
-            $Library->record = json_encode($request->record, JSON_UNESCAPED_UNICODE);
-        }       
-        $Library->save();
+            $Research->title2 = $request->title2;
+            $Research->description2 = $request->description2;  
+        }else if($request->section === 'phd'){
+            $Research->phdHoldersList = json_encode($request->phdHoldersList, JSON_UNESCAPED_UNICODE);
+        }else if($request->section === 'anna-university'){
+            $Research->annaUniversityRecognizedSuperviorsNameList = json_encode($request->annaUniversityRecognizedSuperviorsNameList, JSON_UNESCAPED_UNICODE);
+        }else if($request->section === 'pursuing-phd'){
+            $Research->ListOfCandidatesPursuingPhdUnderDepartmentSupervisors = json_encode($request->ListOfCandidatesPursuingPhdUnderDepartmentSupervisors, JSON_UNESCAPED_UNICODE);
+        }else if($request->section === 'faculties-pursuing-phd'){
+            $Research->listOfDepartmentFacultiesPursuingPhd = json_encode($request->listOfDepartmentFacultiesPursuingPhd, JSON_UNESCAPED_UNICODE); 
+        }else if($request->section === 'phd-awarded'){
+            $Research->phdAwardedUnderDepartmentSupervisor = json_encode($request->phdAwardedUnderDepartmentSupervisor, JSON_UNESCAPED_UNICODE);
+        }else if($request->section === 'supervisor'){
+            $Research->supervisor = json_encode($request->supervisor, JSON_UNESCAPED_UNICODE);
+        }else if($request->section === 'funds'){
+            $Research->funds = json_encode($request->funds, JSON_UNESCAPED_UNICODE);
+        }else if($request->section === 'value-added-group'){
+            $Research->valueAddedGroup = json_encode($request->valueAddedGroup, JSON_UNESCAPED_UNICODE);
+        }         
+        $Research->save();
         Toastr::success(__($message), __('msg_success'));
         return redirect()->back();
     }

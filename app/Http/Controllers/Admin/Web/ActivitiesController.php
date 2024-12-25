@@ -96,6 +96,11 @@ class ActivitiesController extends Controller
         // Check if the row exists with the given departmentId
         $Activities = Activities::where('departmentId', $request->departmentId)->first();
 
+        if (Auth::user()->department_id != 0 && $request->departmentId != Auth::user()->department_id) {
+            Toastr::error(__("Sorry you can't edit some other information without their access"), __('msg_error'));
+            return redirect()->back();
+        }
+
         if ($Activities) {
             $message = 'Record updated successfully';
         } else {

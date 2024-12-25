@@ -48,356 +48,693 @@
 
 
                     @if($section === 'departmentActivity')
-
-
-                    <?php
-                    $departmentActivity = json_decode($row->departmentActivity, true);                     
-                    ?>
-                    <!-- Activities  List -->
+                    <!-- Department Activities -->
                     <div class="card-header">
                         <h3 class="bold">Department Activities</h3>
                     </div>
+
                     <div class="card-block">
                         <form id="departmentActivityForm" class="needs-validation" method="POST"
                             action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
                             @csrf
-                            <div id="departmentActivitiesContainer">
-                                <!-- Dynamic Year Section -->
-                                @foreach($departmentActivity as $year => $activities)
-                                <div class="year-section mb-4" data-year="{{ $year }}">
-                                    <h4>Year: {{ $year }}</h4>
-                                    <div class="activities-container">
-                                        @foreach($activities as $index => $activity)
-                                        <div class="activity-entry row mb-2">
-                                            <div class="form-group col-md-3">
+                            <div class="row">
+                                <!-- Department Activities Section -->
+                                <div id="departmentActivitiesContainer" class="col-md-12">
+                                    <h4>Department Activities</h4>
+                                    @php
+                                    // Decode the stored JSON string to an array
+                                    $departmentActivities = isset($row->departmentActivity) ?
+                                    json_decode($row->departmentActivity, true) : [];
+
+                                    // print_r($departmentActivities);
+                                    @endphp
+
+                                    @if(!empty($departmentActivities))
+                                    @foreach($departmentActivities as $yearIndex => $activity)
+                                    <div class="activity-year-entry mb-4">
+                                        <div class="row">
+                                            <div class="form-group col-md-10">
                                                 <input type="text" class="form-control"
-                                                    name="departmentActivity[{{ $year }}][{{ $index }}][nameOfTheTeacherWhoAttendProgramme]"
-                                                    placeholder="Name of the Teacher"
-                                                    value="{{ $activity['nameOfTheTeacherWhoAttendProgramme'] }}">
+                                                    name="departmentActivity[{{ $yearIndex }}][year]" placeholder="Year"
+                                                    value="{{ $activity['year'] }}" required>
                                             </div>
-                                            <div class="form-group col-md-3">
-                                                <input type="text" class="form-control"
-                                                    name="departmentActivity[{{ $year }}][{{ $index }}][titleOfTheProgramme]"
-                                                    placeholder="Title of the Programme"
-                                                    value="{{ $activity['titleOfTheProgramme'] }}">
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <input type="text" class="form-control"
-                                                    name="departmentActivity[{{ $year }}][{{ $index }}][organizer]"
-                                                    placeholder="Organizer" value="{{ $activity['organizer'] }}">
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <input type="text" class="form-control"
-                                                    name="departmentActivity[{{ $year }}][{{ $index }}][duration]"
-                                                    placeholder="Duration" value="{{ $activity['duration'] }}">
-                                            </div>
-                                            <div class="form-group col-md-12 text-end">
+                                            <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
-                                                    onclick="removeActivity(this)">Remove</button>
+                                                    onclick="removeYearActivity(this)">Remove Year</button>
                                             </div>
                                         </div>
-                                        @endforeach
+                                        <div class="year-activities-container">
+                                            @foreach($activity['activities'] as $activityIndex => $activityDetail)
+                                            <div class="activity-entry row mb-2">
+
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="departmentActivity[{{ $yearIndex }}][activities][{{ $activityIndex }}][teacherName]"
+                                                        placeholder="Name of the Teacher"
+                                                        value="{{ $activityDetail['teacherName'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="departmentActivity[{{ $yearIndex }}][activities][{{ $activityIndex }}][programmeTitle]"
+                                                        placeholder="Title of the Programme"
+                                                        value="{{ $activityDetail['programmeTitle'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="departmentActivity[{{ $yearIndex }}][activities][{{ $activityIndex }}][organizer]"
+                                                        placeholder="Organizer"
+                                                        value="{{ $activityDetail['organizer'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="departmentActivity[{{ $yearIndex }}][activities][{{ $activityIndex }}][duration]"
+                                                        placeholder="Duration" value="{{ $activityDetail['duration'] }}"
+                                                        required>
+                                                </div>
+                                                <div class="form-group col-md-12 text-end">
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeActivity(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-info"
+                                                onclick="addActivity(this, {{ $yearIndex }})">Add Activity</button>
+                                        </div>
                                     </div>
-                                    <div class="text-end mt-2">
-                                        <button type="button" class="btn btn-info"
-                                            onclick="addActivity(this, '{{ $year }}')">Add Activity</button>
+                                    @endforeach
+                                    @else
+                                    <div class="activity-year-entry mb-4">
+                                        <div class="row">
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control"
+                                                    name="departmentActivity[0][year]" placeholder="Year" required>
+                                            </div>
+                                            <div class="form-group col-md-2 text-end">
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="removeYearActivity(this)">Remove Year</button>
+                                            </div>
+                                        </div>
+                                        <div class="year-activities-container">
+                                            <div class="activity-entry row mb-2">
+
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="departmentActivity[0][activities][0][teacherName]"
+                                                        placeholder="Name of the Teacher" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="departmentActivity[0][activities][0][programmeTitle]"
+                                                        placeholder="Title of the Programme" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="departmentActivity[0][activities][0][organizer]"
+                                                        placeholder="Organizer" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="departmentActivity[0][activities][0][duration]"
+                                                        placeholder="Duration" required>
+                                                </div>
+                                                <div class="form-group col-md-12 text-end">
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeActivity(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-info"
+                                                onclick="addActivity(this, 0)">Add Activity</button>
+                                        </div>
                                     </div>
+                                    @endif
                                 </div>
-                                @endforeach
+
+                                <div class="col-md-12 text-center mt-4">
+                                    <button type="button" id="addYearActivityBtn" class="btn btn-primary"
+                                        onclick="addYearActivity()">Add Year</button>
+                                </div>
                             </div>
-                            <div class="text-end mt-4">
-                                <button type="button" class="btn btn-primary" onclick="addYear()">Add Year</button>
+                            <div class="text-center mt-4">
                                 <button type="submit" class="btn btn-success">Save Department Activities</button>
                             </div>
                         </form>
                     </div>
 
-
                     <script>
-                    function addYear() {
+                    // Add a new year for department activities
+                    function addYearActivity() {
                         const container = document.getElementById('departmentActivitiesContainer');
-                        const year = prompt('Enter the year for new activities:');
-                        if (!year || isNaN(year)) {
-                            alert('Please enter a valid year.');
-                            return;
-                        }
-                        const yearSection = `
-                            <div class="year-section mb-4" data-year="${year}">
-                                <h4>Year: ${year}</h4>
-                                <div class="activities-container"></div>
-                                <div class="text-end mt-2">
-                                    <button type="button" class="btn btn-info" onclick="addActivity(this, '${year}')">Add Activity</button>
+                        const yearIndex = container.getElementsByClassName('activity-year-entry').length;
+
+                        const newYear = `
+                        <div class="activity-year-entry mb-4">
+                            <div class="row">
+                                <div class="form-group col-md-10">
+                                    <input type="text" class="form-control" name="departmentActivity[${yearIndex}][year]" placeholder="Year" required>
                                 </div>
-                            </div>`;
-                        container.insertAdjacentHTML('beforeend', yearSection);
+                                <div class="form-group col-md-2 text-end">
+                                    <button type="button" class="btn btn-danger" onclick="removeYearActivity(this)">Remove Year</button>
+                                </div>
+                            </div>
+                            <div class="year-activities-container">
+                                <div class="activity-entry row mb-2">
+                                    <div class="form-group col-md-3">
+                                        <input type="text" class="form-control" name="departmentActivity[${yearIndex}][activities][0][teacherName]" placeholder="Name of the Teacher" required>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <input type="text" class="form-control" name="departmentActivity[${yearIndex}][activities][0][programmeTitle]" placeholder="Title of the Programme" required>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <input type="text" class="form-control" name="departmentActivity[${yearIndex}][activities][0][organizer]" placeholder="Organizer" required>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <input type="text" class="form-control" name="departmentActivity[${yearIndex}][activities][0][duration]" placeholder="Duration" required>
+                                    </div>
+                                    <div class="form-group col-md-12 text-end">
+                                        <button type="button" class="btn btn-danger" onclick="removeActivity(this)">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <button type="button" class="btn btn-info" onclick="addActivity(this, ${yearIndex})"><i class="fa fa-plus"></i> Add Activity</button>
+                            </div>
+                        </div>`;
+                        container.insertAdjacentHTML('beforeend', newYear);
                     }
 
-                    function addActivity(button, year) {
-                        const container = button.closest('.year-section').querySelector('.activities-container');
-                        const index = container.querySelectorAll('.activity-entry').length;
-                        const newEntry = `
+                    // Remove a year for department activities
+                    function removeYearActivity(button) {
+                        if (confirm('Are you sure you want to remove this?')) {
+                            button.closest('.activity-year-entry').remove();
+                        }
+                    }
+
+                    // Add a new activity for a specific year
+                    function addActivity(button, yearIndex) {
+                        const container = button.closest('.activity-year-entry').querySelector(
+                            '.year-activities-container');
+                        const activityIndex = container.getElementsByClassName('activity-entry').length;
+
+                        const newActivity = `
                             <div class="activity-entry row mb-2">
                                 <div class="form-group col-md-3">
-                                    <input type="text" class="form-control" name="departmentActivity[${year}][${index}][nameOfTheTeacherWhoAttendProgramme]" placeholder="Name of the Teacher">
+                                    <input type="text" class="form-control" name="departmentActivity[${yearIndex}][activities][${activityIndex}][teacherName]" placeholder="Name of the Teacher" required>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <input type="text" class="form-control" name="departmentActivity[${year}][${index}][titleOfTheProgramme]" placeholder="Title of the Programme">
+                                    <input type="text" class="form-control" name="departmentActivity[${yearIndex}][activities][${activityIndex}][programmeTitle]" placeholder="Title of the Programme" required>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <input type="text" class="form-control" name="departmentActivity[${year}][${index}][organizer]" placeholder="Organizer">
+                                    <input type="text" class="form-control" name="departmentActivity[${yearIndex}][activities][${activityIndex}][organizer]" placeholder="Organizer" required>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <input type="text" class="form-control" name="departmentActivity[${year}][${index}][duration]" placeholder="Duration">
+                                    <input type="text" class="form-control" name="departmentActivity[${yearIndex}][activities][${activityIndex}][duration]" placeholder="Duration" required>
                                 </div>
                                 <div class="form-group col-md-12 text-end">
                                     <button type="button" class="btn btn-danger" onclick="removeActivity(this)">Remove</button>
                                 </div>
                             </div>`;
-                        container.insertAdjacentHTML('beforeend', newEntry);
+                        container.insertAdjacentHTML('beforeend', newActivity);
                     }
 
+                    // Remove an activity entry
                     function removeActivity(button) {
-                        button.closest('.activity-entry').remove();
+                        if (confirm('Are you sure you want to remove this?')) {
+                            button.closest('.activity-entry').remove();
+                        }
                     }
                     </script>
-
                     @endif
 
 
+
                     @if($section === 'studentParticipation')
-                    <?php
-                    $studentParticipation = json_decode($row->studentParticipation, true);                     
-                    ?>
+                    <!-- Student Participation -->
                     <div class="card-header">
                         <h3 class="bold">Student Participation</h3>
                     </div>
+
                     <div class="card-block">
                         <form id="studentParticipationForm" class="needs-validation" method="POST"
                             action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
                             @csrf
-                            <div id="studentParticipationContainer">
-                                <!-- Dynamic Year Section -->
-                                @foreach($studentParticipation as $year => $activities)
-                                <div class="year-section mb-4" data-year="{{ $year }}">
-                                    <h4>Year: {{ $year }}</h4>
-                                    <div class="activities-container">
-                                        @foreach($activities as $index => $activity)
-                                        <div class="activity-entry row mb-2">
-                                            <div class="form-group col-md-3">
-                                                <input type="date" class="form-control"
-                                                    name="studentParticipation[{{ $year }}][{{ $index }}][eventDate]"
-                                                    placeholder="Event Date" value="{{ $activity['eventDate'] }}">
-                                            </div>
-                                            <div class="form-group col-md-3">
+                            <div class="row">
+                                <!-- Student Participation Section -->
+                                <div id="studentParticipationContainer" class="col-md-12">
+                                    <h4>Student Participation</h4>
+                                    @php
+                                    // Decode the stored JSON string to an array
+                                    $studentParticipation = isset($row->studentParticipation) ?
+                                    json_decode($row->studentParticipation, true) : [];
+                                    @endphp
+
+                                    @if(!empty($studentParticipation))
+                                    @foreach($studentParticipation as $yearIndex => $activity)
+                                    <div class="participation-year-entry mb-4">
+                                        <div class="row">
+                                            <div class="form-group col-md-10">
                                                 <input type="text" class="form-control"
-                                                    name="studentParticipation[{{ $year }}][{{ $index }}][eventName]"
-                                                    placeholder="Event Name" value="{{ $activity['eventName'] }}">
+                                                    name="studentParticipation[{{ $yearIndex }}][year]"
+                                                    placeholder="Year" value="{{ $activity['year'] }}" required>
                                             </div>
-                                            <div class="form-group col-md-3">
-                                                <input type="text" class="form-control"
-                                                    name="studentParticipation[{{ $year }}][{{ $index }}][conductedBy]"
-                                                    placeholder="Conducted By" value="{{ $activity['conductedBy'] }}">
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <input type="text" class="form-control"
-                                                    name="studentParticipation[{{ $year }}][{{ $index }}][nameOfTheStudentsParticipated]"
-                                                    placeholder="Students Participated"
-                                                    value="{{ $activity['nameOfTheStudentsParticipated'] }}">
-                                            </div>
-                                            <div class="form-group col-md-12 text-end">
+                                            <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
-                                                    onclick="removeActivity(this)">Remove</button>
+                                                    onclick="removeYearParticipation(this)">Remove Year</button>
                                             </div>
                                         </div>
-                                        @endforeach
+                                        <div class="year-participations-container">
+                                            @foreach($activity['participations'] as $participationIndex =>
+                                            $participationDetail)
+                                            <div class="participation-entry row mb-2">
+
+                                                <div class="form-group col-md-3">
+                                                    <input type="date" class="form-control"
+                                                        name="studentParticipation[{{ $yearIndex }}][participations][{{ $participationIndex }}][eventDate]"
+                                                        placeholder="Event Date"
+                                                        value="{{ $participationDetail['eventDate'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="studentParticipation[{{ $yearIndex }}][participations][{{ $participationIndex }}][eventName]"
+                                                        placeholder="Event Name"
+                                                        value="{{ $participationDetail['eventName'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="studentParticipation[{{ $yearIndex }}][participations][{{ $participationIndex }}][conductedBy]"
+                                                        placeholder="Conducted By"
+                                                        value="{{ $participationDetail['conductedBy'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="studentParticipation[{{ $yearIndex }}][participations][{{ $participationIndex }}][nameOfTheStudentsParticipated]"
+                                                        placeholder="Name of the Students Participated"
+                                                        value="{{ $participationDetail['nameOfTheStudentsParticipated'] }}"
+                                                        required>
+                                                </div>
+                                                <div class="form-group col-md-2 text-end">
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeParticipation(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-info"
+                                                onclick="addParticipation(this, {{ $yearIndex }})">Add
+                                                Participation</button>
+                                        </div>
                                     </div>
-                                    <div class="text-end mt-2">
-                                        <button type="button" class="btn btn-info"
-                                            onclick="addActivity(this, '{{ $year }}')">Add Activity</button>
+                                    @endforeach
+                                    @else
+                                    <div class="participation-year-entry mb-4">
+                                        <div class="row">
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control"
+                                                    name="studentParticipation[0][year]" placeholder="Year" required>
+                                            </div>
+                                            <div class="form-group col-md-2 text-end">
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="removeYearParticipation(this)">Remove Year</button>
+                                            </div>
+                                        </div>
+                                        <div class="year-participations-container">
+                                            <div class="participation-entry row mb-2">
+
+                                                <div class="form-group col-md-3">
+                                                    <input type="date" class="form-control"
+                                                        name="studentParticipation[0][participations][0][eventDate]"
+                                                        placeholder="Event Date" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="studentParticipation[0][participations][0][eventName]"
+                                                        placeholder="Event Name" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="studentParticipation[0][participations][0][conductedBy]"
+                                                        placeholder="Conducted By" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="studentParticipation[0][participations][0][nameOfTheStudentsParticipated]"
+                                                        placeholder="Name of the Students Participated" required>
+                                                </div>
+                                                <div class="form-group col-md-2 text-end">
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeParticipation(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-info"
+                                                onclick="addParticipation(this, 0)">Add Participation</button>
+                                        </div>
                                     </div>
+                                    @endif
                                 </div>
-                                @endforeach
+
+                                <div class="col-md-12 text-center mt-4">
+                                    <button type="button" id="addYearParticipationBtn" class="btn btn-primary"
+                                        onclick="addYearParticipation()">Add Year</button>
+                                </div>
                             </div>
-                            <div class="text-end mt-4">
-                                <button type="button" class="btn btn-primary" onclick="addYear()">Add Year</button>
+                            <div class="text-center mt-4">
                                 <button type="submit" class="btn btn-success">Save Student Participation</button>
                             </div>
                         </form>
                     </div>
 
                     <script>
-                    function addYear() {
+                    // Add a new year for student participation
+                    function addYearParticipation() {
                         const container = document.getElementById('studentParticipationContainer');
-                        const year = prompt('Enter the year for new activities:');
-                        if (!year || isNaN(year)) {
-                            alert('Please enter a valid year.');
-                            return;
+                        const yearIndex = container.getElementsByClassName('participation-year-entry').length;
+
+                        const newYear = `
+        <div class="participation-year-entry mb-4">
+            <div class="row">
+                <div class="form-group col-md-10">
+                    <input type="text" class="form-control" name="studentParticipation[${yearIndex}][year]" placeholder="Year" required>
+                </div>
+                <div class="form-group col-md-2 text-end">
+                    <button type="button" class="btn btn-danger" onclick="removeYearParticipation(this)">Remove Year</button>
+                </div>
+            </div>
+            <div class="year-participations-container">
+                <div class="participation-entry row mb-2">
+                    <div class="form-group col-md-3">
+                        <input type="date" class="form-control" name="studentParticipation[${yearIndex}][participations][0][eventDate]" placeholder="Event Date" required>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="text" class="form-control" name="studentParticipation[${yearIndex}][participations][0][eventName]" placeholder="Event Name" required>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="text" class="form-control" name="studentParticipation[${yearIndex}][participations][0][conductedBy]" placeholder="Conducted By" required>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="text" class="form-control" name="studentParticipation[${yearIndex}][participations][0][nameOfTheStudentsParticipated]" placeholder="Name of the Students Participated" required>
+                    </div>
+                    <div class="form-group col-md-2 text-end">
+                        <button type="button" class="btn btn-danger" onclick="removeParticipation(this)">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-info" onclick="addParticipation(this, ${yearIndex})"><i class="fa fa-plus"></i> Add Participation</button>
+            </div>
+        </div>`;
+                        container.insertAdjacentHTML('beforeend', newYear);
+                    }
+
+                    // Remove a year for student participation
+                    function removeYearParticipation(button) {
+                        if (confirm('Are you sure you want to remove this?')) {
+                            button.closest('.participation-year-entry').remove();
                         }
-                        const yearSection = `
-                            <div class="year-section mb-4" data-year="${year}">
-                                <h4>Year: ${year}</h4>
-                                <div class="activities-container"></div>
-                                <div class="text-end mt-2">
-                                    <button type="button" class="btn btn-info" onclick="addActivity(this, '${year}')">Add Activity</button>
+                    }
+
+                    // Add a new participation for a specific year
+                    function addParticipation(button, yearIndex) {
+                        const container = button.closest('.participation-year-entry').querySelector(
+                            '.year-participations-container');
+                        const participationIndex = container.getElementsByClassName('participation-entry').length;
+
+                        const newParticipation = `
+                            <div class="participation-entry row mb-2">
+                                <div class="form-group col-md-3">
+                                    <input type="date" class="form-control" name="studentParticipation[${yearIndex}][participations][${participationIndex}][eventDate]" placeholder="Event Date" required>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <input type="text" class="form-control" name="studentParticipation[${yearIndex}][participations][${participationIndex}][eventName]" placeholder="Event Name" required>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <input type="text" class="form-control" name="studentParticipation[${yearIndex}][participations][${participationIndex}][conductedBy]" placeholder="Conducted By" required>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <input type="text" class="form-control" name="studentParticipation[${yearIndex}][participations][${participationIndex}][nameOfTheStudentsParticipated]" placeholder="Name of the Students Participated" required>
+                                </div>
+                                <div class="form-group col-md-2 text-end">
+                                    <button type="button" class="btn btn-danger" onclick="removeParticipation(this)">Remove</button>
                                 </div>
                             </div>`;
-                        container.insertAdjacentHTML('beforeend', yearSection);
+                        container.insertAdjacentHTML('beforeend', newParticipation);
                     }
 
-                    function addActivity(button, year) {
-                        const container = button.closest('.year-section').querySelector('.activities-container');
-                        const index = container.querySelectorAll('.activity-entry').length;
-                        const newEntry = `
-                                <div class="activity-entry row mb-2">
-                                    <div class="form-group col-md-3">
-                                        <input type="date" class="form-control" name="studentParticipation[${year}][${index}][eventDate]" placeholder="Event Date">
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="studentParticipation[${year}][${index}][eventName]" placeholder="Event Name">
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="studentParticipation[${year}][${index}][conductedBy]" placeholder="Conducted By">
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="studentParticipation[${year}][${index}][nameOfTheStudentsParticipated]" placeholder="Students Participated">
-                                    </div>
-                                    <div class="form-group col-md-12 text-end">
-                                        <button type="button" class="btn btn-danger" onclick="removeActivity(this)">Remove</button>
-                                    </div>
-                                </div>`;
-                        container.insertAdjacentHTML('beforeend', newEntry);
-                    }
-
-                    function removeActivity(button) {
-                        button.closest('.activity-entry').remove();
+                    // Remove a participation entry
+                    function removeParticipation(button) {
+                        if (confirm('Are you sure you want to remove this?')) {
+                            button.closest('.participation-entry').remove();
+                        }
                     }
                     </script>
-
                     @endif
 
 
+
+
                     @if($section === 'interInstituteEventsWinningPrize')
-
-
-                    <?php
-                    $interInstituteEventsWinningPrize = json_decode($row->interInstituteEventsWinningPrize, true);                     
-                    ?>
-
+                    <!-- Inter Institute Events Winning Prize -->
                     <div class="card-header">
-                        <h3 class="bold">Inter-Institute Events Winning Prize</h3>
+                        <h3 class="bold">Inter Institute Events Winning Prize</h3>
                     </div>
+
                     <div class="card-block">
-                        <form id="interInstituteEventsWinningPrizeForm" class="needs-validation" method="POST"
+                        <form id="interInstituteEventsForm" class="needs-validation" method="POST"
                             action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
                             @csrf
-                            <div id="interInstituteEventsWinningPrizeContainer">
-                                <!-- Dynamic Year Section -->
-                                @foreach($interInstituteEventsWinningPrize as $year => $events)
-                                <div class="year-section mb-4" data-year="{{ $year }}">
-                                    <h4>Year: {{ $year }}</h4>
-                                    <div class="events-container">
-                                        @foreach($events as $index => $event)
-                                        <div class="event-entry row mb-2">
-                                            <div class="form-group col-md-3">
-                                                <input type="date" class="form-control"
-                                                    name="interInstituteEventsWinningPrize[{{ $year }}][{{ $index }}][eventDate]"
-                                                    placeholder="Event Date" value="{{ $event['eventDate'] }}">
-                                            </div>
-                                            <div class="form-group col-md-3">
+                            <div class="row">
+                                <!-- Inter Institute Events Section -->
+                                <div id="interInstituteEventsContainer" class="col-md-12">
+                                    <h4>Inter Institute Events Winning Prize</h4>
+                                    @php
+                                    // Decode the stored JSON string to an array
+                                    $interInstituteEvents = isset($row->interInstituteEventsWinningPrize) ?
+                                    json_decode($row->interInstituteEventsWinningPrize, true) : [];
+                                    @endphp
+
+                                    @if(!empty($interInstituteEvents))
+                                    @foreach($interInstituteEvents as $yearIndex => $event)
+                                    <div class="event-year-entry mb-4">
+                                        <div class="row">
+                                            <div class="form-group col-md-10">
                                                 <input type="text" class="form-control"
-                                                    name="interInstituteEventsWinningPrize[{{ $year }}][{{ $index }}][eventName]"
-                                                    placeholder="Event Name" value="{{ $event['eventName'] }}">
+                                                    name="interInstituteEventsWinningPrize[{{ $yearIndex }}][year]"
+                                                    placeholder="Year" value="{{ $event['year'] }}" required>
                                             </div>
-                                            <div class="form-group col-md-3">
-                                                <input type="text" class="form-control"
-                                                    name="interInstituteEventsWinningPrize[{{ $year }}][{{ $index }}][conductedBy]"
-                                                    placeholder="Conducted By" value="{{ $event['conductedBy'] }}">
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <input type="text" class="form-control"
-                                                    name="interInstituteEventsWinningPrize[{{ $year }}][{{ $index }}][nameOfTheStudentsParticipated]"
-                                                    placeholder="Students Participated"
-                                                    value="{{ $event['nameOfTheStudentsParticipated'] }}">
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <input type="text" class="form-control"
-                                                    name="interInstituteEventsWinningPrize[{{ $year }}][{{ $index }}][prizeWon]"
-                                                    placeholder="Prize Won" value="{{ $event['prizeWon'] }}">
-                                            </div>
-                                            <div class="form-group col-md-3 text-end">
+                                            <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
-                                                    onclick="removeEvent(this)">Remove</button>
+                                                    onclick="removeYearEvent(this)">Remove Year</button>
                                             </div>
                                         </div>
-                                        @endforeach
+                                        <div class="year-events-container">
+                                            @foreach($event['events'] as $eventIndex => $eventDetail)
+                                            <div class="event-entry row mb-2">
+
+                                                <div class="form-group col-md-3">
+                                                    <input type="date" class="form-control"
+                                                        name="interInstituteEventsWinningPrize[{{ $yearIndex }}][events][{{ $eventIndex }}][eventDate]"
+                                                        placeholder="Event Date" value="{{ $eventDetail['eventDate'] }}"
+                                                        required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="interInstituteEventsWinningPrize[{{ $yearIndex }}][events][{{ $eventIndex }}][eventName]"
+                                                        placeholder="Event Name" value="{{ $eventDetail['eventName'] }}"
+                                                        required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="interInstituteEventsWinningPrize[{{ $yearIndex }}][events][{{ $eventIndex }}][conductedBy]"
+                                                        placeholder="Conducted By"
+                                                        value="{{ $eventDetail['conductedBy'] }}" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="interInstituteEventsWinningPrize[{{ $yearIndex }}][events][{{ $eventIndex }}][nameOfTheStudentsParticipated]"
+                                                        placeholder="Name of the Students Participated"
+                                                        value="{{ $eventDetail['nameOfTheStudentsParticipated'] }}"
+                                                        required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="interInstituteEventsWinningPrize[{{ $yearIndex }}][events][{{ $eventIndex }}][prizeWon]"
+                                                        placeholder="Prize Won" value="{{ $eventDetail['prizeWon'] }}"
+                                                        required>
+                                                </div>
+                                                <div class="form-group col-md-2 text-end">
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeEvent(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-info"
+                                                onclick="addEvent(this, {{ $yearIndex }})">Add Event</button>
+                                        </div>
                                     </div>
-                                    <div class="text-end mt-2">
-                                        <button type="button" class="btn btn-info"
-                                            onclick="addEvent(this, '{{ $year }}')">Add Event</button>
+                                    @endforeach
+                                    @else
+                                    <div class="event-year-entry mb-4">
+                                        <div class="row">
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control"
+                                                    name="interInstituteEventsWinningPrize[0][year]" placeholder="Year"
+                                                    required>
+                                            </div>
+                                            <div class="form-group col-md-2 text-end">
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="removeYearEvent(this)">Remove Year</button>
+                                            </div>
+                                        </div>
+                                        <div class="year-events-container">
+                                            <div class="event-entry row mb-2">
+
+                                                <div class="form-group col-md-3">
+                                                    <input type="date" class="form-control"
+                                                        name="interInstituteEventsWinningPrize[0][events][0][eventDate]"
+                                                        placeholder="Event Date" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="interInstituteEventsWinningPrize[0][events][0][eventName]"
+                                                        placeholder="Event Name" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="interInstituteEventsWinningPrize[0][events][0][conductedBy]"
+                                                        placeholder="Conducted By" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="interInstituteEventsWinningPrize[0][events][0][nameOfTheStudentsParticipated]"
+                                                        placeholder="Name of the Students Participated" required>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        name="interInstituteEventsWinningPrize[0][events][0][prizeWon]"
+                                                        placeholder="Prize Won" required>
+                                                </div>
+                                                <div class="form-group col-md-2 text-end">
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeEvent(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-info" onclick="addEvent(this, 0)">Add
+                                                Event</button>
+                                        </div>
                                     </div>
+                                    @endif
                                 </div>
-                                @endforeach
+
+                                <div class="col-md-12 text-center mt-4">
+                                    <button type="button" id="addYearEventBtn" class="btn btn-primary"
+                                        onclick="addYearEvent()">Add Year</button>
+                                </div>
                             </div>
-                            <div class="text-end mt-4">
-                                <button type="button" class="btn btn-primary" onclick="addYear()">Add Year</button>
-                                <button type="submit" class="btn btn-success">Save Events</button>
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-success">Save Event Prize Details</button>
                             </div>
                         </form>
                     </div>
 
                     <script>
-                    function addYear() {
-                        const container = document.getElementById('interInstituteEventsWinningPrizeContainer');
-                        const year = prompt('Enter the year for new events:');
-                        if (!year || isNaN(year)) {
-                            alert('Please enter a valid year.');
-                            return;
+                    // Add a new year for inter institute events winning prize
+                    function addYearEvent() {
+                        const container = document.getElementById('interInstituteEventsContainer');
+                        const yearIndex = container.getElementsByClassName('event-year-entry').length;
+
+                        const newYear = `
+        <div class="event-year-entry mb-4">
+            <div class="row">
+                <div class="form-group col-md-10">
+                    <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][year]" placeholder="Year" required>
+                </div>
+                <div class="form-group col-md-2 text-end">
+                    <button type="button" class="btn btn-danger" onclick="removeYearEvent(this)">Remove Year</button>
+                </div>
+            </div>
+            <div class="year-events-container">
+                <div class="event-entry row mb-2">
+                    <div class="form-group col-md-3">
+                        <input type="date" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][events][0][eventDate]" placeholder="Event Date" required>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][events][0][eventName]" placeholder="Event Name" required>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][events][0][conductedBy]" placeholder="Conducted By" required>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][events][0][nameOfTheStudentsParticipated]" placeholder="Name of the Students Participated" required>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][events][0][prizeWon]" placeholder="Prize Won" required>
+                    </div>
+                    <div class="form-group col-md-2 text-end">
+                        <button type="button" class="btn btn-danger" onclick="removeEvent(this)">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-info" onclick="addEvent(this, ${yearIndex})"><i class="fa fa-plus"></i> Add Event</button>
+            </div>
+        </div>`;
+                        container.insertAdjacentHTML('beforeend', newYear);
+                    }
+
+                    // Remove a year for inter institute events winning prize
+                    function removeYearEvent(button) {
+                        if (confirm('Are you sure you want to remove this?')) {
+                            button.closest('.event-year-entry').remove();
                         }
-                        const yearSection = `
-                            <div class="year-section mb-4" data-year="${year}">
-                                <h4>Year: ${year}</h4>
-                                <div class="events-container"></div>
-                                <div class="text-end mt-2">
-                                    <button type="button" class="btn btn-info" onclick="addEvent(this, '${year}')">Add Event</button>
-                                </div>
-                            </div>`;
-                        container.insertAdjacentHTML('beforeend', yearSection);
                     }
 
-                    function addEvent(button, year) {
-                        const container = button.closest('.year-section').querySelector('.events-container');
-                        const index = container.querySelectorAll('.event-entry').length;
-                        const newEntry = `
-                                <div class="event-entry row mb-2">
-                                    <div class="form-group col-md-3">
-                                        <input type="date" class="form-control" name="interInstituteEventsWinningPrize[${year}][${index}][eventDate]" placeholder="Event Date">
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${year}][${index}][eventName]" placeholder="Event Name">
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${year}][${index}][conductedBy]" placeholder="Conducted By">
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${year}][${index}][nameOfTheStudentsParticipated]" placeholder="Students Participated">
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${year}][${index}][prizeWon]" placeholder="Prize Won">
-                                    </div>
-                                    <div class="form-group col-md-3 text-end">
-                                        <button type="button" class="btn btn-danger" onclick="removeEvent(this)">Remove</button>
-                                    </div>
-                                </div>`;
-                        container.insertAdjacentHTML('beforeend', newEntry);
+                    // Add a new event for a specific year
+                    function addEvent(button, yearIndex) {
+                        const container = button.closest('.event-year-entry').querySelector('.year-events-container');
+                        const eventIndex = container.getElementsByClassName('event-entry').length;
+
+                        const newEvent = `
+        <div class="event-entry row mb-2">
+            <div class="form-group col-md-3">
+                <input type="date" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][events][${eventIndex}][eventDate]" placeholder="Event Date" required>
+            </div>
+            <div class="form-group col-md-3">
+                <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][events][${eventIndex}][eventName]" placeholder="Event Name" required>
+            </div>
+            <div class="form-group col-md-3">
+                <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][events][${eventIndex}][conductedBy]" placeholder="Conducted By" required>
+            </div>
+            <div class="form-group col-md-3">
+                <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][events][${eventIndex}][nameOfTheStudentsParticipated]" placeholder="Name of the Students Participated" required>
+            </div>
+            <div class="form-group col-md-3">
+                <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][events][${eventIndex}][prizeWon]" placeholder="Prize Won" required>
+            </div>
+            <div class="form-group col-md-2 text-end">
+                <button type="button" class="btn btn-danger" onclick="removeEvent(this)">Remove</button>
+            </div>
+        </div>`;
+                        container.insertAdjacentHTML('beforeend', newEvent);
                     }
 
+                    // Remove an event entry
                     function removeEvent(button) {
-                        button.closest('.event-entry').remove();
+                        if (confirm('Are you sure you want to remove this?')) {
+                            button.closest('.event-entry').remove();
+                        }
                     }
                     </script>
-
-
                     @endif
+
 
 
                     @if($section === 'industrialVisit')
