@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\FileUploader;
 use App\Models\Web\AboutUs;
+use APP\Models\Web\Homeabout;
 use App\Models\Language;
 use Toastr;
 use Auth;
@@ -38,7 +39,8 @@ class AboutUsController extends Controller
         $data['path']   = $this->path;
         $data['access'] = $this->access;
         $data['baseurl'] = config('app.url');
-        //$query = AboutUs::where('language_id', Language::version()->id);
+      //  echo $data['baseurl'];exit;
+      //  $homequery = Homeabout::where('language_id', Language::version()->id);
         $query = AboutUs::query();
         $query->where('departmentId', $departmentId);
         // if(Auth::user()->department_id == 0){
@@ -56,7 +58,7 @@ class AboutUsController extends Controller
         $data['row'] = $query->first();
         $data['departmentId'] = $departmentId;
         // dd(Auth::user()->department_id);
-       // echo '<pre>';print_r($row);exit;
+    //    echo '<pre>';print_r($row);exit;
         return view($this->view.'.index', $data);
     }
     /**

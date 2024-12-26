@@ -148,7 +148,7 @@
                             data-delay="500" style="animation-duration: 1000ms;">Our Mission</h3>
                         <p class="section-text wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="700"
                             style="animation-duration: 1000ms;">
-                            {!! $mission !!}
+                            {!! $about->mission_desc !!}
                         </p>
                     </div>
                 </div>
@@ -164,7 +164,7 @@
                             data-delay="500" style="animation-duration: 1000ms;">Core Values</h3>
                         <p class="section-text wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="700"
                             style="animation-duration: 1000ms;">
-                            {!! $core_value !!}
+                            {!! $about->core_value !!}
                         </p>
                     </div>
                 </div>
@@ -180,7 +180,7 @@
                             data-delay="500" style="animation-duration: 1000ms;">Our Vision</h3>
                         <p class="section-text wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="700"
                             style="animation-duration: 1000ms;">
-                            {!! $vision !!}
+                            {!! $about->vision_desc !!}
                         </p>
                     </div>
                 </div>
