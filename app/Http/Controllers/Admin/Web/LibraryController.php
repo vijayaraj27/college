@@ -4,7 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\FileUploader;
 use App\Models\Web\Library;
-
+use Auth;
 use Toastr;
 
 class LibraryController extends Controller

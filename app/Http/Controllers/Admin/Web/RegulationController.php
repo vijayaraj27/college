@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 //use App\Traits\FileUploader;
 use Illuminate\Support\Str;
-
+use Auth;
 use App\Models\Regulation;
 use Toastr;
 

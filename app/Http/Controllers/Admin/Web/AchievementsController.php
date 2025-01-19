@@ -108,31 +108,40 @@ class AchievementsController extends Controller
         }else if($request->section === 'student-achivements'){
             // Get the submitted data
             $studentAchievements = $request->input('studentAchievements');
+        
+           // Check if studentAchievements exists and is an array
+                if (is_array($studentAchievements)) {
+                    foreach ($studentAchievements as $yearIndex => $yearData) {
+                        // Check if 'achievements' key exists and is an array
+                        if (isset($yearData['achievements']) && is_array($yearData['achievements'])) {
+                            foreach ($yearData['achievements'] as $achievementIndex => $achievement) {
+                                
+                                // Construct the dynamic file input name
+                                $fileInputName = "studentAchievements.{$yearIndex}.achievements.{$achievementIndex}.image";
 
-            // Check if studentAchievements exists and is an array
-            if (is_array($studentAchievements)) {
-                foreach ($studentAchievements as $yearIndex => $yearData) {
-                    // Check if 'achievements' key exists and is an array
-                    if (isset($yearData['achievements']) && is_array($yearData['achievements'])) {
-                        foreach ($yearData['achievements'] as $achievementIndex => $achievement) {
-                            
-                            // Construct the dynamic file input name
-                            $fileInputName = "studentAchievements.{$yearIndex}.achievements.{$achievementIndex}.image";
+                                // Check if the file exists in the request
+                                if ($request->hasFile($fileInputName)) {
+                                    // Call the uploadImage function and get the new file name
+                                    $uploadedFileName = $this->uploadImage($request->file($fileInputName),$fileInputName, $this->path, null, 800);
 
-                            // Check if the file exists in the request
-                            if ($request->hasFile($fileInputName)) {
-                                // Call the uploadImage function and get the new file name
-                                $uploadedFileName = $this->uploadImage($request, $fileInputName, $this->path, null, 800);
-
-                                // Map the uploaded file name to the 'image' key
-                                $studentAchievements[$yearIndex]['achievements'][$achievementIndex]['image'] = $uploadedFileName;
+                                    // Update the 'image' key with the uploaded file name
+                                    $studentAchievements[$yearIndex]['achievements'][$achievementIndex]['image'] = $uploadedFileName;
+                                } else {
+                                    // Preserve the existing image if no new file is uploaded
+                                    $existingData = $request->input("existingStudentAchievements");
+                                    if (isset($existingData[$yearIndex]['achievements'][$achievementIndex]['image'])) {
+                                        $studentAchievements[$yearIndex]['achievements'][$achievementIndex]['image'] =
+                                            $existingData[$yearIndex]['achievements'][$achievementIndex]['image'];
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            }
+            $request->merge(['studentAchievements' => $studentAchievements]);
             $Achievements->studentAchievements = json_encode($studentAchievements, JSON_UNESCAPED_UNICODE);
-        }else if($request->section === 'student-achivements-table'){
+        }
+        else if($request->section === 'student-achivements-table'){
             $Achievements->studentAchievementsTableFormat = json_encode($request->studentAchievementsTableFormat, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'student-achivements-appreciation'){
             $Achievements->studentAchievementsAppeciationList = json_encode($request->studentAchievementsAppreciation, JSON_UNESCAPED_UNICODE);

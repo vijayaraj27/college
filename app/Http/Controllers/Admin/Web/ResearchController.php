@@ -4,7 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\FileUploader;
 use App\Models\Web\Research;
-
+use Auth;
 use Toastr;
 
 class ResearchController extends Controller
@@ -102,6 +102,8 @@ class ResearchController extends Controller
             $message = 'Record created successfully';
         }
 
+      //  print_r($request); exit;
+
         if($request->section === 'basic'){
             
             if ($request->hasFile('imageFile')) {            
@@ -124,9 +126,10 @@ class ResearchController extends Controller
             $Research->annaUniversityRecognizedSuperviorsNameList = json_encode($request->annaUniversityRecognizedSuperviorsNameList, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'pursuing-phd'){
             $Research->ListOfCandidatesPursuingPhdUnderDepartmentSupervisors = json_encode($request->ListOfCandidatesPursuingPhdUnderDepartmentSupervisors, JSON_UNESCAPED_UNICODE);
-        }else if($request->section === 'faculties-pursuing-phd'){
-            $Research->listOfDepartmentFacultiesPursuingPhd = json_encode($request->listOfDepartmentFacultiesPursuingPhd, JSON_UNESCAPED_UNICODE); 
-        }else if($request->section === 'phd-awarded'){
+        }else if ($request->section === 'faculties-pursuing-phd') {
+            $Research->listOfDepartmentFacultiesPursuingPhd = json_encode($request->ListOfDepartmentFacultiesPursuingPhd, JSON_UNESCAPED_UNICODE); 
+        }
+        else if($request->section === 'phd-awarded'){
             $Research->phdAwardedUnderDepartmentSupervisor = json_encode($request->phdAwardedUnderDepartmentSupervisor, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'supervisor'){
             $Research->supervisor = json_encode($request->supervisor, JSON_UNESCAPED_UNICODE);
@@ -134,9 +137,13 @@ class ResearchController extends Controller
             $Research->funds = json_encode($request->funds, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'value-added-group'){
             $Research->valueAddedGroup = json_encode($request->valueAddedGroup, JSON_UNESCAPED_UNICODE);
-        }         
-        $Research->save();
-        Toastr::success(__($message), __('msg_success'));
-        return redirect()->back();
+        }     
+        
+ 
+            $Research->save();
+            Toastr::success(__($message), __('msg_success'));
+            return redirect()->back();
+  
+        //return redirect()->back();
     }
 }

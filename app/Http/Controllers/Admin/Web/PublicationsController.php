@@ -4,7 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\FileUploader;
 use App\Models\Web\Publications;
-
+use Auth;
 use Toastr;
 
 class PublicationsController extends Controller

@@ -219,7 +219,7 @@
                                                         target="_blank">book
                                                         Chapter</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/publications/{{$department->id}}_journal"
+                                                        href="{{$baseurl}}admin/web/publications/{{$department->id}}_journalpublication"
                                                         target="_blank">journal
                                                         Publication</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"

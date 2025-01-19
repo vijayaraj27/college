@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Traits\FileUploader;
 use App\Models\Web\Activities;
 use Toastr;
+use Auth;
 
 class ActivitiesController extends Controller
 {

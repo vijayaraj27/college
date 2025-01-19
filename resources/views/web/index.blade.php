@@ -540,5 +540,6 @@
     <!-- testimonial-area-end -->
     @endif
 </main>
+
 <!-- main-area-end -->
 @endsection

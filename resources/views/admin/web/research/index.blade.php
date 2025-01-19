@@ -514,7 +514,7 @@
 
 
 
-
+                    {{--  /*
                     @if($section === 'faculties-pursuing-phd')
                     <!-- Department List of Faculties Pursuing PhD ListOfDepartmentFacultiesPursuingPhd -->
                     <div class="card-header">
@@ -524,134 +524,133 @@
                     <div class="card-block">
                         <form id="ListOfDepartmentFacultiesPursuingPhdForm" class="needs-validation" method="POST"
                             action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
-                            @csrf
-                            <div class="row">
-                                <!-- Faculties Pursuing PhD Section -->
-                                <div id="ListOfDepartmentFacultiesPursuingPhdContainer" class="col-md-12">
-                                    <h4>List of Department Faculties Pursuing PhD</h4>
-                                    @php
-                                    // Decode the JSON string to an array
-                                    $facultiesList = isset($row->listOfDepartmentFacultiesPursuingPhd) ?
-                                    json_decode($row->listOfDepartmentFacultiesPursuingPhd, true) : [];
+                    @csrf
+                    <div class="row">
+                        <!-- Faculties Pursuing PhD Section -->
+                        <div id="ListOfDepartmentFacultiesPursuingPhdContainer" class="col-md-12">
+                            <h4>List of Department Faculties Pursuing PhD</h4>
+                            @php
+                            // Decode the JSON string to an array
+                            $facultiesList = isset($row->listOfDepartmentFacultiesPursuingPhd) ?
+                            json_decode($row->listOfDepartmentFacultiesPursuingPhd, true) : [];
 
-                                    @endphp
-                                    @if(!empty($facultiesList))
-                                    @foreach($facultiesList as $tableKey => $faculty)
-                                    <div class="faculty-entry mb-4">
-                                        <div class="row">
-                                            <div class="form-group col-md-3">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][nameOfTheCandidate]"
-                                                    placeholder="Name of the Candidate"
-                                                    value="{{ $faculty['nameOfTheCandidate'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][yearOfRegistration]"
-                                                    placeholder="Year of Registration"
-                                                    value="{{ $faculty['yearOfRegistration'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][regNo]"
-                                                    placeholder="Registration No" value="{{ $faculty['regNo'] }}"
-                                                    required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][supervisorName]"
-                                                    placeholder="Supervisor Name"
-                                                    value="{{ $faculty['supervisorName'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][universityRegistered]"
-                                                    placeholder="University Registered"
-                                                    value="{{ $faculty['universityRegistered'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][areaOfResearch]"
-                                                    placeholder="Area of Research"
-                                                    value="{{ $faculty['areaOfResearch'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][status]"
-                                                    placeholder="Status" value="{{ $faculty['status'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-1 text-end">
-                                                <button type="button" class="btn btn-danger"
-                                                    onclick="removeFacultyEntry(this)">Remove</button>
-                                            </div>
-                                        </div>
+                            @endphp
+                            @if(!empty($facultiesList))
+                            @foreach($facultiesList as $tableKey => $faculty)
+                            <div class="faculty-entry mb-4">
+                                <div class="row">
+                                    <div class="form-group col-md-3">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][nameOfTheCandidate]"
+                                            placeholder="Name of the Candidate"
+                                            value="{{ $faculty['nameOfTheCandidate'] }}" required>
                                     </div>
-                                    @endforeach
-                                    @else
-                                    <div class="faculty-entry mb-4">
-                                        <div class="row">
-                                            <div class="form-group col-md-3">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[0][nameOfTheCandidate]"
-                                                    placeholder="Name of the Candidate" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[0][yearOfRegistration]"
-                                                    placeholder="Year of Registration" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[0][regNo]"
-                                                    placeholder="Registration No" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[0][supervisorName]"
-                                                    placeholder="Supervisor Name" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[0][universityRegistered]"
-                                                    placeholder="University Registered" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[0][areaOfResearch]"
-                                                    placeholder="Area of Research" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="ListOfDepartmentFacultiesPursuingPhd[0][status]"
-                                                    placeholder="Status" required>
-                                            </div>
-                                            <div class="form-group col-md-1 text-end">
-                                                <button type="button" class="btn btn-danger"
-                                                    onclick="removeFacultyEntry(this)">Remove</button>
-                                            </div>
-                                        </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][yearOfRegistration]"
+                                            placeholder="Year of Registration"
+                                            value="{{ $faculty['yearOfRegistration'] }}" required>
                                     </div>
-                                    @endif
-                                </div>
-
-                                <div class="col-md-12 text-center mt-4">
-                                    <button type="button" id="addFacultyBtn" class="btn btn-primary"
-                                        onclick="addFacultyEntry()">Add Faculty</button>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][regNo]"
+                                            placeholder="Registration No" value="{{ $faculty['regNo'] }}" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][supervisorName]"
+                                            placeholder="Supervisor Name" value="{{ $faculty['supervisorName'] }}"
+                                            required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][universityRegistered]"
+                                            placeholder="University Registered"
+                                            value="{{ $faculty['universityRegistered'] }}" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][areaOfResearch]"
+                                            placeholder="Area of Research" value="{{ $faculty['areaOfResearch'] }}"
+                                            required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[{{ $tableKey }}][status]"
+                                            placeholder="Status" value="{{ $faculty['status'] }}" required>
+                                    </div>
+                                    <div class="form-group col-md-1 text-end">
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="removeFacultyEntry(this)">Remove</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-success">Save Faculties List</button>
+                            @endforeach
+                            @else
+                            <div class="faculty-entry mb-4">
+                                <div class="row">
+                                    <div class="form-group col-md-3">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[0][nameOfTheCandidate]"
+                                            placeholder="Name of the Candidate" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[0][yearOfRegistration]"
+                                            placeholder="Year of Registration" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[0][regNo]"
+                                            placeholder="Registration No" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[0][supervisorName]"
+                                            placeholder="Supervisor Name" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[0][universityRegistered]"
+                                            placeholder="University Registered" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[0][areaOfResearch]"
+                                            placeholder="Area of Research" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control"
+                                            name="ListOfDepartmentFacultiesPursuingPhd[0][status]" placeholder="Status"
+                                            required>
+                                    </div>
+                                    <div class="form-group col-md-1 text-end">
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="removeFacultyEntry(this)">Remove</button>
+                                    </div>
+                                </div>
                             </div>
-                        </form>
+                            @endif
+                        </div>
+
+                        <div class="col-md-12 text-center mt-4">
+                            <button type="button" id="addFacultyBtn" class="btn btn-primary"
+                                onclick="addFacultyEntry()">Add Faculty</button>
+                        </div>
                     </div>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-success">Save Faculties List</button>
+                    </div>
+                    </form>
+                </div>
 
-                    <script>
-                    // Add a new faculty entry
-                    function addFacultyEntry() {
-                        const container = document.getElementById('ListOfDepartmentFacultiesPursuingPhdContainer');
-                        const facultyIndex = container.getElementsByClassName('faculty-entry').length;
+                <script>
+                // Add a new faculty entry
+                function addFacultyEntry() {
+                    const container = document.getElementById('ListOfDepartmentFacultiesPursuingPhdContainer');
+                    const facultyIndex = container.getElementsByClassName('faculty-entry').length;
 
-                        const newFaculty = `
+                    const newFaculty = `
                                 <div class="faculty-entry mb-4">
                                     <div class="row">
                                         <div class="form-group col-md-3">
@@ -680,147 +679,238 @@
                                         </div>
                                     </div>
                                 </div>`;
-                        container.insertAdjacentHTML('beforeend', newFaculty);
+                    container.insertAdjacentHTML('beforeend', newFaculty);
+                }
+
+                // Remove a faculty entry
+                function removeFacultyEntry(button) {
+                    if (confirm('Are you sure you want to remove this?')) {
+                        button.closest('.faculty-entry').remove();
                     }
+                }
+                </script>
+                @endif
+                */
+                --}}
 
-                    // Remove a faculty entry
-                    function removeFacultyEntry(button) {
-                        if (confirm('Are you sure you want to remove this?')) {
-                            button.closest('.faculty-entry').remove();
-                        }
+
+
+                @if($section === 'faculties-pursuing-phd')
+                <!-- Department List of Faculties Pursuing PhD -->
+                <div class="card-header">
+                    <h3 class="bold">List of Department Faculties Pursuing PhD</h3>
+                </div>
+
+                <div class="card-block">
+                    <form id="ListOfDepartmentFacultiesPursuingPhdForm" class="needs-validation" method="POST"
+                        action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                        @csrf
+                        <div class="row">
+                            <div id="ListOfDepartmentFacultiesPursuingPhdContainer" class="col-md-12">
+                                <h4>List of Department Faculties Pursuing PhD</h4>
+                                @php
+                                $facultiesList = isset($row->listOfDepartmentFacultiesPursuingPhd)
+                                ? json_decode($row->listOfDepartmentFacultiesPursuingPhd, true)
+                                : [];
+                                @endphp
+
+                                @if(!empty($facultiesList))
+                                @foreach($facultiesList as $tableKey => $faculty)
+                                @include('admin.web.research.faculty-entry', ['faculty' => $faculty, 'index' =>
+                                $tableKey])
+                                @endforeach
+                                @else
+                                @include('admin.web.research.faculty-entry', ['faculty' => [], 'index' => 0])
+                                @endif
+
+                            </div>
+
+                            <div class="col-md-12 text-center mt-4">
+                                <button type="button" id="addFacultyBtn" class="btn btn-primary"
+                                    onclick="addFacultyEntry()">
+                                    Add Faculty
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success">Save Faculties List</button>
+                        </div>
+                    </form>
+                </div>
+
+                <script>
+                // Add a new faculty entry
+                function addFacultyEntry() {
+                    const container = document.getElementById('ListOfDepartmentFacultiesPursuingPhdContainer');
+                    const facultyIndex = container.getElementsByClassName('faculty-entry').length;
+
+                    const newFaculty = `
+                            <div class="faculty-entry mb-4">
+                                <div class="row">
+                                    <div class="form-group col-md-3">
+                                        <input type="text" class="form-control" name="ListOfDepartmentFacultiesPursuingPhd[${facultyIndex}][nameOfTheCandidate]" placeholder="Name of the Candidate" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control" name="ListOfDepartmentFacultiesPursuingPhd[${facultyIndex}][yearOfRegistration]" placeholder="Year of Registration" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control" name="ListOfDepartmentFacultiesPursuingPhd[${facultyIndex}][regNo]" placeholder="Registration No" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control" name="ListOfDepartmentFacultiesPursuingPhd[${facultyIndex}][supervisorName]" placeholder="Supervisor Name" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control" name="ListOfDepartmentFacultiesPursuingPhd[${facultyIndex}][universityRegistered]" placeholder="University Registered" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control" name="ListOfDepartmentFacultiesPursuingPhd[${facultyIndex}][areaOfResearch]" placeholder="Area of Research" required>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control" name="ListOfDepartmentFacultiesPursuingPhd[${facultyIndex}][status]" placeholder="Status" required>
+                                    </div>
+                                    <div class="form-group col-md-1 text-end">
+                                        <button type="button" class="btn btn-danger" onclick="removeFacultyEntry(this)">Remove</button>
+                                    </div>
+                                </div>
+                            </div>`;
+                    container.insertAdjacentHTML('beforeend', newFaculty);
+                }
+
+                // Remove a faculty entry
+                function removeFacultyEntry(button) {
+                    if (confirm('Are you sure you want to remove this?')) {
+                        button.closest('.faculty-entry').remove();
                     }
-                    </script>
-                    @endif
+                }
+                </script>
+                @endif
 
 
 
+                @if($section === 'phd-awarded')
+                <!-- Department Supervisor PhD Awarded List -->
+                <div class="card-header">
+                    <h3 class="bold">PhD Awarded Under Department Supervisor</h3>
+                </div>
 
-
-
-                    @if($section === 'phd-awarded')
-                    <!-- Department Supervisor PhD Awarded List -->
-                    <div class="card-header">
-                        <h3 class="bold">PhD Awarded Under Department Supervisor</h3>
-                    </div>
-
-                    <div class="card-block">
-                        <form id="phdAwardedUnderDepartmentSupervisorForm" class="needs-validation" method="POST"
-                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
-                            @csrf
-                            <div class="row">
-                                <!-- PhD Awarded Section -->
-                                <div id="phdAwardedUnderDepartmentSupervisorContainer" class="col-md-12">
-                                    <h4>PhD Awarded Under Department Supervisor</h4>
-                                    @php
-                                    // Decode the JSON string to an array
-                                    $phdAwardedList = isset($row->phdAwardedUnderDepartmentSupervisor) ?
-                                    json_decode($row->phdAwardedUnderDepartmentSupervisor, true) : [];
-                                    @endphp
-                                    @if(!empty($phdAwardedList))
-                                    @foreach($phdAwardedList as $tableKey => $phd)
-                                    <div class="phd-entry mb-4">
-                                        <div class="row">
-                                            <div class="form-group col-md-3">
-                                                <input type="text" class="form-control"
-                                                    name="phdAwardedUnderDepartmentSupervisor[{{ $tableKey }}][NameofTheResearchScholar]"
-                                                    placeholder="Name of the Research Scholar"
-                                                    value="{{ $phd['NameofTheResearchScholar'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="phdAwardedUnderDepartmentSupervisor[{{ $tableKey }}][regNo]"
-                                                    placeholder="Registration No" value="{{ $phd['regNo'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="phdAwardedUnderDepartmentSupervisor[{{ $tableKey }}][university]"
-                                                    placeholder="University" value="{{ $phd['university'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="phdAwardedUnderDepartmentSupervisor[{{ $tableKey }}][supervisorName]"
-                                                    placeholder="Supervisor Name" value="{{ $phd['supervisorName'] }}"
-                                                    required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="phdAwardedUnderDepartmentSupervisor[{{ $tableKey }}][titleOfTheThesis]"
-                                                    placeholder="Title of the Thesis"
-                                                    value="{{ $phd['titleOfTheThesis'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="date" class="form-control"
-                                                    name="phdAwardedUnderDepartmentSupervisor[{{ $tableKey }}][vivaVoceDate]"
-                                                    placeholder="Viva Voce Date" value="{{ $phd['vivaVoceDate'] }}"
-                                                    required>
-                                            </div>
-                                            <div class="form-group col-md-1 text-end">
-                                                <button type="button" class="btn btn-danger"
-                                                    onclick="removePhdEntry(this)">Remove</button>
-                                            </div>
+                <div class="card-block">
+                    <form id="phdAwardedUnderDepartmentSupervisorForm" class="needs-validation" method="POST"
+                        action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                        @csrf
+                        <div class="row">
+                            <!-- PhD Awarded Section -->
+                            <div id="phdAwardedUnderDepartmentSupervisorContainer" class="col-md-12">
+                                <h4>PhD Awarded Under Department Supervisor</h4>
+                                @php
+                                // Decode the JSON string to an array
+                                $phdAwardedList = isset($row->phdAwardedUnderDepartmentSupervisor) ?
+                                json_decode($row->phdAwardedUnderDepartmentSupervisor, true) : [];
+                                @endphp
+                                @if(!empty($phdAwardedList))
+                                @foreach($phdAwardedList as $tableKey => $phd)
+                                <div class="phd-entry mb-4">
+                                    <div class="row">
+                                        <div class="form-group col-md-3">
+                                            <input type="text" class="form-control"
+                                                name="phdAwardedUnderDepartmentSupervisor[{{ $tableKey }}][NameofTheResearchScholar]"
+                                                placeholder="Name of the Research Scholar"
+                                                value="{{ $phd['NameofTheResearchScholar'] }}" required>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <input type="text" class="form-control"
+                                                name="phdAwardedUnderDepartmentSupervisor[{{ $tableKey }}][regNo]"
+                                                placeholder="Registration No" value="{{ $phd['regNo'] }}" required>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <input type="text" class="form-control"
+                                                name="phdAwardedUnderDepartmentSupervisor[{{ $tableKey }}][university]"
+                                                placeholder="University" value="{{ $phd['university'] }}" required>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <input type="text" class="form-control"
+                                                name="phdAwardedUnderDepartmentSupervisor[{{ $tableKey }}][supervisorName]"
+                                                placeholder="Supervisor Name" value="{{ $phd['supervisorName'] }}"
+                                                required>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <input type="text" class="form-control"
+                                                name="phdAwardedUnderDepartmentSupervisor[{{ $tableKey }}][titleOfTheThesis]"
+                                                placeholder="Title of the Thesis" value="{{ $phd['titleOfTheThesis'] }}"
+                                                required>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <input type="date" class="form-control"
+                                                name="phdAwardedUnderDepartmentSupervisor[{{ $tableKey }}][vivaVoceDate]"
+                                                placeholder="Viva Voce Date" value="{{ $phd['vivaVoceDate'] }}"
+                                                required>
+                                        </div>
+                                        <div class="form-group col-md-1 text-end">
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="removePhdEntry(this)">Remove</button>
                                         </div>
                                     </div>
-                                    @endforeach
-                                    @else
-                                    <div class="phd-entry mb-4">
-                                        <div class="row">
-                                            <div class="form-group col-md-3">
-                                                <input type="text" class="form-control"
-                                                    name="phdAwardedUnderDepartmentSupervisor[0][NameofTheResearchScholar]"
-                                                    placeholder="Name of the Research Scholar" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="phdAwardedUnderDepartmentSupervisor[0][regNo]"
-                                                    placeholder="Registration No" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="phdAwardedUnderDepartmentSupervisor[0][university]"
-                                                    placeholder="University" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="phdAwardedUnderDepartmentSupervisor[0][supervisorName]"
-                                                    placeholder="Supervisor Name" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="text" class="form-control"
-                                                    name="phdAwardedUnderDepartmentSupervisor[0][titleOfTheThesis]"
-                                                    placeholder="Title of the Thesis" required>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <input type="date" class="form-control"
-                                                    name="phdAwardedUnderDepartmentSupervisor[0][vivaVoceDate]"
-                                                    placeholder="Viva Voce Date" required>
-                                            </div>
-                                            <div class="form-group col-md-1 text-end">
-                                                <button type="button" class="btn btn-danger"
-                                                    onclick="removePhdEntry(this)">Remove</button>
-                                            </div>
+                                </div>
+                                @endforeach
+                                @else
+                                <div class="phd-entry mb-4">
+                                    <div class="row">
+                                        <div class="form-group col-md-3">
+                                            <input type="text" class="form-control"
+                                                name="phdAwardedUnderDepartmentSupervisor[0][NameofTheResearchScholar]"
+                                                placeholder="Name of the Research Scholar" required>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <input type="text" class="form-control"
+                                                name="phdAwardedUnderDepartmentSupervisor[0][regNo]"
+                                                placeholder="Registration No" required>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <input type="text" class="form-control"
+                                                name="phdAwardedUnderDepartmentSupervisor[0][university]"
+                                                placeholder="University" required>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <input type="text" class="form-control"
+                                                name="phdAwardedUnderDepartmentSupervisor[0][supervisorName]"
+                                                placeholder="Supervisor Name" required>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <input type="text" class="form-control"
+                                                name="phdAwardedUnderDepartmentSupervisor[0][titleOfTheThesis]"
+                                                placeholder="Title of the Thesis" required>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <input type="date" class="form-control"
+                                                name="phdAwardedUnderDepartmentSupervisor[0][vivaVoceDate]"
+                                                placeholder="Viva Voce Date" required>
+                                        </div>
+                                        <div class="form-group col-md-1 text-end">
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="removePhdEntry(this)">Remove</button>
                                         </div>
                                     </div>
-                                    @endif
                                 </div>
-
-                                <div class="col-md-12 text-center mt-4">
-                                    <button type="button" id="addPhdBtn" class="btn btn-primary"
-                                        onclick="addPhdEntry()">Add PhD Awarded Entry</button>
-                                </div>
+                                @endif
                             </div>
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-success">Save PhD Awarded List</button>
+
+                            <div class="col-md-12 text-center mt-4">
+                                <button type="button" id="addPhdBtn" class="btn btn-primary" onclick="addPhdEntry()">Add
+                                    PhD Awarded Entry</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success">Save PhD Awarded List</button>
+                        </div>
+                    </form>
+                </div>
 
-                    <script>
-                    // Add a new PhD entry
-                    function addPhdEntry() {
-                        const container = document.getElementById('phdAwardedUnderDepartmentSupervisorContainer');
-                        const phdIndex = container.getElementsByClassName('phd-entry').length;
+                <script>
+                // Add a new PhD entry
+                function addPhdEntry() {
+                    const container = document.getElementById('phdAwardedUnderDepartmentSupervisorContainer');
+                    const phdIndex = container.getElementsByClassName('phd-entry').length;
 
-                        const newPhd = `
+                    const newPhd = `
                                 <div class="phd-entry mb-4">
                                     <div class="row">
                                         <div class="form-group col-md-3">
@@ -846,100 +936,100 @@
                                         </div>
                                     </div>
                                 </div>`;
-                        container.insertAdjacentHTML('beforeend', newPhd);
+                    container.insertAdjacentHTML('beforeend', newPhd);
+                }
+
+                // Remove a PhD entry
+                function removePhdEntry(button) {
+                    if (confirm('Are you sure you want to remove this entry?')) {
+                        button.closest('.phd-entry').remove();
                     }
-
-                    // Remove a PhD entry
-                    function removePhdEntry(button) {
-                        if (confirm('Are you sure you want to remove this entry?')) {
-                            button.closest('.phd-entry').remove();
-                        }
-                    }
-                    </script>
-                    @endif
+                }
+                </script>
+                @endif
 
 
 
 
-                    @if($section === 'supervisor')
-                    <!-- Supervisor List Section -->
-                    <div class="card-header">
-                        <h3 class="bold">Supervisor List</h3>
-                    </div>
+                @if($section === 'supervisor')
+                <!-- Supervisor List Section -->
+                <div class="card-header">
+                    <h3 class="bold">Supervisor List</h3>
+                </div>
 
-                    <div class="card-block">
-                        <form id="supervisorForm" class="needs-validation" method="POST"
-                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
-                            @csrf
-                            <div class="row">
-                                <!-- Supervisor Section -->
-                                <div id="supervisorContainer" class="col-md-12">
-                                    <h4>Supervisor List</h4>
-                                    @php
-                                    // Decode the JSON string to an array
-                                    $supervisorList = isset($row->supervisor) ?
-                                    json_decode($row->supervisor, true) : [];
-                                    @endphp
-                                    @if(!empty($supervisorList))
-                                    @foreach($supervisorList as $tableKey => $supervisor)
-                                    <div class="supervisor-entry mb-4">
-                                        <div class="row">
-                                            <div class="form-group col-md-6">
-                                                <input type="text" class="form-control"
-                                                    name="supervisor[{{ $tableKey }}][Name]" placeholder="Name"
-                                                    value="{{ $supervisor['Name'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <input type="url" class="form-control"
-                                                    name="supervisor[{{ $tableKey }}][profileLink]"
-                                                    placeholder="Profile Link" value="{{ $supervisor['profileLink'] }}"
-                                                    required>
-                                            </div>
-                                            <div class="form-group col-md-1 text-end">
-                                                <button type="button" class="btn btn-danger"
-                                                    onclick="removeSupervisorEntry(this)">Remove</button>
-                                            </div>
+                <div class="card-block">
+                    <form id="supervisorForm" class="needs-validation" method="POST"
+                        action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                        @csrf
+                        <div class="row">
+                            <!-- Supervisor Section -->
+                            <div id="supervisorContainer" class="col-md-12">
+                                <h4>Supervisor List</h4>
+                                @php
+                                // Decode the JSON string to an array
+                                $supervisorList = isset($row->supervisor) ?
+                                json_decode($row->supervisor, true) : [];
+                                @endphp
+                                @if(!empty($supervisorList))
+                                @foreach($supervisorList as $tableKey => $supervisor)
+                                <div class="supervisor-entry mb-4">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <input type="text" class="form-control"
+                                                name="supervisor[{{ $tableKey }}][Name]" placeholder="Name"
+                                                value="{{ $supervisor['Name'] }}" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input type="url" class="form-control"
+                                                name="supervisor[{{ $tableKey }}][profileLink]"
+                                                placeholder="Profile Link" value="{{ $supervisor['profileLink'] }}"
+                                                required>
+                                        </div>
+                                        <div class="form-group col-md-1 text-end">
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="removeSupervisorEntry(this)">Remove</button>
                                         </div>
                                     </div>
-                                    @endforeach
-                                    @else
-                                    <div class="supervisor-entry mb-4">
-                                        <div class="row">
-                                            <div class="form-group col-md-6">
-                                                <input type="text" class="form-control" name="supervisor[0][Name]"
-                                                    placeholder="Name" required>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <input type="url" class="form-control" name="supervisor[0][profileLink]"
-                                                    placeholder="Profile Link" required>
-                                            </div>
-                                            <div class="form-group col-md-1 text-end">
-                                                <button type="button" class="btn btn-danger"
-                                                    onclick="removeSupervisorEntry(this)">Remove</button>
-                                            </div>
+                                </div>
+                                @endforeach
+                                @else
+                                <div class="supervisor-entry mb-4">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <input type="text" class="form-control" name="supervisor[0][Name]"
+                                                placeholder="Name" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input type="url" class="form-control" name="supervisor[0][profileLink]"
+                                                placeholder="Profile Link" required>
+                                        </div>
+                                        <div class="form-group col-md-1 text-end">
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="removeSupervisorEntry(this)">Remove</button>
                                         </div>
                                     </div>
-                                    @endif
                                 </div>
-
-                                <div class="col-md-12 text-center mt-4">
-                                    <button type="button" id="addSupervisorBtn" class="btn btn-primary"
-                                        onclick="addSupervisorEntry()">Add Supervisor</button>
-                                </div>
+                                @endif
                             </div>
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-success">Save Supervisor List</button>
+
+                            <div class="col-md-12 text-center mt-4">
+                                <button type="button" id="addSupervisorBtn" class="btn btn-primary"
+                                    onclick="addSupervisorEntry()">Add Supervisor</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success">Save Supervisor List</button>
+                        </div>
+                    </form>
+                </div>
 
-                    <script>
-                    // Add a new supervisor entry
-                    function addSupervisorEntry() {
-                        const container = document.getElementById('supervisorContainer');
-                        const supervisorIndex = container.getElementsByClassName('supervisor-entry').length;
+                <script>
+                // Add a new supervisor entry
+                function addSupervisorEntry() {
+                    const container = document.getElementById('supervisorContainer');
+                    const supervisorIndex = container.getElementsByClassName('supervisor-entry').length;
 
-                        const newSupervisor = `
+                    const newSupervisor = `
                             <div class="supervisor-entry mb-4">
                                 <div class="row">
                                     <div class="form-group col-md-6">
@@ -953,185 +1043,182 @@
                                     </div>
                                 </div>
                             </div>`;
-                        container.insertAdjacentHTML('beforeend', newSupervisor);
+                    container.insertAdjacentHTML('beforeend', newSupervisor);
+                }
+
+                // Remove a supervisor entry
+                function removeSupervisorEntry(button) {
+                    if (confirm('Are you sure you want to remove this entry?')) {
+                        button.closest('.supervisor-entry').remove();
                     }
-
-                    // Remove a supervisor entry
-                    function removeSupervisorEntry(button) {
-                        if (confirm('Are you sure you want to remove this entry?')) {
-                            button.closest('.supervisor-entry').remove();
-                        }
-                    }
-                    </script>
-                    @endif
+                }
+                </script>
+                @endif
 
 
 
 
 
 
-                    @if($section === 'funds')
-                    <!-- Funds Section -->
-                    <div class="card-header">
-                        <h3 class="bold">Funds</h3>
-                    </div>
+                @if($section === 'funds')
+                <!-- Funds Section -->
+                <div class="card-header">
+                    <h3 class="bold">Funds</h3>
+                </div>
 
-                    <div class="card-block">
-                        <form id="fundsForm" class="needs-validation" method="POST"
-                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
-                            @csrf
-                            <div class="row">
-                                <!-- Funds Section -->
-                                <div id="fundsContainer" class="col-md-12">
-                                    <h4>Funds</h4>
-                                    @php
-                                    // Decode the stored JSON string to an array
-                                    $funds = isset($row->funds) ? json_decode($row->funds, true) : [];
-                                    @endphp
+                <div class="card-block">
+                    <form id="fundsForm" class="needs-validation" method="POST"
+                        action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                        @csrf
+                        <div class="row">
+                            <!-- Funds Section -->
+                            <div id="fundsContainer" class="col-md-12">
+                                <h4>Funds</h4>
+                                @php
+                                // Decode the stored JSON string to an array
+                                $funds = isset($row->funds) ? json_decode($row->funds, true) : [];
+                                @endphp
 
-                                    @if(!empty($funds))
-                                    @foreach($funds as $yearIndex => $fund)
-                                    <div class="fund-year-entry mb-4">
-                                        <div class="row">
-                                            <div class="form-group col-md-10">
+                                @if(!empty($funds))
+                                @foreach($funds as $yearIndex => $fund)
+                                <div class="fund-year-entry mb-4">
+                                    <div class="row">
+                                        <div class="form-group col-md-10">
+                                            <input type="text" class="form-control" name="funds[{{ $yearIndex }}][year]"
+                                                placeholder="Year" value="{{ $fund['year'] }}" required>
+                                        </div>
+                                        <div class="form-group col-md-2 text-end">
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="removeYearFund(this)">Remove Year</button>
+                                        </div>
+                                    </div>
+                                    <div class="year-funds-container">
+                                        @foreach($fund['fundDetails'] as $fundIndex => $fundDetail)
+                                        <div class="fund-entry row mb-2">
+                                            <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
-                                                    name="funds[{{ $yearIndex }}][year]" placeholder="Year"
-                                                    value="{{ $fund['year'] }}" required>
+                                                    name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][nameOfPi]"
+                                                    placeholder="Name of PI" value="{{ $fundDetail['nameOfPi'] }}"
+                                                    required>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control"
+                                                    name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][titleOfTheProject]"
+                                                    placeholder="Title of the Project"
+                                                    value="{{ $fundDetail['titleOfTheProject'] }}" required>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control"
+                                                    name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][amount]"
+                                                    placeholder="Amount" value="{{ $fundDetail['amount'] }}" required>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control"
+                                                    name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][fundingAgency]"
+                                                    placeholder="Funding Agency"
+                                                    value="{{ $fundDetail['fundingAgency'] }}" required>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control"
+                                                    name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][OrderNoAndDate]"
+                                                    placeholder="Order No. and Date"
+                                                    value="{{ $fundDetail['OrderNoAndDate'] }}" required>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control"
+                                                    name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][status]"
+                                                    placeholder="Status" value="{{ $fundDetail['status'] }}" required>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
-                                                    onclick="removeYearFund(this)">Remove Year</button>
+                                                    onclick="removeFund(this)">Remove</button>
                                             </div>
                                         </div>
-                                        <div class="year-funds-container">
-                                            @foreach($fund['fundDetails'] as $fundIndex => $fundDetail)
-                                            <div class="fund-entry row mb-2">
-                                                <div class="form-group col-md-3">
-                                                    <input type="text" class="form-control"
-                                                        name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][nameOfPi]"
-                                                        placeholder="Name of PI" value="{{ $fundDetail['nameOfPi'] }}"
-                                                        required>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <input type="text" class="form-control"
-                                                        name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][titleOfTheProject]"
-                                                        placeholder="Title of the Project"
-                                                        value="{{ $fundDetail['titleOfTheProject'] }}" required>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <input type="text" class="form-control"
-                                                        name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][amount]"
-                                                        placeholder="Amount" value="{{ $fundDetail['amount'] }}"
-                                                        required>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <input type="text" class="form-control"
-                                                        name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][fundingAgency]"
-                                                        placeholder="Funding Agency"
-                                                        value="{{ $fundDetail['fundingAgency'] }}" required>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <input type="text" class="form-control"
-                                                        name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][OrderNoAndDate]"
-                                                        placeholder="Order No. and Date"
-                                                        value="{{ $fundDetail['OrderNoAndDate'] }}" required>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <input type="text" class="form-control"
-                                                        name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][status]"
-                                                        placeholder="Status" value="{{ $fundDetail['status'] }}"
-                                                        required>
-                                                </div>
-                                                <div class="form-group col-md-2 text-end">
-                                                    <button type="button" class="btn btn-danger"
-                                                        onclick="removeFund(this)">Remove</button>
-                                                </div>
-                                            </div>
-                                            @endforeach
+                                        @endforeach
+                                    </div>
+                                    <div class="text-end">
+                                        <button type="button" class="btn btn-info"
+                                            onclick="addFund(this, {{ $yearIndex }})"><i class="fa fa-plus"></i> Add
+                                            Fund</button>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @else
+                                <div class="fund-year-entry mb-4">
+                                    <div class="row">
+                                        <div class="form-group col-md-10">
+                                            <input type="text" class="form-control" name="funds[0][year]"
+                                                placeholder="Year" required>
                                         </div>
-                                        <div class="text-end">
-                                            <button type="button" class="btn btn-info"
-                                                onclick="addFund(this, {{ $yearIndex }})"><i class="fa fa-plus"></i> Add
-                                                Fund</button>
+                                        <div class="form-group col-md-2 text-end">
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="removeYearFund(this)">Remove Year</button>
                                         </div>
                                     </div>
-                                    @endforeach
-                                    @else
-                                    <div class="fund-year-entry mb-4">
-                                        <div class="row">
-                                            <div class="form-group col-md-10">
-                                                <input type="text" class="form-control" name="funds[0][year]"
-                                                    placeholder="Year" required>
+                                    <div class="year-funds-container">
+                                        <div class="fund-entry row mb-2">
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control"
+                                                    name="funds[0][fundDetails][0][nameOfPi]" placeholder="Name of PI"
+                                                    required>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control"
+                                                    name="funds[0][fundDetails][0][titleOfTheProject]"
+                                                    placeholder="Title of the Project" required>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control"
+                                                    name="funds[0][fundDetails][0][amount]" placeholder="Amount"
+                                                    required>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control"
+                                                    name="funds[0][fundDetails][0][fundingAgency]"
+                                                    placeholder="Funding Agency" required>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control"
+                                                    name="funds[0][fundDetails][0][OrderNoAndDate]"
+                                                    placeholder="Order No. and Date" required>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control"
+                                                    name="funds[0][fundDetails][0][status]" placeholder="Status"
+                                                    required>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
-                                                    onclick="removeYearFund(this)">Remove Year</button>
+                                                    onclick="removeFund(this)">Remove</button>
                                             </div>
-                                        </div>
-                                        <div class="year-funds-container">
-                                            <div class="fund-entry row mb-2">
-                                                <div class="form-group col-md-3">
-                                                    <input type="text" class="form-control"
-                                                        name="funds[0][fundDetails][0][nameOfPi]"
-                                                        placeholder="Name of PI" required>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <input type="text" class="form-control"
-                                                        name="funds[0][fundDetails][0][titleOfTheProject]"
-                                                        placeholder="Title of the Project" required>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <input type="text" class="form-control"
-                                                        name="funds[0][fundDetails][0][amount]" placeholder="Amount"
-                                                        required>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <input type="text" class="form-control"
-                                                        name="funds[0][fundDetails][0][fundingAgency]"
-                                                        placeholder="Funding Agency" required>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <input type="text" class="form-control"
-                                                        name="funds[0][fundDetails][0][OrderNoAndDate]"
-                                                        placeholder="Order No. and Date" required>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <input type="text" class="form-control"
-                                                        name="funds[0][fundDetails][0][status]" placeholder="Status"
-                                                        required>
-                                                </div>
-                                                <div class="form-group col-md-2 text-end">
-                                                    <button type="button" class="btn btn-danger"
-                                                        onclick="removeFund(this)">Remove</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <button type="button" class="btn btn-info" onclick="addFund(this, 0)"><i
-                                                    class="fa fa-plus"></i> Add Fund</button>
                                         </div>
                                     </div>
-                                    @endif
+                                    <div class="text-end">
+                                        <button type="button" class="btn btn-info" onclick="addFund(this, 0)"><i
+                                                class="fa fa-plus"></i> Add Fund</button>
+                                    </div>
                                 </div>
-
-                                <div class="col-md-12 text-center mt-4">
-                                    <button type="button" id="addYearFundBtn" class="btn btn-primary"
-                                        onclick="addYearFund()">Add Year</button>
-                                </div>
+                                @endif
                             </div>
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-success">Save Fund Details</button>
+
+                            <div class="col-md-12 text-center mt-4">
+                                <button type="button" id="addYearFundBtn" class="btn btn-primary"
+                                    onclick="addYearFund()">Add Year</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success">Save Fund Details</button>
+                        </div>
+                    </form>
+                </div>
 
-                    <script>
-                    // Add a new year for funds
-                    function addYearFund() {
-                        const container = document.getElementById('fundsContainer');
-                        const yearIndex = container.getElementsByClassName('fund-year-entry').length;
+                <script>
+                // Add a new year for funds
+                function addYearFund() {
+                    const container = document.getElementById('fundsContainer');
+                    const yearIndex = container.getElementsByClassName('fund-year-entry').length;
 
-                        const newYear = `
+                    const newYear = `
         <div class="fund-year-entry mb-4">
             <div class="row">
                 <div class="form-group col-md-10">
@@ -1170,22 +1257,22 @@
                 <button type="button" class="btn btn-info" onclick="addFund(this, ${yearIndex})"><i class="fa fa-plus"></i> Add Fund</button>
             </div>
         </div>`;
-                        container.insertAdjacentHTML('beforeend', newYear);
+                    container.insertAdjacentHTML('beforeend', newYear);
+                }
+
+                // Remove a year for funds
+                function removeYearFund(button) {
+                    if (confirm('Are you sure you want to remove this?')) {
+                        button.closest('.fund-year-entry').remove();
                     }
+                }
 
-                    // Remove a year for funds
-                    function removeYearFund(button) {
-                        if (confirm('Are you sure you want to remove this?')) {
-                            button.closest('.fund-year-entry').remove();
-                        }
-                    }
+                // Add a new fund for a specific year
+                function addFund(button, yearIndex) {
+                    const container = button.closest('.fund-year-entry').querySelector('.year-funds-container');
+                    const fundIndex = container.getElementsByClassName('fund-entry').length;
 
-                    // Add a new fund for a specific year
-                    function addFund(button, yearIndex) {
-                        const container = button.closest('.fund-year-entry').querySelector('.year-funds-container');
-                        const fundIndex = container.getElementsByClassName('fund-entry').length;
-
-                        const newFund = `
+                    const newFund = `
         <div class="fund-entry row mb-2">
             <div class="form-group col-md-3">
                 <input type="text" class="form-control" name="funds[${yearIndex}][fundDetails][${fundIndex}][nameOfPi]" placeholder="Name of PI" required>
@@ -1209,112 +1296,110 @@
                 <button type="button" class="btn btn-danger" onclick="removeFund(this)">Remove</button>
             </div>
         </div>`;
-                        container.insertAdjacentHTML('beforeend', newFund);
+                    container.insertAdjacentHTML('beforeend', newFund);
+                }
+
+                // Remove a fund entry
+                function removeFund(button) {
+                    if (confirm('Are you sure you want to remove this?')) {
+                        button.closest('.fund-entry').remove();
                     }
-
-                    // Remove a fund entry
-                    function removeFund(button) {
-                        if (confirm('Are you sure you want to remove this?')) {
-                            button.closest('.fund-entry').remove();
-                        }
-                    }
-                    </script>
-                    @endif
+                }
+                </script>
+                @endif
 
 
 
 
 
-                    @if($section === 'value-added-group')
-                    <!-- Value Added Group Section -->
-                    <div class="card-header">
-                        <h3 class="bold">Value Added Groups</h3>
-                    </div>
+                @if($section === 'value-added-group')
+                <!-- Value Added Group Section -->
+                <div class="card-header">
+                    <h3 class="bold">Value Added Groups</h3>
+                </div>
 
-                    <div class="card-block">
-                        <form id="valueAddedGroupForm" class="needs-validation" method="POST"
-                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
-                            @csrf
-                            <div class="row">
-                                <!-- Value Added Group Container -->
-                                <div id="valueAddedGroupContainer" class="col-md-12">
-                                    <h4>Value Added Groups</h4>
-                                    @php
-                                    // Decode the JSON string to an array
-                                    $valueAddedGroups = isset($row->valueAddedGroup) ?
-                                    json_decode($row->valueAddedGroup, true) : [];
-                                    @endphp
-                                    @if(!empty($valueAddedGroups))
-                                    @foreach($valueAddedGroups as $tableKey => $valueAddedGroup)
-                                    <div class="value-added-group-entry mb-4">
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <input type="text" class="form-control"
-                                                    name="valueAddedGroup[{{ $tableKey }}][Group]" placeholder="Group"
-                                                    value="{{ $valueAddedGroup['Group'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <input type="text" class="form-control"
-                                                    name="valueAddedGroup[{{ $tableKey }}][faculty]"
-                                                    placeholder="Faculty" value="{{ $valueAddedGroup['faculty'] }}"
-                                                    required>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <input type="text" class="form-control"
-                                                    name="valueAddedGroup[{{ $tableKey }}][Activities]"
-                                                    placeholder="Activities"
-                                                    value="{{ $valueAddedGroup['Activities'] }}" required>
-                                            </div>
-                                            <div class="form-group col-md-1 text-end">
-                                                <button type="button" class="btn btn-danger"
-                                                    onclick="removeValueAddedGroupEntry(this)">Remove</button>
-                                            </div>
+                <div class="card-block">
+                    <form id="valueAddedGroupForm" class="needs-validation" method="POST"
+                        action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                        @csrf
+                        <div class="row">
+                            <!-- Value Added Group Container -->
+                            <div id="valueAddedGroupContainer" class="col-md-12">
+                                <h4>Value Added Groups</h4>
+                                @php
+                                // Decode the JSON string to an array
+                                $valueAddedGroups = isset($row->valueAddedGroup) ?
+                                json_decode($row->valueAddedGroup, true) : [];
+                                @endphp
+                                @if(!empty($valueAddedGroups))
+                                @foreach($valueAddedGroups as $tableKey => $valueAddedGroup)
+                                <div class="value-added-group-entry mb-4">
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control"
+                                                name="valueAddedGroup[{{ $tableKey }}][Group]" placeholder="Group"
+                                                value="{{ $valueAddedGroup['Group'] }}" required>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control"
+                                                name="valueAddedGroup[{{ $tableKey }}][faculty]" placeholder="Faculty"
+                                                value="{{ $valueAddedGroup['faculty'] }}" required>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control"
+                                                name="valueAddedGroup[{{ $tableKey }}][Activities]"
+                                                placeholder="Activities" value="{{ $valueAddedGroup['Activities'] }}"
+                                                required>
+                                        </div>
+                                        <div class="form-group col-md-1 text-end">
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="removeValueAddedGroupEntry(this)">Remove</button>
                                         </div>
                                     </div>
-                                    @endforeach
-                                    @else
-                                    <div class="value-added-group-entry mb-4">
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <input type="text" class="form-control" name="valueAddedGroup[0][Group]"
-                                                    placeholder="Group" required>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <input type="text" class="form-control"
-                                                    name="valueAddedGroup[0][faculty]" placeholder="Faculty" required>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <input type="text" class="form-control"
-                                                    name="valueAddedGroup[0][Activities]" placeholder="Activities"
-                                                    required>
-                                            </div>
-                                            <div class="form-group col-md-1 text-end">
-                                                <button type="button" class="btn btn-danger"
-                                                    onclick="removeValueAddedGroupEntry(this)">Remove</button>
-                                            </div>
+                                </div>
+                                @endforeach
+                                @else
+                                <div class="value-added-group-entry mb-4">
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control" name="valueAddedGroup[0][Group]"
+                                                placeholder="Group" required>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control" name="valueAddedGroup[0][faculty]"
+                                                placeholder="Faculty" required>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control"
+                                                name="valueAddedGroup[0][Activities]" placeholder="Activities" required>
+                                        </div>
+                                        <div class="form-group col-md-1 text-end">
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="removeValueAddedGroupEntry(this)">Remove</button>
                                         </div>
                                     </div>
-                                    @endif
                                 </div>
-
-                                <div class="col-md-12 text-center mt-4">
-                                    <button type="button" id="addValueAddedGroupBtn" class="btn btn-primary"
-                                        onclick="addValueAddedGroupEntry()">Add Value Added Group</button>
-                                </div>
+                                @endif
                             </div>
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-success">Save Value Added Groups</button>
+
+                            <div class="col-md-12 text-center mt-4">
+                                <button type="button" id="addValueAddedGroupBtn" class="btn btn-primary"
+                                    onclick="addValueAddedGroupEntry()">Add Value Added Group</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success">Save Value Added Groups</button>
+                        </div>
+                    </form>
+                </div>
 
-                    <script>
-                    // Add a new Value Added Group entry
-                    function addValueAddedGroupEntry() {
-                        const container = document.getElementById('valueAddedGroupContainer');
-                        const groupIndex = container.getElementsByClassName('value-added-group-entry').length;
+                <script>
+                // Add a new Value Added Group entry
+                function addValueAddedGroupEntry() {
+                    const container = document.getElementById('valueAddedGroupContainer');
+                    const groupIndex = container.getElementsByClassName('value-added-group-entry').length;
 
-                        const newGroup = `
+                    const newGroup = `
                             <div class="value-added-group-entry mb-4">
                                 <div class="row">
                                     <div class="form-group col-md-4">
@@ -1331,27 +1416,27 @@
                                     </div>
                                 </div>
                             </div>`;
-                        container.insertAdjacentHTML('beforeend', newGroup);
+                    container.insertAdjacentHTML('beforeend', newGroup);
+                }
+
+                // Remove a Value Added Group entry
+                function removeValueAddedGroupEntry(button) {
+                    if (confirm('Are you sure you want to remove this entry?')) {
+                        button.closest('.value-added-group-entry').remove();
                     }
-
-                    // Remove a Value Added Group entry
-                    function removeValueAddedGroupEntry(button) {
-                        if (confirm('Are you sure you want to remove this entry?')) {
-                            button.closest('.value-added-group-entry').remove();
-                        }
-                    }
-                    </script>
-                    @endif
+                }
+                </script>
+                @endif
 
 
 
 
 
 
-                </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <!-- End Content-->
 
