@@ -80,7 +80,7 @@
         @endif
     */ ?>
     @isset($about)
-    @var_dump($about)
+    <!-- @var_dump($about) -->
     <!-- about-area -->
     <section class="about-area about-p pt-120 pb-120 p-relative fix" style="background: #eff7ff;">
         <div class="animations-02"><img src="{{ asset('web/img/bg/an-img-02.png') }}" alt="About"></div>

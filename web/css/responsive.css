@@ -31,8 +31,9 @@ background-repeat: no-repeat;
 background-position: 0 -100px;
 }
     .logo {
-  width: 100%;
-}
+  width: 40%;
+  margin: auto;
+    }
     .s-about-img img{
         margin: 0;
     }
@@ -2814,4 +2815,15 @@ margin: 0;
     .button-group button {
     margin: 0 2px;
 
+}
+
+}
+
+.menu-area.sticky-menu .logo   {
+ display: none;
+}
+
+.main-menu-area-width {
+    width: auto;
+    margin: auto;
 }
