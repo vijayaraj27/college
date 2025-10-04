@@ -33,7 +33,6 @@ body {
     color: #777;
     font-style: normal;
     line-height: 24px;
-    background-color: #eff7ff !important;
 }
 
 .text-left {
@@ -1082,7 +1081,7 @@ top: -3px;
 .header-three {}
 
 .header-three .second-header {
-    background: #f5874f;
+    background: #F5874F;
 }
 
 .header-three .menu-area::before {
@@ -14235,7 +14234,7 @@ nav:after {
 }
 
 nav ul {
-    /* float: left; */
+    float: left;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -14246,7 +14245,7 @@ nav ul li {
     margin: 0px;
     display: inline-block;
     float: left;
-    background-color: transparent;
+    background-color: #fff;
 }
 
 nav ul li a {
@@ -14254,8 +14253,6 @@ nav ul li a {
     font-size: 100% !important;
     background-color: transparent;
 }
-
-
 
 nav ul li>ul li {
     background-color: #254441;
@@ -14598,8 +14595,4 @@ ul.listmargin li {
 
 ul.listmargin {
     margin-bottom: 50px;
-}
-
-#feature .flex-box.col-lg-4 {
-    background: #fff;
 }

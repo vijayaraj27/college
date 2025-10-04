@@ -80,7 +80,11 @@
         @endif
     */ ?>
     @isset($about)
+<<<<<<< HEAD
     @var_dump($about)
+=======
+    <!-- @var_dump($about) -->
+>>>>>>> 064c00cdba20a48ee2ee52a65a3917e62d7a99e4
     <!-- about-area -->
     <section class="about-area about-p pt-120 pb-120 p-relative fix" style="background: #eff7ff;">
         <div class="animations-02"><img src="{{ asset('web/img/bg/an-img-02.png') }}" alt="About"></div>
