@@ -85,6 +85,7 @@ Route::middleware(['XSS'])->prefix('admin')->group(function () {
 Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->prefix('admin')->group(function () {
     // Dashboard Route
     Route::get('/', 'DashboardController@index')->name('dashboard.index');
+    //Route::redirect('/', '/dashboard');
     Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
     Route::get('/dashboard/{slug}', 'DashboardController@show')->name('dashboard.departmentslug');
     // Student Routes
@@ -369,6 +370,9 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
         Route::resource('library','LibraryController');
         Route::resource('faculties', 'FacultiesController');
         Route::resource('infrastructures', 'InfrastructuresController');
+        Route::resource('activities', 'ActivitiesController');
+        Route::resource('research', 'ResearchController');
+        Route::resource('publications', 'PublicationsController');
         Route::resource('course', 'CourseController');
         Route::resource('web-event', 'WebEventController');
         Route::resource('news', 'NewsController');

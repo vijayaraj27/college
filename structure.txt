@@ -265,19 +265,24 @@ program +
                     titleOfTheProgramme
                     Organizer
                     Duration
-            StudentParticipation
+            studentParticipation
                 year +
                     eventDate
                     eventName
                     ConductedBy
                     nameOfTheStudentsParticipated
-            InterInstituteEventsWinningPrize
+            interInstituteEventsWinningPrize
                 year +
                     eventDate
                     eventName
                     ConductedBy
                     nameOfTheStudentsParticipated                
                     prizeWon
+            industrialVisit
+                    Name of the industry
+                    Year / Semester
+                    Staff Accompanied
+                    Duration
 
 
 

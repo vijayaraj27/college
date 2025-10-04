@@ -21,11 +21,15 @@
                             @csrf
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <input type="file" class="form-control" name="imageFile" placeholder="Image File">
+                                    <label for="photo">{{ __('field_photo') }}:
+                                        <span>{{ __('image_size', ['height' => 400, 'width' => 400]) }}</span>
+                                        <span>*</span></label> <input type="file" class="form-control" name="imageFile"
+                                        placeholder="Image File">
                                     <img alt="Section Achievements Image" width="70" height="70"
                                         src="{{ isset($row->imageFile) ? $baseurl . 'uploads/achievements/' . $row->imageFile : '' }}" />
                                 </div>
                                 <div class="form-group col-md-6">
+                                    <label> Title </label>
                                     <input type="text" class="form-control" name="title" placeholder="Title" required
                                         value="{{ isset($row->title) ? $row->title : '' }}">
                                 </div>
@@ -153,7 +157,7 @@
                                                         placeholder="Achievement Title"
                                                         value="{{ $achievement['title'] }}" required>
                                                 </div>
-                                                <div class="form-group col-md-6">
+                                                <!-- <div class="form-group col-md-6">
                                                     <input type="file" class="form-control"
                                                         name="studentAchievements[{{ $key }}][achievements][{{ $achievementIndex }}][image]"
                                                         accept="image/*">
@@ -161,7 +165,21 @@
                                                     <img src="{{ asset('uploads/achievements/' . $achievement['image']) }}"
                                                         alt="Achievement Image" width="70" height="70">
                                                     @endif
+                                                </div> -->
+                                                <div class="form-group col-md-6">
+                                                    <input type="file" class="form-control"
+                                                        name="studentAchievements[{{ $key }}][achievements][{{ $achievementIndex }}][image]"
+                                                        accept="image/*">
+                                                    @if(!empty($achievement['image']))
+                                                    <input type="hidden"
+                                                        name="existingStudentAchievements[{{ $key }}][achievements][{{ $achievementIndex }}][image]"
+                                                        value="{{ $achievement['image'] }}">
+                                                    <img src="{{ asset('uploads/achievements/' . $achievement['image']) }}"
+                                                        alt="Achievement Image" class="img-thumbnail mt-2" width="70"
+                                                        height="70">
+                                                    @endif
                                                 </div>
+
                                                 <div class="form-group col-md-6">
                                                     <textarea class="form-control"
                                                         name="studentAchievements[{{ $key }}][achievements][{{ $achievementIndex }}][description]"
@@ -250,7 +268,7 @@
                     @if($section === 'student-achivements-table')
                     <!-- Department Achievements - Students -->
                     <div class="card-header">
-                        <h3 class="bold">Department Achievements - Students</h3>
+                        <h3 class="bold">Department Students Achievements - Table</h3>
                     </div>
 
                     <div class="card-block">
@@ -283,7 +301,7 @@
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
-                                                    onclick="removeYearStudentAchievements(this)">Remove Year</button>
+                                                    onclick="removeYearStudentAchievementstf(this)">Remove Year</button>
                                             </div>
                                         </div>
                                         <div class="year-achievements-container">
@@ -296,31 +314,31 @@
                                                         placeholder="Student Name"
                                                         value="{{ $achievement['studentName'] }}" required>
                                                 </div>
-                                                <div class="form-group col-md-2">
+                                                <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][eventNature]"
                                                         placeholder="Event Nature"
                                                         value="{{ $achievement['eventNature'] }}" required>
                                                 </div>
-                                                <div class="form-group col-md-2">
+                                                <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][eventName]"
                                                         placeholder="Event Name" value="{{ $achievement['eventName'] }}"
                                                         required>
                                                 </div>
-                                                <div class="form-group col-md-2">
+                                                <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][periodDate]"
                                                         placeholder="Period Date"
                                                         value="{{ $achievement['periodDate'] }}" required>
                                                 </div>
-                                                <div class="form-group col-md-2">
+                                                <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][organizedBy]"
                                                         placeholder="Organized By"
                                                         value="{{ $achievement['organizedBy'] }}" required>
                                                 </div>
-                                                <div class="form-group col-md-1">
+                                                <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][awards]"
                                                         placeholder="Awards" value="{{ $achievement['awards'] }}"
@@ -328,14 +346,14 @@
                                                 </div>
                                                 <div class="form-group col-md-2 text-end">
                                                     <button type="button" class="btn btn-danger"
-                                                        onclick="removeAchievement(this)">Remove</button>
+                                                        onclick="removeAchievementstudentAchievementsTableFormat(this)">Remove</button>
                                                 </div>
                                             </div>
                                             @endforeach
                                         </div>
                                         <div class="text-end">
                                             <button type="button" class="btn btn-info"
-                                                onclick="addAchievement(this, {{ isset($achievementIndex) ? $achievementIndex : 0 }})">Add
+                                                onclick="addAchievementstudentAchievementsTableFormat(this, {{ isset($achievementIndex) ? $achievementIndex : 0 }})">Add
                                                 Achievement</button>
                                         </div>
                                     </div>
@@ -350,7 +368,7 @@
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
-                                                    onclick="removeYearStudentAchievements(this)">Remove Year</button>
+                                                    onclick="removeYearStudentAchievementstf(this)">Remove Year</button>
                                             </div>
                                         </div>
                                         <div class="year-achievements-container">
@@ -360,32 +378,32 @@
                                                         name="studentAchievementsTableFormat[0][achievements][0][studentName]"
                                                         placeholder="Student Name" required>
                                                 </div>
-                                                <div class="form-group col-md-2">
+                                                <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[0][achievements][0][eventNature]"
                                                         placeholder="Event Nature" required>
                                                 </div>
-                                                <div class="form-group col-md-2">
+                                                <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[0][achievements][0][eventName]"
                                                         placeholder="Event Name" required>
                                                 </div>
-                                                <div class="form-group col-md-2">
+                                                <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[0][achievements][0][periodDate]"
                                                         placeholder="Period Date" required>
                                                 </div>
-                                                <div class="form-group col-md-2">
+                                                <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[0][achievements][0][organizedBy]"
                                                         placeholder="Organized By" required>
                                                 </div>
-                                                <div class="form-group col-md-1">
+                                                <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[0][achievements][0][awards]"
                                                         placeholder="Awards" required>
                                                 </div>
-                                                <div class="form-group col-md-2 text-end">
+                                                <div class="form-group col-md-3 text-end">
                                                     <button type="button" class="btn btn-danger"
                                                         onclick="removeAchievementstudentAchievementsTableFormat(this)">Remove</button>
                                                 </div>
@@ -434,23 +452,23 @@
                                             <div class="form-group col-md-3">
                                                 <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][0][studentName]" placeholder="Student Name" required>
                                             </div>
-                                            <div class="form-group col-md-2">
+                                            <div class="form-group col-md-3">
                                                 <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][0][eventNature]" placeholder="Event Nature" required>
                                             </div>
-                                            <div class="form-group col-md-2">
+                                            <div class="form-group col-md-3">
                                                 <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][0][eventName]" placeholder="Event Name" required>
                                             </div>
-                                            <div class="form-group col-md-2">
+                                            <div class="form-group col-md-3">
                                                 <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][0][periodDate]" placeholder="Period Date" required>
                                             </div>
-                                            <div class="form-group col-md-2">
+                                            <div class="form-group col-md-3">
                                                 <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][0][organizedBy]" placeholder="Organized By" required>
                                             </div>
-                                            <div class="form-group col-md-1">
+                                            <div class="form-group col-md-3">
                                                 <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][0][awards]" placeholder="Awards" required>
                                             </div>
-                                            <div class="form-group col-md-2 text-end">
-                                                <button type="button" class="btn btn-danger" onclick="removeAchievement(this)">Remove</button>
+                                            <div class="form-group col-md-3 text-end">
+                                                <button type="button" class="btn btn-danger" onclick="removeAchievementstudentAchievementsTableFormat(this)">Remove</button>
                                             </div>
                                         </div>
                                     </div>
@@ -480,22 +498,22 @@
                                     <div class="form-group col-md-3">
                                         <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][studentName]" placeholder="Student Name" required>
                                     </div>
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-3">
                                         <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][eventNature]" placeholder="Event Nature" required>
                                     </div>
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-3">
                                         <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][eventName]" placeholder="Event Name" required>
                                     </div>
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-3">
                                         <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][periodDate]" placeholder="Period Date" required>
                                     </div>
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-3">
                                         <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][organizedBy]" placeholder="Organized By" required>
                                     </div>
-                                    <div class="form-group col-md-1">
+                                    <div class="form-group col-md-3">
                                         <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][awards]" placeholder="Awards" required>
                                     </div>
-                                    <div class="form-group col-md-2 text-end">
+                                    <div class="form-group col-md-3 text-end">
                                         <button type="button" class="btn btn-danger" onclick="removeAchievementstudentAchievementsTableFormat(this)">Remove</button>
                                     </div>
                                 </div>`;

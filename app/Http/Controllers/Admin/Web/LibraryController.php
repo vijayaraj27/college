@@ -4,7 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\FileUploader;
 use App\Models\Web\Library;
-
+use Auth;
 use Toastr;
 
 class LibraryController extends Controller
@@ -87,6 +87,11 @@ class LibraryController extends Controller
  
         // Check if the row exists with the given departmentId
         $Library = Library::where('departmentId', $request->departmentId)->first();
+
+        if (Auth::user()->department_id != 0 && $request->departmentId != Auth::user()->department_id) {
+            Toastr::error(__("Sorry you can't edit some other information without their access"), __('msg_error'));
+            return redirect()->back();
+        }
 
         if ($Library) {
             $message = 'Record updated successfully';

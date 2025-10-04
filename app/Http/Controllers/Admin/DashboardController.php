@@ -106,8 +106,20 @@ class DashboardController extends Controller
                                   ->orderBy('title', 'asc')->get();
       // $data['departments'] = Department::where('status', '1')
       //                                   ->orderBy('title', 'asc')->get(); 
+      
+                                        if(Auth::user()->is_admin=='1')
+                                        {
+                                          $data['rows'] = Department::orderBy('title', 'asc')
+                                        ->get();
+                                        }
+                                        else
+                                        {
+                                          $data['rows'] = Department::orderBy('title', 'asc')
+                                        ->where('id', Auth::user()->department_id)->get();
+                                        }
                                         
-                                        $data['rows'] = Department::orderBy('title', 'asc')->get();
+
+                                        
       // $data['fees_types'] = FeesCategory::where('status', '1')
       //                       ->orderBy('title', 'asc')->get();                     
       // $data['item_types'] = ItemCategory::where('status', '1')
@@ -171,6 +183,7 @@ class DashboardController extends Controller
    }
 
    public function show($slug){
+     // exit;
       $data['title'] = " Department Section ";
       $department = Department::where('slug', $slug)->first();
       $data['baseurl'] = config('app.url');
@@ -180,6 +193,6 @@ class DashboardController extends Controller
         return redirect('/admin'); // Direct URL as a test      
      }
       $data['slug'] = $slug;     
-      return view('admin.dashboard.departmentslug', $data);       
+     return view('admin.dashboard.departmentslug', $data);       
    }
 }

@@ -25,3 +25,8 @@
     order allow,deny
     Deny from all
 </Files>
+
+<IfModule mod_php8.c>
+   php_value upload_max_filesize 4028M
+   php_value post_max_size 4028M
+</IfModule>

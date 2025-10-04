@@ -169,75 +169,85 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <strong><a class="btn btn-primary m-2">Research</a> </strong>
+                                        <strong><a class="btn btn-primary m-2"
+                                                href="{{$baseurl}}admin/web/research/{{$department->id}}_basic"
+                                                target="_blank">Research</a> </strong>
                                         <ul>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/research/{{$department->id}}_phd"
                                                         target="_blank">phd
                                                         Holders List</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/research/{{$department->id}}_anna-university"
                                                         target="_blank">anna
                                                         University Recognized Superviors NameList</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/research/{{$department->id}}_pursuing-phd"
                                                         target="_blank">List Of
                                                         Candidates Pursuing Phd Under Department Supervisors</a>
                                                 </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/research/{{$department->id}}_faculties-pursuing-phd"
                                                         target="_blank">List Of
                                                         Department Faculties Pursuing Phd</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/research/{{$department->id}}_phd-awarded"
                                                         target="_blank">phd
                                                         Awarded Under Department Supervisor</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/research/{{$department->id}}_supervisor"
                                                         target="_blank">supervisor</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/research/{{$department->id}}_funds"
                                                         target="_blank">Funds</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/research/{{$department->id}}_value-added-group"
                                                         target="_blank">Value
                                                         Added Group</a> </strong></li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <strong><a class="btn btn-primary m-2">Publications</a> </strong>
+                                        <strong><a class="btn btn-primary m-2"
+                                                href="{{$baseurl}}admin/web/publications/{{$department->id}}_basic"
+                                                target="_blank">Publications</a> </strong>
                                         <ul>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/publications/{{$department->id}}_patent"
                                                         target="_blank">patent</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/publications/{{$department->id}}_bookchapter"
                                                         target="_blank">book
                                                         Chapter</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/publications/{{$department->id}}_journalpublication"
                                                         target="_blank">journal
                                                         Publication</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/publications/{{$department->id}}_conferenceList"
                                                         target="_blank">Conference List</a> </strong></li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <strong><a class="btn btn-primary m-2">Activities</a> </strong>
+                                        <strong><a class="btn btn-primary m-2"
+                                                href="{{$baseurl}}admin/web/activities/{{$department->id}}_basic"
+                                                target="_blank">Activities</a> </strong>
                                         <ul>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/activities/{{$department->id}}_departmentActivity"
                                                         target="_blank">Department Activity</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/activities/{{$department->id}}_studentParticipation"
                                                         target="_blank">Student
                                                         Participation</a> </strong></li>
                                             <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/magazines/{{$department->id}}_basic"
+                                                        href="{{$baseurl}}admin/web/activities/{{$department->id}}_interInstituteEventsWinningPrize"
                                                         target="_blank">Inter
                                                         Institute Events Winning Prize</a> </strong>
                                             </li>
+                                            <li><strong><a class="btn btn-primary m-2"
+                                                        href="{{$baseurl}}admin/web/activities/{{$department->id}}_industrialVisit"
+                                                        target="_blank">Industrial
+                                                        Visit</a> </strong></li>
 
                                         </ul>
                                     </li>
