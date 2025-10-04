@@ -31,7 +31,7 @@ background-repeat: no-repeat;
 background-position: 0 -100px;
 }
     .logo {
-  width: 40%;
+  /* width: 40%; */
   margin: auto;
     }
     .s-about-img img{
@@ -2826,4 +2826,12 @@ margin: 0;
 .main-menu-area-width {
     width: auto;
     margin: auto;
+}
+
+
+
+@media (min-width: 1200px) {
+    div#header-sticky.menu-area.sticky-menu  .second-menu .row .col-lg-9{
+        width: 100% !important;
+    }
 }

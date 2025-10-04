@@ -72,43 +72,69 @@
                             <ul class="d-flex flex-wrap listmargin clearfix">
                                     
                                         <li>
-                                            <a class="btn ss-btn mr-10" href="{{ route('department.single', ['slug' => $department->slug ]) }}/faculty"> <strong>{{ __('field_faculty') }} </strong> </a>         
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.faculty', ['slug' => $department->slug]) }}"> 
+                                                <strong>{{ __('field_faculty') }}</strong> 
+                                            </a>         
                                         </li>
                                         <li>
-                                            <strong><a class="btn ss-btn mr-10" >Infrastructure</a> </strong> 
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.section', ['slug' => $department->slug, 'section' => 'infrastructures']) }}"> 
+                                                <strong>Infrastructure</strong> 
+                                            </a>
                                         </li>
                                         <li>
-                                            <strong><a class="btn ss-btn mr-10" >Achievements</a> </strong> 
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.section', ['slug' => $department->slug, 'section' => 'achievements']) }}"> 
+                                                <strong>Achievements</strong> 
+                                            </a>
                                         </li>
                                         <li>
-                                            <strong><a class="btn ss-btn mr-10" >Placement</a></strong> 
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.section', ['slug' => $department->slug, 'section' => 'placements']) }}"> 
+                                                <strong>Placement</strong> 
+                                            </a>
                                         </li>
                                         <li>
-                                            <strong><a class="btn ss-btn mr-10" >Video Materials</a> </strong> 
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.section', ['slug' => $department->slug, 'section' => 'videos']) }}"> 
+                                                <strong>Video Materials</strong> 
+                                            </a>
                                         </li>
                                         <li>
-                                            <strong><a class="btn ss-btn mr-10" >Course Materials</a> </strong> 
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.section', ['slug' => $department->slug, 'section' => 'magazines']) }}"> 
+                                                <strong>Course Materials</strong> 
+                                            </a>
                                         </li>
                                         <li>
-                                            <strong><a class="btn ss-btn mr-10" >Events</a> </strong> 
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.section', ['slug' => $department->slug, 'section' => 'events']) }}"> 
+                                                <strong>Events</strong> 
+                                            </a>
                                         </li>
                                         <li>
-                                            <strong><a class="btn ss-btn mr-10" >Newsletter</a> </strong> 
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.section', ['slug' => $department->slug, 'section' => 'newsletters']) }}"> 
+                                                <strong>Newsletter</strong> 
+                                            </a>
                                         </li>
                                         <li>
-                                            <strong><a class="btn ss-btn mr-10" >Syllabus</a> </strong> 
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.section', ['slug' => $department->slug, 'section' => 'syllabus']) }}"> 
+                                                <strong>Syllabus</strong> 
+                                            </a>
                                         </li>
                                         <li>
-                                            <strong><a class="btn ss-btn mr-10" >Department Library</a> </strong> 
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.section', ['slug' => $department->slug, 'section' => 'libraries']) }}"> 
+                                                <strong>Department Library</strong> 
+                                            </a>
                                         </li>
                                         <li>
-                                            <strong><a class="btn ss-btn mr-10" >Research</a> </strong> 
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.section', ['slug' => $department->slug, 'section' => 'research']) }}"> 
+                                                <strong>Research</strong> 
+                                            </a>
                                         </li>
                                         <li>
-                                            <strong><a class="btn ss-btn mr-10" >Publications</a> </strong> 
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.section', ['slug' => $department->slug, 'section' => 'publications']) }}"> 
+                                                <strong>Publications</strong> 
+                                            </a>
                                         </li>
                                         <li>
-                                            <strong><a class="btn ss-btn mr-10" >Activities</a> </strong> 
+                                            <a class="btn ss-btn mr-10" href="{{ route('department.section', ['slug' => $department->slug, 'section' => 'activities']) }}"> 
+                                                <strong>Activities</strong> 
+                                            </a>
                                         </li>
                                       
                                     </ul>
@@ -122,7 +148,9 @@
                             </div>
                             <div class="inner-column">
                                   <p> {!! $department->title !!} </p>  
-                                  <p> {!! $sectionAbout['description'] !!} </p>
+                                  @if($sectionAbout && is_array($sectionAbout) && isset($sectionAbout['description']))
+                                      <p> {!! $sectionAbout['description'] !!} </p>
+                                  @endif
                             </div>
                         </div>
             

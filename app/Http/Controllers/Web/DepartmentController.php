@@ -79,7 +79,7 @@ class DepartmentController extends Controller
            'activities'     => 'department_activities',
            'events'         => 'department_events',
            'faculties'      => 'department_faculties',
-           'infrasturctures'=> 'department_infrasturctures',
+           'infrastructures'=> 'department_infrastructures',
            'libraries'      => 'department_libraries',
            'magazines'      => 'department_magazines',
            'newsletters'    => 'department_newsletters',
@@ -111,25 +111,41 @@ class DepartmentController extends Controller
 
         //  print_r($sliders); exit;
     
+       // Helper function to safely decode JSON
+       $decodeJson = function($jsonString) {
+           if (empty($jsonString)) return null;
+           $decoded = json_decode($jsonString, true);
+           return is_array($decoded) ? $decoded : null;
+       };
+
        $response = [
                     'data' => $data,
                     'section' => $section,
                     'sliders' => $sliders,
                     'testimonials' => $testimonials,
-                    'departmentSectionImage' => json_decode($data->departmentSectionImage, true),
+                    'departmentSectionImage' => $data ? $decodeJson($data->departmentSectionImage ?? '') : null,
                  //   'slider' => json_decode($data->slider, true),
-                    'sectionAbout' => json_decode($data->sectionAbout, true),
-                    'vision' => $data->vision,
-                    'mission' => $data->mission,
-                    'coreValue' => $data->coreValue,
+                    'sectionAbout' => $data ? $decodeJson($data->sectionAbout ?? '') : null,
+                    'vision' => $data->vision ?? '',
+                    'mission' => $data->mission ?? '',
+                    'coreValue' => $data->coreValue ?? '',
                    // 'testimonial' => json_decode($data->testimonial, true),
-                    'programmeEducationalObjectives' => json_decode($data->programmeEducationalObjectives, true),
-                    'programmeOutcomes' => json_decode($data->programmeOutcomes, true),
-                    'programmeSpecificOutcomes' => json_decode($data->programmeSpecificOutcomes, true),
-                    'contact' => json_decode($data->contact, true),
-                    'department' => $department
+                    'programmeEducationalObjectives' => $data ? $decodeJson($data->programmeEducationalObjectives ?? '') : null,
+                    'programmeOutcomes' => $data ? $decodeJson($data->programmeOutcomes ?? '') : null,
+                    'programmeSpecificOutcomes' => $data ? $decodeJson($data->programmeSpecificOutcomes ?? '') : null,
+                    'contact' => $data ? $decodeJson($data->contact ?? '') : null,
+                    'department' => $department,
+                    'decodeJson' => $decodeJson // Make helper available in views
                 ];
 
+        // Return the appropriate view based on the section
+        $viewName = 'web.department-' . $section;
+        
+        // Check if the specific view exists, otherwise fall back to department-single
+        if (view()->exists($viewName)) {
+            return view($viewName, $response);
+        }
+        
         return view('web.department-single', $response);
     }
     

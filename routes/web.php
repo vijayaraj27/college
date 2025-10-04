@@ -22,7 +22,8 @@ Route::middleware(['XSS'])->namespace('Web')->group(function () {
     Route::get('/department/{slug}', 'DepartmentController@show')->name('department.single');
     Route::get('department/{slug}/faculty', 'DepartmentController@showFaculty')->name('department.faculty');
 
-    Route::get('/department/{slug}/{section?}', 'DepartmentController@show');
+    // Department section routes
+    Route::get('/department/{slug}/{section}', 'DepartmentController@show')->name('department.section');
     Route::post('/department/{section}/{departmentId?}', 'DepartmentController@storeOrUpdate');
 
     // Course Route

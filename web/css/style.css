@@ -10790,6 +10790,11 @@ p.checkout-coupon input[type="text"] {
     cursor: pointer;
 }
 
+.project-detail .project-info li.active {
+    background-color: #f5874f;
+    cursor: pointer;
+}
+
 .project-detail .project-info h5 {
     float: left;
 }

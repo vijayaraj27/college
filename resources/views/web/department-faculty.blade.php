@@ -118,54 +118,7 @@
                             </div>
                         </div>
                         <div class="col-lg-3">
-                            <aside class="sidebar-widget info-column">
-                                <div class="inner-column3">
-                                    <h3>{{ __('Details') }}</h3>
-                                    <ul class="project-info clearfix">
-                                        @if(!empty($department->slug))
-                                        <li>
-                                            <a href="{{ route('department.single', ['slug' => $department->slug ]) }}/faculty"> <strong>{{ __('field_faculty') }} </strong> </a>                                        
-                                        </li>
-                                        <li>
-                                            <strong><a>Infrastructure</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Achievements</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Placement</a></strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Video Materials</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Course Materials</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Events</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Newsletter</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Syllabus</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Department Library</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Research</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Publications</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a>Activities</a> </strong> 
-                                        </li>
-                                        @endif
-                                    </ul>
-                                </div>
-                            </aside>
+                            @include('web.components.department-sidebar')
                         </div>
                     </div>
                 </div>
