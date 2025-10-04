@@ -51,131 +51,6 @@
             @endforeach
         </div>
     </section>
-
-    <!-- <section id="count">
-        <style>
-        .hero {
-            width: 100%;
-            height: 100vh;
-            background-image: linear-gradient(rgba(100, 235, 161, 0.671), rgba(255, 255, 255, 0.5)), url(https://cdn.pixabay.com/photo/2018/08/21/23/29/forest-3622519__340.jpg);
-            background-position: center;
-            background-size: cover;
-            text-align: center;
-            position: relative;
-        }
-
-        .title {
-            width: 60%;
-            display: inline-block;
-            margin: 150px auto 0;
-            color: #000;
-            text-align: center;
-        }
-
-        .title h1 {
-            margin-bottom: 30px;
-        }
-
-        .title p {
-            font-size: 13px;
-            line-height: 22px;
-        }
-
-        section#count .row {
-            width: 85%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: absolute;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        section#count .col {
-            flex-basis: 22%;
-            text-align: center;
-            color: #555;
-        }
-
-        .counter-box {
-            width: 100%;
-            height: 100%;
-            background: #12192c;
-            padding: 20px 0;
-            border-radius: 10px;
-            box-shadow: 0 0 20px -4px #66676c;
-            color: #fff;
-        }
-
-        h4 {
-            color: #fff;
-        }
-
-        h2,
-
-        span {
-            display: inline-block;
-            margin: 15px 0;
-            font-size: 50px;
-            color: #fff;
-        }
-
-        .counter-box .fa {
-            font-size: 40px;
-            color: rgba(16, 211, 97, 0.603);
-            display: block;
-        }
-
-        .credit a {
-            text-decoration: none;
-            color: #000;
-        }
-
-        .credit {
-            margin-top: 10px;
-            text-align: center;
-        }
-        </style>
-        <div class="hero">
-            <div class="title">
-                <h1>ABOUT COMPANY</h1>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="counter-box">
-                        <i class="fa fa-BOOK"></i>
-                        <h2 class="counter">215</h2>
-                        <h4>PROJECTS</h4>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="counter-box">
-                        <i class="fa fa-users"></i>
-                        <h2 class="counter">101</h2><span>k</span>
-                        <h4>HAPPY CLIENTS</h4>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="counter-box">
-                        <i class="fa fa-USER"></i>
-                        <h2 class="counter">205</h2>
-                        <h4>TRAINED STUDENTS</h4>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="counter-box">
-                        <i class="fa fa-globe"></i>
-                        <h2 class="counter">105</h2>
-                        <h4>VISITED COUNTRIES</h4>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
-
-    </section> -->
     <!-- slider-area-end -->
     {{-- Comment line --}}
     <?php /*  @if(count($features) > 0)
@@ -205,6 +80,7 @@
         @endif
     */ ?>
     @isset($about)
+    @var_dump($about)
     <!-- about-area -->
     <section class="about-area about-p pt-120 pb-120 p-relative fix" style="background: #eff7ff;">
         <div class="animations-02"><img src="{{ asset('web/img/bg/an-img-02.png') }}" alt="About"></div>
@@ -609,7 +485,7 @@
     @endisset
     @isset($callToAction)
     <!-- cta-area -->
-    <section class="cta-area cta-bg pt-50 pb-50" style="background-color: #008B8B;">
+    <section class="cta-area cta-bg pt-50 pb-50" style="background-color: #125875;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -664,6 +540,5 @@
     <!-- testimonial-area-end -->
     @endif
 </main>
-
 <!-- main-area-end -->
 @endsection
