@@ -72,65 +72,163 @@ class DepartmentController extends Controller
         // Fetch department by slug
         $department = Department::where('slug', $departmentSlug)->firstOrFail();
 
-        // Check the second slug to determine which table to query
+        // Section to table mapping
         $tableMapping = [
-           'about'          => 'department_about_us',
-           'achievements'   => 'department_achievements',
-           'activities'     => 'department_activities',
-           'events'         => 'department_events',
-           'faculties'      => 'department_faculties',
-           'infrasturctures'=> 'department_infrasturctures',
-           'libraries'      => 'department_libraries',
-           'magazines'      => 'department_magazines',
-           'newsletters'    => 'department_newsletters',
-           'placements'     => 'department_placements',
-           'publications'   => 'department_publications',
-           'research'       => 'department_research',
-           'syllabus'       => 'department_syllabus',
-           'videos'         => 'department_videos'
+            'about'           => 'department_about_us',
+            'achievements'    => 'department_achievements',
+            'activities'      => 'department_activities',
+            'courses'         => 'department_courses',
+            'events'          => 'department_events',
+            'faculties'       => 'department_faculties',
+            'infrastructures' => 'department_infrastructures',
+            'libraries'       => 'department_libraries',
+            'magazines'       => 'department_magazines',
+            'newsletters'     => 'department_newsletters',
+            'placements'      => 'department_placements',
+            'publications'    => 'department_publications',
+            'research'        => 'department_research',
+            'syllabus'        => 'department_syllabus',
+            'videos'          => 'department_videos'
         ];
 
-        // Use the second slug to determine which table to query
+        // Validate section
         if (!array_key_exists($section, $tableMapping)) {
-           return response()->json(['error' => 'Invalid section'], 404);
+            abort(404, 'Invalid section.');
         }
 
-        // Query the data from the correct table
+        // Fetch table data
         $tableName = $tableMapping[$section];
-
         $data = DB::table($tableName)
-           ->where('departmentId', $department->id)
-           ->first();
+            ->where('departmentId', $department->id)
+            ->first();
 
-           $sliders = Slider::where('language_id', Language::version()->id)->get();
-           $testimonials = Testimonial::where('language_id', Language::version()->id)
-                                        ->where('status', '1')
-                                        ->where('department_id', '0')
-                                        ->orderBy('id', 'desc')
-                                        ->get();
+        // Common data
+        $sliders = Slider::where('language_id', Language::version()->id)->get();
+        $testimonials = Testimonial::where('language_id', Language::version()->id)
+            ->where('status', '1')
+            ->where('department_id', '0')
+            ->orderBy('id', 'desc')
+            ->get();
 
-        //  print_r($sliders); exit;
-    
-       $response = [
-                    'data' => $data,
-                    'section' => $section,
-                    'sliders' => $sliders,
-                    'testimonials' => $testimonials,
-                    'departmentSectionImage' => json_decode($data->departmentSectionImage, true),
-                 //   'slider' => json_decode($data->slider, true),
-                    'sectionAbout' => json_decode($data->sectionAbout, true),
-                    'vision' => $data->vision,
-                    'mission' => $data->mission,
-                    'coreValue' => $data->coreValue,
-                   // 'testimonial' => json_decode($data->testimonial, true),
-                    'programmeEducationalObjectives' => json_decode($data->programmeEducationalObjectives, true),
-                    'programmeOutcomes' => json_decode($data->programmeOutcomes, true),
-                    'programmeSpecificOutcomes' => json_decode($data->programmeSpecificOutcomes, true),
-                    'contact' => json_decode($data->contact, true),
-                    'department' => $department
-                ];
+        // Safe extraction helper
+        $getValue = fn($obj, $key, $default = null) =>
+            (is_object($obj) && property_exists($obj, $key) && !empty($obj->$key)) ? $obj->$key : $default;
 
-        return view('web.department-single', $response);
+        // Prepare response
+        $response = [
+            'data'                         => $data,
+            'section'                      => $section,
+            'sliders'                      => $sliders,
+            'testimonials'                 => $testimonials,
+            'departmentSectionImage'       => json_decode($getValue($data, 'departmentSectionImage', '[]'), true),
+            'sectionAbout'                 => json_decode($getValue($data, 'sectionAbout', '[]'), true),
+            'vision'                       => $getValue($data, 'vision', ''),
+            'mission'                      => $getValue($data, 'mission', ''),
+            'coreValue'                    => $getValue($data, 'coreValue', ''),
+            'programmeEducationalObjectives' => json_decode($getValue($data, 'programmeEducationalObjectives', '[]'), true),
+            'programmeOutcomes'            => json_decode($getValue($data, 'programmeOutcomes', '[]'), true),
+            'programmeSpecificOutcomes'    => json_decode($getValue($data, 'programmeSpecificOutcomes', '[]'), true),
+            'contact'                      => json_decode($getValue($data, 'contact', '[]'), true),
+            'department'                   => $department,
+        ];
+
+        // Add section-specific data based on the current section
+        if ($data) {
+            switch ($section) {
+                case 'achievements':
+                    $response['staffAchievements'] = json_decode($getValue($data, 'staffAchievements', '[]'), true);
+                    $response['studentAchievements'] = json_decode($getValue($data, 'studentAchievements', '[]'), true);
+                    $response['studentAchievementsTableFormat'] = json_decode($getValue($data, 'studentAchievementsTableFormat', '[]'), true);
+                    $response['studentAchievementsAppeciationList'] = json_decode($getValue($data, 'studentAchievementsAppeciationList', '[]'), true);
+                    break;
+                    
+                case 'activities':
+                    $response['departmentActivity'] = json_decode($getValue($data, 'departmentActivity', '[]'), true);
+                    $response['studentParticipation'] = json_decode($getValue($data, 'studentParticipation', '[]'), true);
+                    $response['interInstituteEventsWinningPrize'] = json_decode($getValue($data, 'interInstituteEventsWinningPrize', '[]'), true);
+                    $response['industrialVisit'] = json_decode($getValue($data, 'industrialVisit', '[]'), true);
+                    break;
+                    
+                case 'events':
+                    $response['eventDetails'] = json_decode($getValue($data, 'eventDetails', '[]'), true);
+                    break;
+                    
+                case 'faculties':
+                    $response['teachingStaff'] = json_decode($getValue($data, 'teachingStaff', '[]'), true);
+                    $response['nonTeachingStaff'] = json_decode($getValue($data, 'nonTeachingStaff', '[]'), true);
+                    break;
+                    
+                case 'infrastructures':
+                    $response['buildings'] = json_decode($getValue($data, 'buildings', '[]'), true);
+                    break;
+                    
+                case 'libraries':
+                    $response['record'] = json_decode($getValue($data, 'record', '[]'), true);
+                    break;
+                    
+                case 'magazines':
+                    $response['magazines'] = json_decode($getValue($data, 'magazines', '[]'), true);
+                    break;
+                    
+                case 'newsletters':
+                    $response['newsletter'] = json_decode($getValue($data, 'newsletter', '[]'), true);
+                    break;
+                    
+                case 'placements':
+                    $response['studentPlaced'] = json_decode($getValue($data, 'studentPlaced', '[]'), true);
+                    break;
+                    
+                case 'publications':
+                    $response['patent'] = json_decode($getValue($data, 'patent', '[]'), true);
+                    $response['bookChapter'] = json_decode($getValue($data, 'bookChapter', '[]'), true);
+                    $response['journalPublication'] = json_decode($getValue($data, 'journalPublication', '[]'), true);
+                    $response['conferenceList'] = json_decode($getValue($data, 'conferenceList', '[]'), true);
+                    break;
+                    
+                case 'research':
+                    $response['phdHoldersList'] = json_decode($getValue($data, 'phdHoldersList', '[]'), true);
+                    $response['annaUniversityRecognizedSuperviorsNameList'] = json_decode($getValue($data, 'annaUniversityRecognizedSuperviorsNameList', '[]'), true);
+                    $response['listOfCandidatesPursuingPhdUnderDepartmentSupervisors'] = json_decode($getValue($data, 'listOfCandidatesPursuingPhdUnderDepartmentSupervisors', '[]'), true);
+                    $response['listOfDepartmentFacultiesPursuingPhd'] = json_decode($getValue($data, 'listOfDepartmentFacultiesPursuingPhd', '[]'), true);
+                    $response['phdAwardedUnderDepartmentSupervisor'] = json_decode($getValue($data, 'phdAwardedUnderDepartmentSupervisor', '[]'), true);
+                    $response['supervisor'] = json_decode($getValue($data, 'supervisor', '[]'), true);
+                    $response['funds'] = json_decode($getValue($data, 'funds', '[]'), true);
+                    $response['valueAddedGroup'] = json_decode($getValue($data, 'valueAddedGroup', '[]'), true);
+                    break;
+                    
+                case 'syllabus':
+                    $response['regulation'] = json_decode($getValue($data, 'regulation', '[]'), true);
+                    $response['questionBank'] = json_decode($getValue($data, 'questionBank', '[]'), true);
+                    $response['syllabus'] = json_decode($getValue($data, 'syllabus', '[]'), true);
+                    break;
+                    
+                case 'videos':
+                    $response['videos'] = json_decode($getValue($data, 'videos', '[]'), true);
+                    break;
+            }
+        }
+
+        // Choose view based on section
+        $viewPath = match ($section) {
+            'about'           => 'web.department.about',
+            'achievements'    => 'web.department.achievements',
+            'activities'      => 'web.department.activities',
+            'courses'         => 'web.department.courses',
+            'events'          => 'web.department.events',
+            'faculties'       => 'web.department.faculties',
+            'infrastructures' => 'web.department.infrastructures',
+            'libraries'       => 'web.department.libraries',
+            'magazines'       => 'web.department.magazines',
+            'newsletters'     => 'web.department.newsletters',
+            'placements'      => 'web.department.placements',
+            'publications'    => 'web.department.publications',
+            'research'        => 'web.department.research',
+            'syllabus'        => 'web.department.syllabus',
+            'videos'          => 'web.department.videos',
+            default           => 'web.department.about',
+        };
+
+        return view($viewPath, $response);
     }
     
     // Common function to handle Add/Update

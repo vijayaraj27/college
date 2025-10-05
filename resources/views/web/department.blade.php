@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="courses-content w-100">                                    
                                         <div class="cat"><i class="fal fa-graduation-cap"></i> {{ $dept->shortcode }}</div>
-                                        <h3><a href="#">{{ $dept->title }}</a></h3>
+                                        <h3><a href="{{ route('department.single', ['slug' => $dept->slug]) }}">{{ $dept->title }}</a></h3>
                                         {{-- <p>{!! str_limit(strip_tags($dept->description), 120, ' ...') !!}</p> --}}
                                         <a href="{{ route('department.single', ['slug' => $dept->slug]) }}" class="readmore">{{ __('btn_read_more') }} <i class="fal fa-long-arrow-right"></i></a>    
                                         {{----}}

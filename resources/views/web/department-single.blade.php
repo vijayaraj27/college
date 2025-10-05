@@ -122,7 +122,7 @@
                             </div>
                             <div class="inner-column">
                                   <p> {!! $department->title !!} </p>  
-                                  <p> {!! $sectionAbout['description'] !!} </p>
+                                  <p> {!! $sectionAbout['description'] ?? '' !!} </p>
                             </div>
                         </div>
             
