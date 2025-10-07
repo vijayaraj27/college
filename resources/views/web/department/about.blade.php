@@ -4,28 +4,15 @@
 
 @section('content')
 <!-- Page Header -->
-<section class="page-header bg-gradient-primary text-white py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb breadcrumb-dark">
-                        <li class="breadcrumb-item"><a href="{{ url('/') }}" class="text-white-50">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('/departments') }}" class="text-white-50">Departments</a></li>
-                        <li class="breadcrumb-item active text-white" aria-current="page">{{ $department->title }}</li>
-                    </ol>
-                </nav>
-                <h1 class="display-4 fw-bold mb-3 animate-fade-in">{{ $department->title }} - About Us</h1>
-                <p class="lead animate-slide-up">Excellence in Engineering Education and Research</p>
-            </div>
-            <div class="col-lg-4 text-end">
-                <div class="department-logo animate-zoom-in">
-                    <i class="fas fa-graduation-cap fa-5x opacity-75"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<x-web.breadcrumb 
+    :title="$department->title . ' - About Us'"
+    :items="[
+        ['title' => 'Home', 'url' => url('/')],
+        ['title' => 'Departments', 'url' => url('/departments')],
+        ['title' => $department->title, 'url' => null]
+    ]"
+    background="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+/>
 
 <!-- Quick Navigation -->
 <section class="py-3 bg-white border-bottom sticky-top" style="top: 0; z-index: 1000;">

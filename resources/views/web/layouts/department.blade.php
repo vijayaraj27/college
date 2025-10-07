@@ -4,33 +4,20 @@
 
 @section('content')
 <!-- Page Header -->
-<section class="page-header bg-gradient-primary text-white py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb breadcrumb-dark">
-                        <li class="breadcrumb-item"><a href="{{ url('/') }}" class="text-white-50">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('/departments') }}" class="text-white-50">Departments</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('/department/' . $department->slug) }}" class="text-white-50">{{ $department->title }}</a></li>
-                        <li class="breadcrumb-item active text-white" aria-current="page">{{ ucfirst($section) }}</li>
-                    </ol>
-                </nav>
-                <h1 class="display-4 fw-bold mb-3 animate-fade-in">{{ $department->title }} - {{ ucfirst($section) }}</h1>
-                <p class="lead animate-slide-up">@yield('page-description', 'Department Information')</p>
-            </div>
-            <div class="col-lg-4 text-end">
-                <div class="department-logo animate-zoom-in">
-                    <i class="fas @yield('page-icon', 'fa-info-circle') fa-5x opacity-75"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<x-web.breadcrumb 
+    :title="$department->title . ' - ' . ucfirst($section)"
+    :items="[
+        ['title' => 'Home', 'url' => url('/')],
+        ['title' => 'Departments', 'url' => url('/departments')],
+        ['title' => $department->title, 'url' => url('/department/' . $department->slug)],
+        ['title' => ucfirst($section), 'url' => null]
+    ]"
+    background="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+/>
 
 <!-- Main Content with Sidebar -->
-<div class="container-fluid">
-    <div class="row">
+<section class="container-fluid project-detail">
+    
         <!-- Main Content -->
         <div class="col-lg-9 col-md-8">
             @yield('main-content')
@@ -38,8 +25,8 @@
         
         <!-- Right Sidebar Navigation -->
         @include('web.partials.department-navigation')
-    </div>
-</div>
+   
+</section>
 
 @endsection
 

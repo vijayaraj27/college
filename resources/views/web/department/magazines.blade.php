@@ -45,7 +45,7 @@
                     <h2 class="section-title text-center mb-4">
                         <i class="fa fa-newspaper-o text-primary"></i> Department Magazines
                     </h2>
-                    <div class="magazines-grid">
+                    <div class="magazines-grid d-flex flex-wrap">
                         @foreach($magazines as $index => $magazine)
                         <div class="magazine-item p-4 mb-4 border rounded">
                             <div class="magazine-content">

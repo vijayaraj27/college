@@ -93,7 +93,7 @@
                     <h2 class="section-title text-center mb-4">
                         <i class="fa fa-video-camera text-success"></i> Video Materials
                     </h2>
-                    <div class="videos-grid">
+                    <div class="videos-grid d-flex flex-wrap">
                         @foreach($videos as $index => $video)
                         <div class="video-item p-4 mb-4 border rounded">
                             <div class="video-content">

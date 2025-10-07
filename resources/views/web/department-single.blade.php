@@ -1,131 +1,65 @@
 @extends('web.layouts.master')
-  @section('title', __($department->title)) 
-  
+@section('title', $department->title)
  
   @section('content')
-    <!-- Your content here -->
-
- 
     <!-- main-area -->
     <main>
-        <section id="home" class="slider-area fix p-relative">
-            <div class="slider-active" style="background: #141b22;">
-          
-                 @foreach($sliders as $slider)
-                <div class="single-slider slider-bg" style="background-image: url({{ asset('uploads/slider/'.$slider->attach) }}); background-size: cover;">
-                    <div class="overlay"></div>
-                    <div class="container">
-                       <div class="row">
-                            <div class="col-lg-7 col-md-7">
-                                <div class="slider-content s-slider-content mt-130">
-                                    <h2 data-animation="fadeInUp" data-delay=".4s">{{ $slider->title }}</h2>
-                                    <p data-animation="fadeInUp" data-delay=".6s">{!! strip_tags($slider->sub_title, '<b><u><i><br>') !!}</p>
-                                    @if(isset($slider->button_link))
-                                    <div class="slider-btn mt-30">     
-                                        <a href="{{ $slider->button_link }}" target="_blank" class="btn ss-btn mr-15" data-animation="fadeInLeft" data-delay=".4s">{{ $slider->button_text }} <i class="fal fa-long-arrow-right"></i></a>
-                                    </div>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="col-lg-5 col-md-5 p-relative">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach     
-            </div>
-        </section>  
-         <!-- breadcrumb-area -->
-         <section class="breadcrumb-area d-flex  p-relative align-items-center">
-            <div class="container">
-                  
-                  <div class="row align-items-center">
-                      <div class="col-xl-12 col-lg-12">
-                          <div class="breadcrumb-wrap text-left">
-                              <div class="breadcrumb-title">
-                                  <h2>{{$department->title}}</h2>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="breadcrumb-wrap2">
-                          <nav aria-label="breadcrumb">
-                              <ol class="breadcrumb">
-                                  <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('navbar_home') }}</a></li>
-                                  <li class="breadcrumb-item" ><a href="{{ route('department') }}">{{ __('navbar_department') }}</a></li>
-                                  <li class="breadcrumb-item active" aria-current="page"> {{$department->title}}</li>
-                              </ol>
-                          </nav>
-                      </div>
-                  </div>
-              </div>  
-          </section>
-          
-          <!-- breadcrumb-area-end -->
-        <!-- course Detail -->
-       <section class="project-detail">
+    <!-- Slider Section -->
+    <x-web.slider 
+        :sliders="$sliders"
+        :department="$department"
+        default-button-link="#department-content"
+        class="department-slider"
+    />
+    <!-- slider-area-end -->
+
+    <!-- Breadcrumb Section -->
+    <x-web.breadcrumb 
+        :title="$department->title"
+        :items="[
+            ['title' => __('navbar_home'), 'url' => route('home')],
+            ['title' => __('navbar_department'), 'url' => route('department')],
+            ['title' => $department->title, 'url' => null]
+        ]"
+    />
+    <!-- breadcrumb-area-end -->
+
+    <!-- Department Content Section -->
+    <section class="project-detail" id="department-content">
             <div class="container">
                 <div class="lower-content">
                     <div class="row">
- 
                             <div class="text-column col-lg-12 col-md-12 col-sm-12">
+                        <!-- Quick Navigation Buttons -->
+                        <x-web.quick-navigation 
+                            title="Details"
+                            :items="[
+                                ['title' => __('field_faculty'), 'url' => url('/department/' . $department->slug . '/about')],
+                                ['title' => 'Infrastructure', 'url' => url('/department/' . $department->slug . '/infrastructures')],
+                                ['title' => 'Achievements', 'url' => url('/department/' . $department->slug . '/achievements')],
+                                ['title' => 'Placement', 'url' => url('/department/' . $department->slug . '/placements')],
+                                ['title' => 'Video Materials', 'url' => url('/department/' . $department->slug . '/videos')],
+                                ['title' => 'Course Materials', 'url' => url('/department/' . $department->slug . '/courses')],
+                                ['title' => 'Events', 'url' => url('/department/' . $department->slug . '/events')],
+                                ['title' => 'Newsletter', 'url' => url('/department/' . $department->slug . '/newsletters')],
+                                ['title' => 'Syllabus', 'url' => url('/department/' . $department->slug . '/syllabus')],
+                                ['title' => 'Department Library', 'url' => url('/department/' . $department->slug . '/libraries')],
+                                ['title' => 'Research', 'url' => url('/department/' . $department->slug . '/research')],
+                                ['title' => 'Publications', 'url' => url('/department/' . $department->slug . '/publications')],
+                                ['title' => 'Activities', 'url' => url('/department/' . $department->slug . '/activities')]
+                            ]"
+                        />
 
-                            <ul class="d-flex flex-wrap listmargin clearfix">
-                                    
-                                        <li>
-                                            <a class="btn ss-btn mr-10" href="{{ route('department.single', ['slug' => $department->slug ]) }}/faculty"> <strong>{{ __('field_faculty') }} </strong> </a>         
-                                        </li>
-                                        <li>
-                                            <strong><a class="btn ss-btn mr-10" >Infrastructure</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a class="btn ss-btn mr-10" >Achievements</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a class="btn ss-btn mr-10" >Placement</a></strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a class="btn ss-btn mr-10" >Video Materials</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a class="btn ss-btn mr-10" >Course Materials</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a class="btn ss-btn mr-10" >Events</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a class="btn ss-btn mr-10" >Newsletter</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a class="btn ss-btn mr-10" >Syllabus</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a class="btn ss-btn mr-10" >Department Library</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a class="btn ss-btn mr-10" >Research</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a class="btn ss-btn mr-10" >Publications</a> </strong> 
-                                        </li>
-                                        <li>
-                                            <strong><a class="btn ss-btn mr-10" >Activities</a> </strong> 
-                                        </li>
-                                      
-                                    </ul>
- 
-                       
-                            <h2>{{$department->title}}</h2>
-                            <div class="upper-box">
-                                <div class="single-item-carousel owl-carousel owl-theme">
-                                {{--  <figure class="image"><img src="{{ asset('uploads/course/'.$course->attach) }}" alt="Course"></figure> --}}
-                                </div>
-                            </div>
+                        <!-- Department Title and Description -->
+                        <h2>{{ $department->title }}</h2>
                             <div class="inner-column">
-                                  <p> {!! $department->title !!} </p>  
-                                  <p> {!! $sectionAbout['description'] ?? '' !!} </p>
-                            </div>
+                            @if(isset($sectionAbout['description']) && !empty($sectionAbout['description']))
+                                <p>{!! $sectionAbout['description'] !!}</p>
+                            @else
+                                <p>The Department of {{ $department->title }} is committed to providing excellent education and research opportunities in the field of engineering. Our department focuses on innovative teaching methods and cutting-edge research to prepare students for successful careers in the industry.</p>
+                            @endif
                         </div>
-            
+                    </div>
                     </div>
                 </div>  
             </div>    
@@ -210,3 +144,90 @@
     <!-- main-area-end -->
 
 @endsection
+
+@push('styles')
+<style>
+/* Department Page Specific Styles */
+
+
+
+/* Department Content */
+.project-detail {
+    padding: 60px 0;
+    background: #f8f9fa;
+}
+
+.project-detail h2 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.project-detail h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
+.inner-column p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #495057;
+    margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .project-detail h2 {
+        font-size: 2rem;
+    }
+    
+}
+
+</style>
+@endpush
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize slider animations
+    const animationElements = document.querySelectorAll('[data-animation]');
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    animationElements.forEach(el => {
+        observer.observe(el);
+    });
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
+</script>
+@endpush

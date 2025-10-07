@@ -144,7 +144,7 @@
                                 <tr>
                                     <th>Year</th>
                                     <th>Student Name</th>
-                                    <th>Registration Number</th>
+                                    <th>Registration #</th>
                                     <th>Company Name</th>
                                     <th>Position</th>
                                     <th>Package</th>

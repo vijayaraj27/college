@@ -14595,3 +14595,15 @@ ul.listmargin li {
 ul.listmargin {
     margin-bottom: 50px;
 }
+
+h4.faculty-name {
+    font-size: 120%;
+}
+.faculty-item.p-4.mb-4.border.rounded,
+.magazine-item.p-4.mb-4.border.rounded,
+.question-item.p-4.mb-4.border.rounded,
+.regulation-item.p-4.mb-4.border.rounded, .syllabus-item.p-4.mb-4.border.rounded, .video-item.p-4.mb-4.border.rounded {
+    width: 30%;
+    margin: 1%;
+    border-radius: 5% !important;
+}

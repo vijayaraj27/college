@@ -102,8 +102,16 @@ class DepartmentController extends Controller
             ->where('departmentId', $department->id)
             ->first();
 
-        // Common data
-        $sliders = Slider::where('language_id', Language::version()->id)->get();
+        // Common data - Fetch department-specific sliders first, fallback to general sliders
+        $sliders = Slider::where('language_id', Language::version()->id)
+                         ->where('status', '1')
+                         ->where(function($query) use ($department) {
+                             $query->where('department_id', $department->id)
+                                   ->orWhere('department_id', 0);
+                         })
+                         ->orderBy('department_id', 'desc') // Department-specific sliders first
+                         ->orderBy('id', 'asc')
+                         ->get();
         $testimonials = Testimonial::where('language_id', Language::version()->id)
             ->where('status', '1')
             ->where('department_id', '0')

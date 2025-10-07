@@ -45,7 +45,7 @@
                     <h2 class="section-title text-center mb-4">
                         <i class="fa fa-chalkboard-teacher text-primary"></i> Teaching Staff
                     </h2>
-                    <div class="faculties-grid">
+                    <div class="faculties-grid d-flex flex-wrap">
                         @foreach($teachingStaff as $index => $faculty)
                         <div class="faculty-item p-4 mb-4 border rounded">
                             <div class="faculty-content">
@@ -102,7 +102,7 @@
                     <h2 class="section-title text-center mb-4">
                         <i class="fa fa-users text-success"></i> Non-Teaching Staff
                     </h2>
-                    <div class="faculties-grid">
+                    <div class="faculties-grid d-flex flex-wrap">
                         @foreach($nonTeachingStaff as $index => $staff)
                         <div class="faculty-item p-4 mb-4 border rounded">
                             <div class="faculty-content">

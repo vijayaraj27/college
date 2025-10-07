@@ -100,7 +100,7 @@
                     <h2 class="section-title text-center mb-4">
                         <i class="fa fa-question-circle text-success"></i> Question Bank
                     </h2>
-                    <div class="question-bank-grid">
+                    <div class="question-bank-grid d-flex flex-wrap">
                         @foreach($questionBank as $index => $question)
                         <div class="question-item p-4 mb-4 border rounded">
                             <div class="question-content">
@@ -148,7 +148,7 @@
                     <h2 class="section-title text-center mb-4">
                         <i class="fa fa-book text-warning"></i> Syllabus Details
                     </h2>
-                    <div class="syllabus-details-grid">
+                    <div class="syllabus-details-grid d-flex flex-wrap">
                         @foreach($syllabusDetails as $index => $syllabus)
                         <div class="syllabus-item p-4 mb-4 border rounded">
                             <div class="syllabus-content">
@@ -196,7 +196,7 @@
                     <h2 class="section-title text-center mb-4">
                         <i class="fa fa-list-alt text-info"></i> Syllabus Information
                     </h2>
-                    <div class="syllabus-info-grid">
+                    <div class="syllabus-info-grid d-flex flex-wrap ">
                         @foreach($syllabusDetailsAlt as $index => $info)
                         <div class="syllabus-info-item p-4 mb-3 border rounded">
                             <div class="syllabus-info-content">

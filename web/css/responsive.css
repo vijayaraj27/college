@@ -2827,10 +2827,21 @@
       width: auto;
       margin: auto;
   }
+
+  section.container-fluid.project-detail aside.col-lg-3.col-md-4{
+    position: sticky;
+    top: 20px;
+    z-index: 1000;
+  }
   
   @media (min-width: 1200px) {
       div#header-sticky.menu-area.sticky-menu  .second-menu .row .col-lg-9{
           width: 100% !important;
       }
-  }
+
+      section.container-fluid.project-detail div.col-lg-9.col-md-8 section.py-5 div.container,
+      section.container-fluid.project-detail div.col-lg-9.col-md-8 section.section-padding div.container{
+        width: 100% !important;
+    }
+}
   
