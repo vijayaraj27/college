@@ -19,8 +19,19 @@
                     <div class="breadcrumb-wrap2">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('navbar_home') }}</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">{{ $page->title }}</li>
+                                @php
+                                    // Generate breadcrumb based on menu hierarchy
+                                    $menuController = new \App\Http\Controllers\MenuController();
+                                    $breadcrumbItems = $menuController->generateBreadcrumb($page->title, $page->slug);
+                                @endphp
+                                
+                                @foreach($breadcrumbItems as $item)
+                                    @if($item['active'])
+                                        <li class="breadcrumb-item active" aria-current="page">{{ $item['title'] }}</li>
+                                    @else
+                                        <li class="breadcrumb-item"><a href="{{ $item['url'] }}">{{ $item['title'] }}</a></li>
+                                    @endif
+                                @endforeach
                             </ol>
                         </nav>
                     </div>

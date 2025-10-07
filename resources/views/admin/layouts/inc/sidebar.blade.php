@@ -162,11 +162,13 @@
             <span class="pcoded-mtext">{{ trans_choice('module_front_web', 2) }}</span>
         </a>
         <ul class="pcoded-submenu">
+
+        
             {{-- @can('topbar-setting-view')
                 <li class="{{ Request::is('admin/web/topbar-setting*') ? 'active' : '' }}"><a
                 href="{{ route('admin.topbar-setting.index') }}"
                 class="">{{ trans_choice('module_topbar_setting', 1) }}</a>
-    </li>
+                 </li>
     @endcan
     @can('social-setting-view')
     <li class="{{ Request::is('admin/web/social-setting*') ? 'active' : '' }}"><a
@@ -176,7 +178,12 @@
     @canany(['slider-view', 'slider-create'])
     <li class="{{ Request::is('admin/web/slider*') ? 'active' : '' }}"><a href="{{ route('admin.slider.index') }}"
             class="">{{ trans_choice('module_slider', 2) }}</a></li>
+    @endcanany --}}
+    @canany(['slider-view', 'slider-create'])
+    <li class="{{ Request::is('admin/home-slider*') ? 'active' : '' }}"><a href="{{ route('admin.home-slider.index') }}"
+            class=""><i class="fas fa-home"></i> Home Page {{ trans_choice('module_slider', 2) }}</a></li>
     @endcanany
+    {{--
     @can('about-us-view')
     <li class="{{ Request::is('admin/web/about-us*') ? 'active' : '' }}"><a href="{{ route('admin.about-us.index') }}"
             class="">{{ trans_choice('module_about_us', 1) }}</a></li>
@@ -208,8 +215,12 @@
     @canany(['testimonial-view', 'testimonial-create'])
     <li class="{{ Request::is('admin/web/testimonial*') ? 'active' : '' }}"><a
             href="{{ route('admin.testimonial.index') }}" class="">{{ trans_choice('module_testimonial', 2) }}</a></li>
+    @endcanany --}}
+    @canany(['testimonial-view', 'testimonial-create'])
+    <li class="{{ Request::is('admin/home-testimonial*') ? 'active' : '' }}"><a
+            href="{{ route('admin.home-testimonial.index') }}" class=""><i class="fas fa-home"></i> Home Page {{ trans_choice('module_testimonial', 2) }}</a></li>
     @endcanany
-
+    {{--
     @can('call-to-action-view')
     <li class="{{ Request::is('admin/web/call-to-action*') ? 'active' : '' }}"><a
             href="{{ route('admin.call-to-action.index') }}" class="">{{ trans_choice('module_call_to_action', 1) }}</a>

@@ -14498,7 +14498,7 @@ ul.data-list.scroll-list li::after {
     box-shadow: 1px 1.732px 60px 0px rgba(0, 0, 0, 0.1)
 }
 
-.d-flex.flex-wrap .col-lg-4.flex-box .section-body {
+.d-flex.flex-wrap .col-lg-4.flex-box .section-body, .d-flex.flex-wrap .col-lg-8.flex-box .section-body {
     display: flex;
     align-content: center;
     justify-content: center;
@@ -14516,7 +14516,9 @@ ul.data-list.scroll-list li::after {
 }
 
 .d-flex.flex-wrap .col-lg-4.flex-box .section-body ul.weblist li,
-.d-flex.flex-wrap .col-lg-4.flex-box .section-body p {
+.d-flex.flex-wrap .col-lg-4.flex-box .section-body p,
+.d-flex.flex-wrap .col-lg-8.flex-box .section-body ul.weblist li,
+.d-flex.flex-wrap .col-lg-8.flex-box .section-body p {
     font-size: 12px !important;
     padding-left: 0px;
 }
@@ -14602,8 +14604,24 @@ h4.faculty-name {
 .faculty-item.p-4.mb-4.border.rounded,
 .magazine-item.p-4.mb-4.border.rounded,
 .question-item.p-4.mb-4.border.rounded,
-.regulation-item.p-4.mb-4.border.rounded, .syllabus-item.p-4.mb-4.border.rounded, .video-item.p-4.mb-4.border.rounded {
+.regulation-item.p-4.mb-4.border.rounded, 
+.syllabus-item.p-4.mb-4.border.rounded, 
+.video-item.p-4.mb-4.border.rounded {
     width: 30%;
     margin: 1%;
     border-radius: 5% !important;
+    cursor: pointer;
+    position: relative;
+    background: #ececec;
+    box-shadow: 0px 10px 30px 0px rgb(233 233 233 / 50%);
+
+}
+
+.faculty-item.p-4.mb-4.border.rounded a:hover,
+.magazine-item.p-4.mb-4.border.rounded a:hover,
+.question-item.p-4.mb-4.border.rounded a:hover,
+.regulation-item.p-4.mb-4.border.rounded a:hover, 
+.syllabus-item.p-4.mb-4.border.rounded a:hover, 
+.video-item.p-4.mb-4.border.rounded a:hover {
+    color: #f5874f !important;
 }

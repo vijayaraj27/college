@@ -17,7 +17,7 @@
     <x-web.breadcrumb 
         :title="$department->title"
         :items="[
-            ['title' => __('navbar_home'), 'url' => route('home')],
+            ['title' => 'Home', 'url' => url('/')],
             ['title' => __('navbar_department'), 'url' => route('department')],
             ['title' => $department->title, 'url' => null]
         ]"

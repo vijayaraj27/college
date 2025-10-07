@@ -43,14 +43,14 @@ Route::middleware(['XSS'])->namespace('Web')->group(function () {
     Route::get('/news', 'NewsController@index')->name('news');
     Route::get('/news/{id}/{slug}', 'NewsController@show')->name('news.single');
 
-    // Page Route
-    Route::get('/page/{slug}', 'PageController@show')->name('page.single');
-
     // Application Route
     Route::resource('application', 'ApplicationController');
 
     // SetCookie Route
     Route::get('/set-cookie', 'HomeController@setCookie')->name('setCookie');
+    
+    // Page Routes - Must be last to avoid conflicts with other routes
+    Route::get('/{slug}', 'PageController@show')->name('page.single');
 });
 // Ajax Filter Routes
 // Route::middleware(['XSS'])->group(function () {
@@ -88,6 +88,10 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     //Route::redirect('/', '/dashboard');
     Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
     Route::get('/dashboard/{slug}', 'DashboardController@show')->name('dashboard.departmentslug');
+    
+    // Home Page Content Management Routes
+    Route::resource('home-slider', 'HomeSliderController');
+    Route::resource('home-testimonial', 'HomeTestimonialController');
     // Student Routes
     // Route::resource('admission/application', 'ApplicationController');
     // Route::resource('admission/student', 'StudentController');

@@ -10,7 +10,7 @@ class Slider extends Model
     use HasFactory;
 
     protected $fillable = [
-        'language_id', 'title', 'sub_title', 'button_text', 'button_link', 'attach', 'status',
+        'language_id', 'department_id', 'title', 'sub_title', 'button_text', 'button_link', 'attach', 'status',
     ];
 
     public function language()

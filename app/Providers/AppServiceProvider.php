@@ -11,6 +11,7 @@ use App\Models\Web\Page;
 use App\Models\Language;
 use App\Models\Setting;
 use App\Http\Controllers\MenuController;
+use App\Models\Menu;
 use View;
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,9 +39,20 @@ class AppServiceProvider extends ServiceProvider
         // Share view for Common Data
         $user_languages = Language::where('status', '1')->get();
         $setting = Setting::where('status', '1')->first();
-     $menus = $menuController->index();
-      //  $treeView = $menuController->buildTreeView($menus);
-     //View::share('treeView', $treeView);
+        // Generate menu HTML with proper nested structure
+        try {
+            $menus = Menu::where('status', 0)->orderBy('id', 'asc')->get();
+            
+            if ($menus->count() > 0) {
+                $menuController = new MenuController();
+                $treeView = $menuController->buildTreeView($menus);
+            } else {
+                $treeView = '<ul class="" id=""><li class=""><a href="' . url('/') . '">Home</a></li></ul>';
+            }
+        } catch (\Exception $e) {
+            // Fallback menu with proper structure
+            $treeView = '<ul class="" id=""><li class=""><a href="' . url('/') . '">Home</a></li><li class=""><a href="' . url('/trust') . '">Trust</a></li></ul>';
+        }
         $topbarSetting = TopbarSetting::where('status', '1')->first();
         $socialSetting = SocialSetting::where('status', '1')->first();
         $schedule_setting = ScheduleSetting::where('slug', 'fees-schedule')->first();
@@ -50,6 +62,6 @@ class AppServiceProvider extends ServiceProvider
                             ->get();
         // Set Time Zone
         Config::set('app.timezone', $setting->time_zone);
-        View::share(['setting' => $setting, 'user_languages' => $user_languages, 'schedule_setting' => $schedule_setting, 'topbarSetting' => $topbarSetting, 'socialSetting' => $socialSetting, 'footer_pages' => $footer_pages, 'treeView' =>$menus]);
+        View::share(['setting' => $setting, 'user_languages' => $user_languages, 'schedule_setting' => $schedule_setting, 'topbarSetting' => $topbarSetting, 'socialSetting' => $socialSetting, 'footer_pages' => $footer_pages, 'treeView' => $treeView]);
     }
 }

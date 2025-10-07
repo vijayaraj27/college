@@ -10,7 +10,7 @@ class Testimonial extends Model
     use HasFactory;
 
     protected $fillable = [
-        'language_id', 'name', 'designation', 'description', 'rating', 'attach', 'status',
+        'language_id', 'department_id', 'name', 'designation', 'description', 'rating', 'attach', 'status',
     ];
 
     public function language()

@@ -15,89 +15,77 @@
 />
 
 <!-- Quick Navigation -->
-<section class="py-3 bg-white border-bottom sticky-top" style="top: 0; z-index: 1000;">
+<section class="py-5 bg-white border-bottom my-5" >
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <nav class="quick-nav">
-                    <ul class="nav nav-pills justify-content-center flex-wrap">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/about') }}">
-                                <i class="fas fa-info-circle me-2"></i>About Us
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/achievements') }}">
-                                <i class="fas fa-trophy me-2"></i>Achievements
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/activities') }}">
-                                <i class="fas fa-calendar-check me-2"></i>Activities
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/courses') }}">
-                                <i class="fas fa-book-open me-2"></i>Courses
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/events') }}">
-                                <i class="fas fa-calendar-alt me-2"></i>Events
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/faculties') }}">
-                                <i class="fas fa-users me-2"></i>Faculties
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/infrastructures') }}">
-                                <i class="fas fa-building me-2"></i>Infrastructures
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/libraries') }}">
-                                <i class="fas fa-book me-2"></i>Libraries
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/magazines') }}">
-                                <i class="fas fa-newspaper me-2"></i>Magazines
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/newsletters') }}">
-                                <i class="fas fa-envelope me-2"></i>Newsletters
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/placements') }}">
-                                <i class="fas fa-briefcase me-2"></i>Placements
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/publications') }}">
-                                <i class="fas fa-file-alt me-2"></i>Publications
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/research') }}">
-                                <i class="fas fa-microscope me-2"></i>Research
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/syllabus') }}">
-                                <i class="fas fa-graduation-cap me-2"></i>Syllabus
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/department/' . $department->slug . '/videos') }}">
-                                <i class="fas fa-video me-2"></i>Videos
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                <ul class="d-flex flex-wrap listmargin clearfix">
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/about') }}"> 
+                            <strong>Faculty</strong> 
+                        </a>         
+                    </li>
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/infrastructures') }}"> 
+                            <strong>Infrastructure</strong> 
+                        </a> 
+                    </li>
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/achievements') }}"> 
+                            <strong>Achievements</strong> 
+                        </a> 
+                    </li>
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/placements') }}"> 
+                            <strong>Placement</strong> 
+                        </a> 
+                    </li>
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/videos') }}"> 
+                            <strong>Video Materials</strong> 
+                        </a> 
+                    </li>
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/courses') }}"> 
+                            <strong>Course Materials</strong> 
+                        </a> 
+                    </li>
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/events') }}"> 
+                            <strong>Events</strong> 
+                        </a> 
+                    </li>
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/newsletters') }}"> 
+                            <strong>Newsletter</strong> 
+                        </a> 
+                    </li>
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/syllabus') }}"> 
+                            <strong>Syllabus</strong> 
+                        </a> 
+                    </li>
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/libraries') }}"> 
+                            <strong>Department Library</strong> 
+                        </a> 
+                    </li>
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/research') }}"> 
+                            <strong>Research</strong> 
+                        </a> 
+                    </li>
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/publications') }}"> 
+                            <strong>Publications</strong> 
+                        </a> 
+                    </li>
+                    <li>
+                        <a class="btn ss-btn mr-10" href="{{ url('/department/' . $department->slug . '/activities') }}"> 
+                            <strong>Activities</strong> 
+                        </a> 
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -153,7 +141,7 @@
                         @endif
                     @endif
 
-                    <!-- Vision -->
+                  {{--
                     @if(!empty($vision))
                     <div class="vision-mission mb-4 animate-slide-up">
                         <div class="card border-0 shadow-sm h-100">
@@ -194,9 +182,69 @@
                         </div>
                     </div>
                     @endif
+
+                    --}}
                 </div>
             </div>
         </div>
+    </div>
+</section>
+
+      
+
+
+
+
+              <!-- Mission / Values / Vision Section (match department-single) -->
+        <section class="section-2 with-bg  pb-60" id="feature">
+            <div class="container">
+                <div class="row align-items-center d-flex flex-wrap">
+                    <div class="col-lg-4 flex-box p-2 red-bg-home">
+                        <div class="section-body">
+                            <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="500" style="animation-duration: 1000ms;">Our Mission</h3>
+                            <p class="section-text wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="700" style="animation-duration: 1000ms;">
+                                {!! $mission !!}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex-box col-lg-4 wow fadeInRight animated"  data-animation="fadeInRightShorter" data-delay="400" style="animation-duration: 1000ms;">
+                        <figure>
+                            <img src="{{ asset('uploads/web/mission.jpg') }}" alt="banner" width="332" height="350">
+                        </figure>
+                    </div>
+                    <div class="flex-box col-lg-4 p-2 green-bg-home">
+                        <div class="section-body">
+                            <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="500" style="animation-duration: 1000ms;">Core Values</h3>
+                            <p class="section-text wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="700" style="animation-duration: 1000ms;">
+                                {!! $coreValue !!}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex-box col-lg-4 wow fadeInRight animated"  data-animation="fadeInRightShorter" data-delay="400" style="animation-duration: 1000ms;">
+                        <figure>
+                            <img src="{{ asset('uploads/web/vision.jpg') }}" alt="banner" width="332" height="350">
+                        </figure>
+                    </div>
+                    <div class="flex-box col-lg-4 p-2 organe-bg-home">
+                        <div class="section-body p-2 ">
+                            <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="500" style="animation-duration: 1000ms;">Our Vision</h3>
+                            <p class="section-text wow animated fadeInLeft" data-animation="fadeInLeft" data-delay="700" style="animation-duration: 1000ms;">
+                                {!! $vision !!}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex-box col-lg-4 wow fadeInRight animated"  data-animation="fadeInRightShorter" data-delay="400" style="animation-duration: 1000ms;">
+                        <figure>
+                            <img src="{{ asset('uploads/web/values.jpg') }}" alt="banner" width="332" height="350">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+<section class="py-5 bg-light">
+    <div class="container">
 
         <!-- Programme Educational Objectives -->
         @if(!empty($programmeEducationalObjectives) && is_array($programmeEducationalObjectives))
@@ -337,33 +385,36 @@
     </div>
 </section>
 
-<!-- Testimonials Section -->
-@if(!empty($testimonials) && $testimonials->count() > 0)
-<section class="testimonials-section bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h3 class="section-title text-center mb-4">
-                    <i class="fa fa-quote-left text-primary"></i> Testimonials
-                </h3>
-                <div class="testimonials-slider">
-                    @foreach($testimonials as $testimonial)
-                    <div class="testimonial-item text-center p-4">
-                        <div class="testimonial-content">
-                            <p class="testimonial-text">"{!! $testimonial->description !!}"</p>
-                            <div class="testimonial-author">
-                                <h5>{{ $testimonial->name }}</h5>
-                                <span class="author-designation">{{ $testimonial->designation }}</span>
+  
+
+        <!-- Testimonials Section (match department-single) -->
+        @if(count($testimonials) > 0)
+        <section class="testimonial-area pt-60 pb-115 p-relative fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="testimonial-active wow fadeInUp animated" data-animation="fadeInUp" data-delay=".4s">
+                            @foreach($testimonials as $testimonial)
+                            <div class="single-testimonial text-center">
+                                <div class="qt-img">
+                                    <img src="{{ asset('web/img/testimonial/qt-icon.png') }}" alt="img">
+                                </div>
+                                <p>{!! $testimonial->description !!}</p>
+                                <div class="testi-author">
+                                    <img src="{{ asset('uploads/testimonial/'.$testimonial->attach) }}" alt="img">
+                                </div>
+                                <div class="ta-info">
+                                    <h6>{{ $testimonial->name }}</h6>
+                                    <span>{{ $testimonial->designation ?? '' }}</span>
+                                </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
-                    @endforeach
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-@endif
+        </section>
+        @endif
 
 @endsection
 

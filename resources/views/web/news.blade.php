@@ -19,7 +19,7 @@
                     <div class="breadcrumb-wrap2">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('navbar_home') }}</a></li>
+                                <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">{{ __('navbar_news') }}</li>
                             </ol>
                         </nav>

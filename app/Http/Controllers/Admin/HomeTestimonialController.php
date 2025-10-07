@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Web;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Web\Testimonial;
@@ -10,7 +10,7 @@ use App\Models\Language;
 use Toastr;
 use Auth;
 
-class TestimonialController extends Controller
+class HomeTestimonialController extends Controller
 {
     use FileUploader;
 
@@ -22,12 +22,11 @@ class TestimonialController extends Controller
     public function __construct()
     {
         // Module Data
-        $this->title   = trans_choice('module_testimonial', 1);
-        $this->route   = 'admin.testimonial';
-        $this->view    = 'admin.web.testimonial';
+        $this->title   = 'Home Page Testimonial';
+        $this->route   = 'admin.home-testimonial';
+        $this->view    = 'admin.home-testimonial';
         $this->path    = 'testimonial';
         $this->access  = 'testimonial';
-
 
         $this->middleware('permission:'.$this->access.'-view|'.$this->access.'-create|'.$this->access.'-edit|'.$this->access.'-delete', ['only' => ['index','show']]);
         $this->middleware('permission:'.$this->access.'-create', ['only' => ['create','store']]);
@@ -38,40 +37,19 @@ class TestimonialController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        //
         $data['title']  = $this->title;
         $data['route']  = $this->route;
         $data['view']   = $this->view;
         $data['path']   = $this->path;
         $data['access'] = $this->access;
 
-        // Check if department_id is passed in URL (from department dashboard)
-        $departmentId = $request->get('department_id');
-
-        // Check if user is super admin
-        if(Auth::user()->is_admin == '1') {
-            if($departmentId) {
-                // Super admin viewing specific department's testimonials
-                $data['rows'] = Testimonial::where('language_id', Language::version()->id)
-                                         ->where('department_id', $departmentId)
-                                         ->orderby('id', 'desc')
-                                         ->get();
-                $data['selected_department'] = \App\Models\Department::find($departmentId);
-            } else {
-                // Super admin viewing all departments' testimonials
-                $data['rows'] = Testimonial::where('language_id', Language::version()->id)
-                                         ->orderby('id', 'desc')
-                                         ->get();
-            }
-        } else {
-            // Regular users can only see their department's testimonials
-            $data['rows'] = Testimonial::where('language_id', Language::version()->id)
-                                 ->where('department_id', Auth::user()->department_id)
+        // Get home page testimonials (department_id = 0)
+        $data['rows'] = Testimonial::where('language_id', Language::version()->id)
+                                 ->where('department_id', 0)
                                  ->orderby('id', 'desc')
                                  ->get();
-        }
 
         return view($this->view.'.index', $data);
     }
@@ -79,23 +57,12 @@ class TestimonialController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create()
     {
         $data['title']  = $this->title;
         $data['route']  = $this->route;
         $data['view']   = $this->view;
         $data['access'] = $this->access;
-        
-        // Check if department_id is passed in URL (from department dashboard)
-        $departmentId = $request->get('department_id');
-        
-        // Add departments for super admin
-        if(Auth::user()->is_admin == '1') {
-            $data['departments'] = \App\Models\Department::where('status', 1)->orderBy('title')->get();
-            if($departmentId) {
-                $data['selected_department_id'] = $departmentId;
-            }
-        }
         
         return view($this->view.'.create', $data);
     }
@@ -115,25 +82,16 @@ class TestimonialController extends Controller
         //Data Insert
         $testimonial = new Testimonial;
         $testimonial->language_id = Language::version()->id;
-        
-        // Determine department_id based on user type and URL parameter
-        if(Auth::user()->is_admin == '1') {
-            // Super admin can choose department from form or URL parameter
-            $testimonial->department_id = $request->department_id ?: $request->get('department_id');
-        } else {
-            // Regular users use their own department
-            $testimonial->department_id = Auth::user()->department_id;
-        }
+        $testimonial->department_id = 0; // Home page testimonial
         $testimonial->name = $request->name;
         $testimonial->designation = $request->designation;
         $testimonial->description = $request->description;
         $testimonial->rating = $request->rating ?? 5;
         $testimonial->attach = $this->uploadImage($request, 'attach', $this->path, 300, 300);
+        $testimonial->status = $request->status ?? 1;
         $testimonial->save();
 
-
         Toastr::success(__('msg_created_successfully'), __('msg_success'));
-
         return redirect()->route($this->route.'.index');
     }
 
@@ -156,11 +114,6 @@ class TestimonialController extends Controller
         $data['access'] = $this->access;
         $data['row'] = $testimonial;
         
-        // Add departments for super admin
-        if(Auth::user()->is_admin == '1') {
-            $data['departments'] = \App\Models\Department::where('status', 1)->orderBy('title')->get();
-        }
-        
         return view($this->view.'.edit', $data);
     }
 
@@ -177,8 +130,7 @@ class TestimonialController extends Controller
         ]);
 
         //Data Update
-        // Super admin can choose department, regular users use their own
-        $testimonial->department_id = Auth::user()->is_admin == '1' ? $request->department_id : Auth::user()->department_id;
+        $testimonial->department_id = 0; // Ensure it remains home page testimonial
         $testimonial->name = $request->name;
         $testimonial->designation = $request->designation;
         $testimonial->description = $request->description;
@@ -187,9 +139,7 @@ class TestimonialController extends Controller
         $testimonial->status = $request->status;
         $testimonial->update();
 
-
         Toastr::success(__('msg_updated_successfully'), __('msg_success'));
-
         return redirect()->back();
     }
 
@@ -200,12 +150,11 @@ class TestimonialController extends Controller
     {
         //Delete Attach
         $this->deleteMedia($this->path, $testimonial);
-
+        
         //Delete Data
         $testimonial->delete();
-
+        
         Toastr::success(__('msg_deleted_successfully'), __('msg_success'));
-
         return redirect()->back();
     }
 }

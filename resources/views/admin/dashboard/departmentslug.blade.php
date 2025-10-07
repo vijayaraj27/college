@@ -28,14 +28,14 @@
                                         <strong><a class="btn btn-primary m-2"
                                                 href="{{$baseurl}}admin/web/about-us/{{$department->id}}"
                                                 target="_blank">About</a> </strong>
-                                        <ul>
-                                            <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/slider" target="_blank">Slider</a>
-                                                </strong></li>
-                                            <li><strong><a class="btn btn-primary m-2"
-                                                        href="{{$baseurl}}admin/web/testimonial"
-                                                        target="_blank">Testimonital</a> </strong></li>
-                                        </ul>
+                    <ul>
+                        <li><strong><a class="btn btn-primary m-2"
+                                    href="{{$baseurl}}admin/web/slider?department_id={{$department->id}}" target="_blank">Slider</a>
+                            </strong></li>
+                        <li><strong><a class="btn btn-primary m-2"
+                                    href="{{$baseurl}}admin/web/testimonial?department_id={{$department->id}}"
+                                    target="_blank">Testimonial</a> </strong></li>
+                    </ul>
                                     </li>
 
                                     <li>
