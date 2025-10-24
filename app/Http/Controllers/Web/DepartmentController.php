@@ -189,7 +189,30 @@ class DepartmentController extends Controller
                 case 'publications':
                     $response['patent'] = json_decode($getValue($data, 'patent', '[]'), true);
                     $response['bookChapter'] = json_decode($getValue($data, 'bookChapter', '[]'), true);
-                    $response['journalPublication'] = json_decode($getValue($data, 'journalPublication', '[]'), true);
+                    // In DepartmentController.php
+
+                        $journalPublication = json_decode($getValue($data, 'journalPublication', '[]'), true);
+                        
+                        // Transform the data structure
+                        $transformedJournalPublication = [];
+                        foreach($journalPublication as $key => $yearData) {
+                            if(isset($yearData['year']) && isset($yearData['publications'])) {
+                                $transformedJournalPublication[] = [
+                                    'year' => $yearData['year'],
+                                    'publications' => array_map(function($pub) {
+                                        return [
+                                            'title' => $pub['journalName'] ?? 'Journal Publication',
+                                            'journal' => $pub['journal'] ?? '',
+                                            'authors' => $pub['authors'] ?? ''
+                                        ];
+                                    }, $yearData['publications'])
+                                ];
+                            }
+                        }
+                        
+                        $response['journalPublication'] = $transformedJournalPublication;
+                        
+                    //$response['journalPublication'] = json_decode($getValue($data, 'journalPublication', '[]'), true);
                     $response['conferenceList'] = json_decode($getValue($data, 'conferenceList', '[]'), true);
                     break;
                     

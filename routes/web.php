@@ -381,6 +381,10 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
         Route::resource('web-event', 'WebEventController');
         Route::resource('news', 'NewsController');
         Route::resource('gallery', 'GalleryController');
+        
+        // Events & Notifications Management
+        Route::resource('upcoming-event', 'UpcomingEventController');
+        Route::resource('notification-board', 'NotificationBoardController');
         Route::resource('faq', 'FaqController');
         Route::resource('testimonial', 'TestimonialController');
         Route::resource('page', 'PageController');

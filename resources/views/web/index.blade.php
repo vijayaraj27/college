@@ -210,127 +210,99 @@
     <section class="section-2 with-bg  pt-120 pb-120" id="scroll" style="background: #eff7ff;">
         <div class="container">
             <div class="row align-items-center">
+                <!-- Upcoming Events Section -->
                 <div class="col-lg-6">
                     <div class="section-body">
                         <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft"
                             data-delay="500" style="animation-duration: 1000ms;">Upcoming Events</h3>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book.</p>
+                        <p>Stay updated with the latest events and activities at PSR Engineering College.</p>
+                        
+                        @if(isset($upcomingEvents) && $upcomingEvents->count() > 0)
                         <ul class="data-list scroll-list" data-autoscroll>
+                            @foreach($upcomingEvents as $event)
                             <li>
                                 <div class="event-content d-flex">
-                                    <div class="date col-1"><strong>21</strong> Nov, 2026</div>
-                                    <div class="text pl-10 col-11 align-self-center"><a href="#">
-                                            <span class="lineclamp2">Lorem Ipsum is simply dummy text of the printing
-                                                Lorem Ipsum is simply dummy text of the printing Lorem Ipsum is simply
-                                                dummy text of the printing </span>
-                                        </a></div>
+                                    <div class="date col-1">
+                                        <strong>{{ $event->event_date->format('d') }}</strong> 
+                                        {{ $event->event_date->format('M, Y') }}
+                                    </div>
+                                    <div class="text pl-10 col-11 align-self-center">
+                                        @if($event->link)
+                                            <a href="{{ $event->link }}" target="_blank">
+                                                <span class="lineclamp2">{{ $event->title }}</span>
+                                            </a>
+                                        @else
+                                            <span class="lineclamp2">{{ $event->title }}</span>
+                                        @endif
+                                        @if($event->event_time)
+                                            <small class="d-block text-muted">
+                                                <i class="far fa-clock"></i> {{ $event->event_time }}
+                                            </small>
+                                        @endif
+                                        @if($event->venue)
+                                            <small class="d-block text-muted">
+                                                <i class="fas fa-map-marker-alt"></i> {{ $event->venue }}
+                                            </small>
+                                        @endif
+                                    </div>
                                 </div>
                             </li>
-                            <li>
-                                <div class="event-content d-flex">
-                                    <div class="date col-1"><strong>22</strong> Nov, 2026</div>
-                                    <div class="text pl-10 col-11 align-self-center"><a href="#">
-                                            <span class="lineclamp2">Lorem Ipsum is simply dummy text of the printing
-                                                Lorem Ipsum is simply dummy text of the printing Lorem Ipsum is simply
-                                                dummy text of the printing </span>
-                                        </a></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="event-content d-flex">
-                                    <div class="date col-1"><strong>23</strong> Nov, 2026</div>
-                                    <div class="text pl-10 col-11 align-self-center"><a href="#">
-                                            <span class="lineclamp2">Lorem Ipsum is simply dummy text of the printing
-                                                Lorem Ipsum is simply dummy text of the printing Lorem Ipsum is simply
-                                                dummy text of the printing </span>
-                                        </a></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="event-content d-flex">
-                                    <div class="date col-1"><strong>24</strong> Nov, 2026</div>
-                                    <div class="text pl-10 col-11 align-self-center"><a href="#">
-                                            <span class="lineclamp2">Lorem Ipsum is simply dummy text of the printing
-                                                Lorem Ipsum is simply dummy text of the printing Lorem Ipsum is simply
-                                                dummy text of the printing </span>
-                                        </a></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="event-content d-flex">
-                                    <div class="date col-1"><strong>25</strong> Nov, 2026</div>
-                                    <div class="text pl-10 col-11 align-self-center"><a href="#">
-                                            <span class="lineclamp2">Lorem Ipsum is simply dummy text of the printing
-                                                Lorem Ipsum is simply dummy text of the printing Lorem Ipsum is simply
-                                                dummy text of the printing </span>
-                                        </a></div>
-                                </div>
-                            </li>
+                            @endforeach
                         </ul>
+                        @else
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> No upcoming events at the moment.
+                        </div>
+                        @endif
                     </div>
                 </div>
+
+                <!-- Notifications Section -->
                 <div class="col-lg-6 wow fadeInRight animated" data-animation="fadeInRightShorter" data-delay="400"
                     style="animation-duration: 1000ms;">
                     <div class="section-body">
                         <h3 class="product-title mb-2 wow animated fadeInLeft" data-animation="fadeInLeft"
                             data-delay="500" style="animation-duration: 1000ms;">Notifications</h3>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book.</p>
+                        <p>Important announcements and notifications for students, faculty, and staff.</p>
+                        
+                        @if(isset($notifications) && $notifications->count() > 0)
                         <ul class="data-list scroll-list" data-autoscroll>
+                            @foreach($notifications as $notification)
                             <li>
                                 <div class="event-content d-flex">
-                                    <div class="date col-1"><strong>21</strong> Nov, 2026</div>
-                                    <div class="text pl-10 col-11 align-self-center"><a href="#">
-                                            <span class="lineclamp2">Lorem Ipsum is simply dummy text of the printing
-                                                Lorem Ipsum is simply dummy text of the printing Lorem Ipsum is simply
-                                                dummy text of the printing </span>
-                                        </a></div>
+                                    <div class="date col-1">
+                                        <strong>{{ $notification->notification_date->format('d') }}</strong> 
+                                        {{ $notification->notification_date->format('M, Y') }}
+                                    </div>
+                                    <div class="text pl-10 col-11 align-self-center">
+                                        @if($notification->link || $notification->attach)
+                                            <a href="{{ $notification->link ?? asset('uploads/notification-board/'.$notification->attach) }}" 
+                                               target="_blank">
+                                                <span class="lineclamp2">
+                                                    {{ $notification->title }}
+                                                    @if($notification->is_new)
+                                                        <span class="badge badge-danger ml-2">NEW</span>
+                                                    @endif
+                                                </span>
+                                            </a>
+                                        @else
+                                            <span class="lineclamp2">
+                                                {{ $notification->title }}
+                                                @if($notification->is_new)
+                                                    <span class="badge badge-danger ml-2">NEW</span>
+                                                @endif
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
                             </li>
-                            <li>
-                                <div class="event-content d-flex">
-                                    <div class="date col-1"><strong>22</strong> Nov, 2026</div>
-                                    <div class="text pl-10 col-11 align-self-center"><a href="#">
-                                            <span class="lineclamp2">Lorem Ipsum is simply dummy text of the printing
-                                                Lorem Ipsum is simply dummy text of the printing Lorem Ipsum is simply
-                                                dummy text of the printing </span>
-                                        </a></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="event-content d-flex">
-                                    <div class="date col-1"><strong>23</strong> Nov, 2026</div>
-                                    <div class="text pl-10 col-11 align-self-center"><a href="#">
-                                            <span class="lineclamp2">Lorem Ipsum is simply dummy text of the printing
-                                                Lorem Ipsum is simply dummy text of the printing Lorem Ipsum is simply
-                                                dummy text of the printing </span>
-                                        </a></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="event-content d-flex">
-                                    <div class="date col-1"><strong>24</strong> Nov, 2026</div>
-                                    <div class="text pl-10 col-11 align-self-center"><a href="#">
-                                            <span class="lineclamp2">Lorem Ipsum is simply dummy text of the printing
-                                                Lorem Ipsum is simply dummy text of the printing Lorem Ipsum is simply
-                                                dummy text of the printing </span>
-                                        </a></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="event-content d-flex">
-                                    <div class="date col-1"><strong>25</strong> Nov, 2026</div>
-                                    <div class="text pl-10 col-11 align-self-center"><a href="#">
-                                            <span class="lineclamp2">Lorem Ipsum is simply dummy text of the printing
-                                                Lorem Ipsum is simply dummy text of the printing Lorem Ipsum is simply
-                                                dummy text of the printing </span>
-                                        </a></div>
-                                </div>
-                            </li>
+                            @endforeach
                         </ul>
+                        @else
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> No notifications at the moment.
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

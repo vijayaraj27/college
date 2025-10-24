@@ -1255,9 +1255,10 @@ top: -3px;
 .breadcrumb-area {
     background-size: cover;
     position: relative;
-    min-height: 200px;
+    min-height: 320px;
     background-repeat: no-repeat;
     background-color: #125875;
+    background-position: center;
 }
 
 .breadcrumb-wrap2 {
@@ -1311,6 +1312,11 @@ top: -3px;
     line-height: 1;
     color: #fff;
     letter-spacing: 1px;
+    width: fit-content ;
+    margin: 0 auto;
+    background-color: #0000009c;
+    padding: 10px 20px;
+    border-radius: 10px;
 }
 
 .breadcrumb-title p {
@@ -14288,15 +14294,17 @@ nav ul ul {
 }
 
 nav ul li:hover>ul {
-    display: inherit;
+    display: inherit;   
 }
 
 nav ul ul li:hover>ul {
     display: inherit;
+   
 }
 
 nav ul li ul li:hover li {
     display: inherit;
+   
 }
 
 nav ul ul li {

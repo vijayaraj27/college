@@ -9,6 +9,8 @@ use App\Models\Web\AboutUs;
 use App\Models\Web\Homeabout; // Add the Homeabout model
 use App\Models\Web\Feature;
 use App\Models\Web\Slider;
+use App\Models\Web\UpcomingEvent;
+use App\Models\Web\NotificationBoard;
 use App\Models\Language;
 
 class HomeController extends Controller
@@ -48,6 +50,21 @@ class HomeController extends Controller
                             ->where('department_id', '0')
                             ->orderBy('id', 'desc')
                             ->get();
+        
+        // Upcoming Events (Home Page only - where department_id is NULL)
+        $data['upcomingEvents'] = UpcomingEvent::homePage()
+                            ->active()
+                            ->ordered()
+                            ->limit(10)
+                            ->get();
+        
+        // Notifications (Home Page only - where department_id is NULL)
+        $data['notifications'] = NotificationBoard::homePage()
+                            ->active()
+                            ->ordered()
+                            ->limit(10)
+                            ->get();
+        
         return view('web.index', $data);
     }
 

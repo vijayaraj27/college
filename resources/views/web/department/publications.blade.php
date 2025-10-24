@@ -160,7 +160,7 @@
                                     @foreach($yearData['publications'] as $publication)
                                     <div class="publication-item p-3 mb-2 border-left border-success">
                                         <div class="publication-content">
-                                            <h5 class="publication-title">{{ $publication['title'] ?? 'Journal Publication' }}</h5>
+                                            <h5 class="publication-title">{{ $publication['journalName'] ?? $publication['title'] ?? 'Journal Publication' }}</h5>
                                             @if(!empty($publication['journal']))
                                             <p class="publication-journal">
                                                 <strong>Journal:</strong> {{ $publication['journal'] }}
@@ -205,12 +205,12 @@
                                 <div class="conference-header">
                                     <h4 class="conference-title">
                                         <i class="fa fa-microphone text-info"></i>
-                                        {{ $conference['title'] ?? 'Conference ' . ($index + 1) }}
+                                        {{ $conference['list'] ?? $conference['title'] ?? 'Conference ' . ($index + 1) }}
                                     </h4>
                                 </div>
                                 <div class="conference-details">
                                     @if(!empty($conference['description']))
-                                    <p class="conference-description">{!! $syllabus['description'] !!}</p>
+                                    <p class="conference-description">{!! $conference['description'] !!}</p>
                                     @endif
                                     @if(!empty($conference['date']))
                                     <p class="conference-date">

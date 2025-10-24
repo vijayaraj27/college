@@ -407,7 +407,7 @@
                             <div class="footer-link">
                                 <ul>
                                     @if (Route::has('student.login'))
-                                    <li><a href="{{ route('student.login') }}" target="_blank">{{ __('field_student') }} {{ __('field_login') }}</a></li>
+                                    <!-- <li><a href="{{ route('student.login') }}" target="_blank">{{ __('field_student') }} {{ __('field_login') }}</a></li> -->
                                     @endif
                                     @if (Route::has('login'))
                                     <li><a href="{{ route('login') }}" target="_blank">{{ __('field_staff') }} {{ __('field_login') }}</a></li>
@@ -418,9 +418,13 @@
                                     @isset($application)
                                     <li><a href="{{ route('application.index') }}" target="_blank">{{ __('navbar_admission') }}</a></li>
                                     @endisset
+                                   
+                                   {{--     @foreach($footer_pages as $footer_page)
                                     @foreach($footer_pages as $footer_page)
-                                    <li><a href="{{ route('page.single', ['slug' => $footer_page->slug]) }}">{{ $footer_page->title }}</a></li>
-                                    @endforeach
+                                    <!-- <li><a href="{{ route('page.single', ['slug' => $footer_page->slug]) }}">{{ $footer_page->title }}</a></li> -->
+                                    @endforeach --}}
+
+
                                 </ul>
                             </div>
                         </div>

@@ -27,7 +27,7 @@
     <main>
 
         <!-- breadcrumb-area -->
-        <section class="breadcrumb-area d-flex  p-relative align-items-center">
+        <section class="breadcrumb-area d-flex  p-relative align-items-center" style="background-image: url('{{ asset('uploads/about-us/psr-building-Photoroom.png') }}');">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-xl-12 col-lg-12">
