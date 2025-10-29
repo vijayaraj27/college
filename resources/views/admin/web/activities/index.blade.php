@@ -62,9 +62,8 @@
                                 <div id="departmentActivitiesContainer" class="col-md-12">
                                     <h4>Department Activities</h4>
                                     @php
-                                    // Decode the stored JSON string to an array
-                                    $departmentActivities = isset($row->departmentActivity) ?
-                                    json_decode($row->departmentActivity, true) : [];
+                                    // Use the already decoded data from controller
+                                    $departmentActivities = $departmentActivity ?? [];
 
                                     // print_r($departmentActivities);
                                     @endphp
@@ -286,9 +285,8 @@
                                 <div id="studentParticipationContainer" class="col-md-12">
                                     <h4>Student Participation</h4>
                                     @php
-                                    // Decode the stored JSON string to an array
-                                    $studentParticipation = isset($row->studentParticipation) ?
-                                    json_decode($row->studentParticipation, true) : [];
+                                    // Use the already decoded data from controller
+                                    // Note: $studentParticipation is already decoded in controller
                                     @endphp
 
                                     @if(!empty($studentParticipation))
@@ -512,9 +510,8 @@
                                 <div id="interInstituteEventsContainer" class="col-md-12">
                                     <h4>Inter Institute Events Winning Prize</h4>
                                     @php
-                                    // Decode the stored JSON string to an array
-                                    $interInstituteEvents = isset($row->interInstituteEventsWinningPrize) ?
-                                    json_decode($row->interInstituteEventsWinningPrize, true) : [];
+                                    // Use the already decoded data from controller
+                                    $interInstituteEvents = $interInstituteEventsWinningPrize ?? [];
                                     @endphp
 
                                     @if(!empty($interInstituteEvents))
@@ -532,38 +529,39 @@
                                             </div>
                                         </div>
                                         <div class="year-events-container">
+                                            @if(isset($event['events']) && is_array($event['events']))
                                             @foreach($event['events'] as $eventIndex => $eventDetail)
                                             <div class="event-entry row mb-2">
 
                                                 <div class="form-group col-md-3">
                                                     <input type="date" class="form-control"
                                                         name="interInstituteEventsWinningPrize[{{ $yearIndex }}][events][{{ $eventIndex }}][eventDate]"
-                                                        placeholder="Event Date" value="{{ $eventDetail['eventDate'] }}"
+                                                        placeholder="Event Date" value="{{ $eventDetail['eventDate'] ?? '' }}"
                                                         required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="interInstituteEventsWinningPrize[{{ $yearIndex }}][events][{{ $eventIndex }}][eventName]"
-                                                        placeholder="Event Name" value="{{ $eventDetail['eventName'] }}"
+                                                        placeholder="Event Name" value="{{ $eventDetail['eventName'] ?? '' }}"
                                                         required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="interInstituteEventsWinningPrize[{{ $yearIndex }}][events][{{ $eventIndex }}][conductedBy]"
                                                         placeholder="Conducted By"
-                                                        value="{{ $eventDetail['conductedBy'] }}" required>
+                                                        value="{{ $eventDetail['conductedBy'] ?? $eventDetail['ConductedBy'] ?? '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="interInstituteEventsWinningPrize[{{ $yearIndex }}][events][{{ $eventIndex }}][nameOfTheStudentsParticipated]"
                                                         placeholder="Name of the Students Participated"
-                                                        value="{{ $eventDetail['nameOfTheStudentsParticipated'] }}"
+                                                        value="{{ $eventDetail['nameOfTheStudentsParticipated'] ?? '' }}"
                                                         required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="interInstituteEventsWinningPrize[{{ $yearIndex }}][events][{{ $eventIndex }}][prizeWon]"
-                                                        placeholder="Prize Won" value="{{ $eventDetail['prizeWon'] }}"
+                                                        placeholder="Prize Won" value="{{ $eventDetail['prizeWon'] ?? '' }}"
                                                         required>
                                                 </div>
                                                 <div class="form-group col-md-2 text-end">
@@ -572,6 +570,7 @@
                                                 </div>
                                             </div>
                                             @endforeach
+                                            @endif
                                         </div>
                                         <div class="text-end">
                                             <button type="button" class="btn btn-info"
@@ -788,7 +787,17 @@
                     <script>
                     function addVisit() {
                         const container = document.getElementById('industrialVisitContainer');
-                        const index = container.querySelectorAll('.visit-entry').length;
+                        
+                        // Find the highest existing index to avoid conflicts
+                        let maxIndex = -1;
+                        const inputs = container.querySelectorAll('input[name^="industrialVisit"]');
+                        inputs.forEach(input => {
+                            const match = input.name.match(/industrialVisit\[(\d+)\]/);
+                            if (match) {
+                                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                            }
+                        });
+                        const index = maxIndex + 1;
                         const newVisit = `
                         <div class="visit-entry row mb-3">
                             <div class="form-group col-md-3">

@@ -70,18 +70,18 @@
                                     @foreach($teachingStaffData as $index => $staff)
                                     <div class="faculty-entry mb-4">
                                         <div class="row">
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
                                                     name="teachingStaffData[{{ $index }}][faculty]"
                                                     placeholder="Faculty Name" value="{{ $staff['faculty'] }}" required>
                                             </div>
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col-md-2">
                                                 <input type="text" class="form-control"
                                                     name="teachingStaffData[{{ $index }}][qualification]"
                                                     placeholder="Qualification" value="{{ $staff['qualification'] }}"
                                                     required>
                                             </div>
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col-md-2">
                                                 <input type="email" class="form-control"
                                                     name="teachingStaffData[{{ $index }}][email]" placeholder="Email"
                                                     value="{{ $staff['email'] }}" required>
@@ -96,7 +96,12 @@
                                                     name="teachingStaffData[{{ $index }}][profileId]"
                                                     placeholder="Profile ID" value="{{ $staff['profileId'] }}" required>
                                             </div>
-                                            <div class="form-group col-md-1 text-end">
+                                            <div class="form-group col-md-1">
+                                                <input type="number" class="form-control"
+                                                    name="teachingStaffData[{{ $index }}][sorting]"
+                                                    placeholder="Sort" value="{{ $staff['sorting'] ?? ($index + 1) }}" required>
+                                            </div>
+                                            <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
                                                     onclick="removeFacultyEntry(this)">Remove</button>
                                             </div>
@@ -106,17 +111,17 @@
                                     @else
                                     <div class="faculty-entry mb-4">
                                         <div class="row">
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
                                                     name="teachingStaffData[0][faculty]" placeholder="Faculty Name"
                                                     required>
                                             </div>
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col-md-2">
                                                 <input type="text" class="form-control"
                                                     name="teachingStaffData[0][qualification]"
                                                     placeholder="Qualification" required>
                                             </div>
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col-md-2">
                                                 <input type="email" class="form-control"
                                                     name="teachingStaffData[0][email]" placeholder="Email" required>
                                             </div>
@@ -130,7 +135,12 @@
                                                     name="teachingStaffData[0][profileId]" placeholder="Profile ID"
                                                     required>
                                             </div>
-                                            <div class="form-group col-md-1 text-end">
+                                            <div class="form-group col-md-1">
+                                                <input type="number" class="form-control"
+                                                    name="teachingStaffData[0][sorting]" placeholder="Sort"
+                                                    value="" required>
+                                            </div>
+                                            <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
                                                     onclick="removeFacultyEntry(this)">Remove</button>
                                             </div>
@@ -156,18 +166,28 @@
                     // Add a new faculty member
                     function addFacultyEntry() {
                         const container = document.getElementById('teachingStaffContainer');
-                        const index = container.getElementsByClassName('faculty-entry').length;
+                        
+                        // Find the highest existing index to avoid conflicts
+                        let maxIndex = -1;
+                        const inputs = container.querySelectorAll('input[name^="teachingStaffData"]');
+                        inputs.forEach(input => {
+                            const match = input.name.match(/teachingStaffData\[(\d+)\]/);
+                            if (match) {
+                                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                            }
+                        });
+                        const index = maxIndex + 1;
 
                         const newEntry = `
                 <div class="faculty-entry mb-4">
                     <div class="row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <input type="text" class="form-control" name="teachingStaffData[${index}][faculty]" placeholder="Faculty Name" required>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <input type="text" class="form-control" name="teachingStaffData[${index}][qualification]" placeholder="Qualification" required>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <input type="email" class="form-control" name="teachingStaffData[${index}][email]" placeholder="Email" required>
                         </div>
                         <div class="form-group col-md-1">
@@ -176,7 +196,10 @@
                         <div class="form-group col-md-1">
                             <input type="text" class="form-control" name="teachingStaffData[${index}][profileId]" placeholder="Profile ID" required>
                         </div>
-                        <div class="form-group col-md-1 text-end">
+                        <div class="form-group col-md-1">
+                            <input type="number" class="form-control" name="teachingStaffData[${index}][sorting]" placeholder="Sort" value="${index + 1}" required>
+                        </div>
+                        <div class="form-group col-md-2 text-end">
                             <button type="button" class="btn btn-danger" onclick="removeFacultyEntry(this)">Remove</button>
                         </div>
                     </div>
@@ -219,7 +242,7 @@
                                     @foreach($nonTeachingStaffData as $index => $staff)
                                     <div class="staff-entry mb-4">
                                         <div class="row">
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
                                                     name="nonTeachingStaffData[{{ $index }}][name]" placeholder="Name"
                                                     value="{{ $staff['name'] }}" required>
@@ -230,13 +253,18 @@
                                                     placeholder="Qualification" value="{{ $staff['qualification'] }}"
                                                     required>
                                             </div>
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
                                                     name="nonTeachingStaffData[{{ $index }}][designation]"
                                                     placeholder="Designation" value="{{ $staff['designation'] }}"
                                                     required>
                                             </div>
-                                            <div class="form-group col-md-1 text-end">
+                                            <div class="form-group col-md-1">
+                                                <input type="number" class="form-control"
+                                                    name="nonTeachingStaffData[{{ $index }}][sorting]"
+                                                    placeholder="Sort" value="{{ $staff['sorting'] ?? ($index + 1) }}" required>
+                                            </div>
+                                            <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
                                                     onclick="removeStaffEntry(this)">Remove</button>
                                             </div>
@@ -246,7 +274,7 @@
                                     @else
                                     <div class="staff-entry mb-4">
                                         <div class="row">
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
                                                     name="nonTeachingStaffData[0][name]" placeholder="Name" required>
                                             </div>
@@ -255,12 +283,17 @@
                                                     name="nonTeachingStaffData[0][qualification]"
                                                     placeholder="Qualification" required>
                                             </div>
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
                                                     name="nonTeachingStaffData[0][designation]"
                                                     placeholder="Designation" required>
                                             </div>
-                                            <div class="form-group col-md-1 text-end">
+                                            <div class="form-group col-md-1">
+                                                <input type="number" class="form-control"
+                                                    name="nonTeachingStaffData[0][sorting]" placeholder="Sort"
+                                                    value="1" required>
+                                            </div>
+                                            <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
                                                     onclick="removeStaffEntry(this)">Remove</button>
                                             </div>
@@ -284,21 +317,34 @@
                     // Add a new staff member
                     function addStaffEntry() {
                         const container = document.getElementById('nonTeachingStaffContainer');
-                        const index = container.getElementsByClassName('staff-entry').length;
+                        
+                        // Find the highest existing index to avoid conflicts
+                        let maxIndex = -1;
+                        const inputs = container.querySelectorAll('input[name^="nonTeachingStaffData"]');
+                        inputs.forEach(input => {
+                            const match = input.name.match(/nonTeachingStaffData\[(\d+)\]/);
+                            if (match) {
+                                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                            }
+                        });
+                        const index = maxIndex + 1;
 
                         const newEntry = `
                 <div class="staff-entry mb-4">
                     <div class="row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <input type="text" class="form-control" name="nonTeachingStaffData[${index}][name]" placeholder="Name" required>
                         </div>
                         <div class="form-group col-md-3">
                             <input type="text" class="form-control" name="nonTeachingStaffData[${index}][qualification]" placeholder="Qualification" required>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <input type="text" class="form-control" name="nonTeachingStaffData[${index}][designation]" placeholder="Designation" required>
                         </div>
-                        <div class="form-group col-md-1 text-end">
+                        <div class="form-group col-md-1">
+                            <input type="number" class="form-control" name="nonTeachingStaffData[${index}][sorting]" placeholder="Sort" value="${index + 1}" required>
+                        </div>
+                        <div class="form-group col-md-2 text-end">
                             <button type="button" class="btn btn-danger" onclick="removeStaffEntry(this)">Remove</button>
                         </div>
                     </div>

@@ -37,6 +37,14 @@
         @if(!empty($data->teachingStaff))
         @php
             $teachingStaff = is_string($data->teachingStaff) ? json_decode($data->teachingStaff, true) : $data->teachingStaff;
+            // Sort by sorting field if it exists
+            if(is_array($teachingStaff) && count($teachingStaff) > 0) {
+                usort($teachingStaff, function($a, $b) {
+                    $sortA = isset($a['sorting']) ? (int)$a['sorting'] : 999999;
+                    $sortB = isset($b['sorting']) ? (int)$b['sorting'] : 999999;
+                    return $sortA - $sortB;
+                });
+            }
         @endphp
         @if(is_array($teachingStaff) && count($teachingStaff) > 0)
         <div class="row mb-5">
@@ -94,6 +102,14 @@
         @if(!empty($data->nonTeachingStaff))
         @php
             $nonTeachingStaff = is_string($data->nonTeachingStaff) ? json_decode($data->nonTeachingStaff, true) : $data->nonTeachingStaff;
+            // Sort by sorting field if it exists
+            if(is_array($nonTeachingStaff) && count($nonTeachingStaff) > 0) {
+                usort($nonTeachingStaff, function($a, $b) {
+                    $sortA = isset($a['sorting']) ? (int)$a['sorting'] : 999999;
+                    $sortB = isset($b['sorting']) ? (int)$b['sorting'] : 999999;
+                    return $sortA - $sortB;
+                });
+            }
         @endphp
         @if(is_array($nonTeachingStaff) && count($nonTeachingStaff) > 0)
         <div class="row mb-5">

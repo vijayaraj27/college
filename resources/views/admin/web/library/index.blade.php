@@ -94,7 +94,8 @@
                             <div id="booksContainer" class="col-md-12">
                                 <h4>Books List</h4>
                                 @php
-                                $booksList = isset($row->record) ? json_decode($row->record, true) : [];
+                                // Use the already decoded data from controller
+                                $booksList = $record ?? [];
                                 @endphp
 
                                 <div id="booksEntries">
@@ -128,7 +129,17 @@
                     <script>
                     function addBookEntry() {
                         const container = document.querySelector('#booksEntries');
-                        const index = container.querySelectorAll('.book-entry').length;
+                        
+                        // Find the highest existing index to avoid conflicts
+                        let maxIndex = -1;
+                        const inputs = container.querySelectorAll('input[name^="record"]');
+                        inputs.forEach(input => {
+                            const match = input.name.match(/record\[(\d+)\]/);
+                            if (match) {
+                                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                            }
+                        });
+                        const index = maxIndex + 1;
 
                         const newEntry = `
             <div class="row mb-2 book-entry" id="bookEntry_${index}">

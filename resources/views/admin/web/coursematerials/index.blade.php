@@ -61,8 +61,8 @@
                                 <div id="studentPlacedContainer" class="col-md-12">
                                     <h4>Course Materials List</h4>
                                     @php
-                                    $coursesList = isset($row->courses) ? json_decode($row->courses,
-                                    true) : [];
+                                    // Use the already decoded data from controller
+                                    $coursesList = $courses ?? [];
                                     $coursesList = array_values($coursesList ?? []);
 
 

@@ -265,7 +265,17 @@ $contact = $row ? json_decode($row->contact, true) : [];
 <script>
 function addSlider() {
     const sliderContainer = document.getElementById('sliderContainer');
-    const index = sliderContainer.getElementsByClassName('slider-entry').length;
+    
+    // Find the highest existing index to avoid conflicts
+    let maxIndex = -1;
+    const inputs = sliderContainer.querySelectorAll('input[name^="slider"]');
+    inputs.forEach(input => {
+        const match = input.name.match(/slider\[(\d+)\]/);
+        if (match) {
+            maxIndex = Math.max(maxIndex, parseInt(match[1]));
+        }
+    });
+    const index = maxIndex + 1;
     const newSlider = `
             <div class="slider-entry row">
                 <div class="form-group col-md-6">    <input type="text" class="form-control" name="slider[${index}][image_file]" placeholder="Image File" required> </div>
@@ -286,7 +296,17 @@ function removeSlider(btn) {
 
 function addTestimonial() {
     const testimonialContainer = document.getElementById('testimonialContainer');
-    const index = testimonialContainer.getElementsByClassName('testimonial-entry').length;
+    
+    // Find the highest existing index to avoid conflicts
+    let maxIndex = -1;
+    const inputs = testimonialContainer.querySelectorAll('input[name^="testimonial"]');
+    inputs.forEach(input => {
+        const match = input.name.match(/testimonial\[(\d+)\]/);
+        if (match) {
+            maxIndex = Math.max(maxIndex, parseInt(match[1]));
+        }
+    });
+    const index = maxIndex + 1;
     const newTestimonial = `
             <div class="testimonial-entry">
                 <div class="form-group col-md-6">  <input  class="form-control"  type="text" name="testimonial[${index}][name]" placeholder="Name" required> </div>
@@ -305,7 +325,17 @@ function removeTestimonial(btn) {
 
 function addprogrammeEducational() {
     const programmeEducationalContainer = document.getElementById('programmeEducationalContainer');
-    const index = programmeEducationalContainer.getElementsByClassName('programmeEducational-entry').length;
+    
+    // Find the highest existing index to avoid conflicts
+    let maxIndex = -1;
+    const inputs = programmeEducationalContainer.querySelectorAll('input[name^="programmeEducationalObjectives"]');
+    inputs.forEach(input => {
+        const match = input.name.match(/programmeEducationalObjectives\[(\d+)\]/);
+        if (match) {
+            maxIndex = Math.max(maxIndex, parseInt(match[1]));
+        }
+    });
+    const index = maxIndex + 1;
     const newprogrammeEducational = `
             <div class="programmeEducational-entry row">               
                 <div class="form-group col-md-9">  <textarea  class="form-control "  name="programmeEducationalObjectives[${index}]" placeholder="Programme Educational Objectives" required></textarea> </div>
@@ -323,7 +353,17 @@ function removeprogrammeEducational(btn) {
 
 function addprogrammeOutcomes() {
     const programmeOutcomesContainer = document.getElementById('programmeOutcomesContainer');
-    const index = programmeOutcomesContainer.getElementsByClassName('programmeOutcomes-entry').length;
+    
+    // Find the highest existing index to avoid conflicts
+    let maxIndex = -1;
+    const inputs = programmeOutcomesContainer.querySelectorAll('input[name^="programmeOutcomes"]');
+    inputs.forEach(input => {
+        const match = input.name.match(/programmeOutcomes\[(\d+)\]/);
+        if (match) {
+            maxIndex = Math.max(maxIndex, parseInt(match[1]));
+        }
+    });
+    const index = maxIndex + 1;
     const newprogrammeOutcomes = `
             <div class="programmeOutcomes-entry row">               
                 <div class="form-group col-md-9">  <textarea  class="form-control "  name="programmeOutcomes[${index}]" placeholder="Programme OutComes" required></textarea> </div>
@@ -341,7 +381,17 @@ function removeprogrammeOutcomes(btn) {
 
 function addprogrammeSpecificOutcomes() {
     const programmeSpecificOutcomesContainer = document.getElementById('programmeSpecificOutcomesContainer');
-    const index = programmeSpecificOutcomesContainer.getElementsByClassName('programmeSpecificOutcomes-entry').length;
+    
+    // Find the highest existing index to avoid conflicts
+    let maxIndex = -1;
+    const inputs = programmeSpecificOutcomesContainer.querySelectorAll('input[name^="programmeSpecificOutcomes"]');
+    inputs.forEach(input => {
+        const match = input.name.match(/programmeSpecificOutcomes\[(\d+)\]/);
+        if (match) {
+            maxIndex = Math.max(maxIndex, parseInt(match[1]));
+        }
+    });
+    const index = maxIndex + 1;
     const newprogrammeSpecificOutcomes = `
             <div class="programmeSpecificOutcomes-entry row">               
                 <div class="form-group col-md-9">  <textarea  class="form-control "  name="programmeSpecificOutcomes[${index}]" placeholder="Programme OutComes" required></textarea> </div>

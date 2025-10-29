@@ -164,7 +164,17 @@
 
                     function addChapterEntry(year) {
                         const container = document.querySelector(`#yearSection_${year} .chapters-list`);
-                        const index = container.querySelectorAll('.chapter-entry').length;
+                        
+                        // Find the highest existing index to avoid conflicts
+                        let maxIndex = -1;
+                        const inputs = container.querySelectorAll(`input[name^="bookChapter[${year}][chapters]"]`);
+                        inputs.forEach(input => {
+                            const match = input.name.match(/chapters\[(\d+)\]/);
+                            if (match) {
+                                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                            }
+                        });
+                        const index = maxIndex + 1;
 
                         // Check for duplicate chapter titles
                         const existingTitles = Array.from(container.querySelectorAll('input')).map(input => input.value

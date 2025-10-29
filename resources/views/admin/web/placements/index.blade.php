@@ -65,9 +65,8 @@
                                     <div id="studentPlacedContainer" class="col-md-12">
                                         <h4>Student Placed</h4>
                                         @php
-                                        // Decode the stored JSON string to an array
-                                        $studentPlaced = isset($row->studentPlaced) ? json_decode($row->studentPlaced,
-                                        true) : [];
+                                        // Use the already decoded data from controller
+                                        $studentPlacedList = $studentPlaced ?? [];
                                         @endphp
 
                                         @if(!empty($studentPlaced))
@@ -179,7 +178,17 @@
                         // Add a new year for student placements
                         function addYearPlacement() {
                             const container = document.getElementById('studentPlacedContainer');
-                            const yearIndex = container.getElementsByClassName('placement-year-entry').length;
+                            
+                            // Find the highest existing year index to avoid conflicts
+                            let maxIndex = -1;
+                            const inputs = container.querySelectorAll('input[name^="studentPlaced"]');
+                            inputs.forEach(input => {
+                                const match = input.name.match(/studentPlaced\[(\d+)\]/);
+                                if (match) {
+                                    maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                                }
+                            });
+                            const yearIndex = maxIndex + 1;
 
                             const newYear = `
                         <div class="placement-year-entry mb-4">
@@ -225,7 +234,17 @@
                         function addPlacement(button, yearIndex) {
                             const container = button.closest('.placement-year-entry').querySelector(
                                 '.year-placements-container');
-                            const placementIndex = container.getElementsByClassName('placement-entry').length;
+                            
+                            // Find the highest existing placement index for this year
+                            let maxIndex = -1;
+                            const inputs = container.querySelectorAll(`input[name^="studentPlaced[${yearIndex}][placements]"]`);
+                            inputs.forEach(input => {
+                                const match = input.name.match(/placements\[(\d+)\]/);
+                                if (match) {
+                                    maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                                }
+                            });
+                            const placementIndex = maxIndex + 1;
 
                             const newPlacement = `
                     <div class="placement-entry row mb-2">

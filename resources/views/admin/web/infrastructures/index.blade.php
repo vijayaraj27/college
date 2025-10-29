@@ -115,7 +115,17 @@
                     <script>
                     function addBuilding() {
                         const container = document.querySelector('#buildingInfrastructuresForm .row');
-                        const index = container.getElementsByClassName('building-entry').length;
+                        
+                        // Find the highest existing index to avoid conflicts
+                        let maxIndex = -1;
+                        const inputs = container.querySelectorAll('input[name^="buildings"]');
+                        inputs.forEach(input => {
+                            const match = input.name.match(/buildings\[(\d+)\]/);
+                            if (match) {
+                                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                            }
+                        });
+                        const index = maxIndex + 1;
 
                         const newEntry = `
         <div class="building-entry row mb-3">

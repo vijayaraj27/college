@@ -61,8 +61,9 @@
                                 <div id="studentPlacedContainer" class="col-md-12">
                                     <h4>Newsletter List</h4>
                                     @php
-                                    $newslettersList = isset($row->newsletter) ? json_decode($row->newsletter,
-                                    true) : [];
+                                    // Use the already decoded data from controller
+                                    // Note: $newslettersList is already decoded in controller
+                                    $newslettersList = $newslettersList ?? [];
                                     $newslettersList = array_values($newslettersList ?? []);
 
                                     // print_r($newslettersList);

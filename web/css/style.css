@@ -14633,3 +14633,43 @@ h4.faculty-name {
 .video-item.p-4.mb-4.border.rounded a:hover {
     color: #f5874f !important;
 }
+
+.faculty-phd-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: center;
+}
+.faculty-phd-item {
+    width: 48%;
+    margin: 1%;
+    border-radius: 5% !important;
+    cursor: pointer;
+    position: relative;
+    background: #ececec;
+    box-shadow: 0px 10px 30px 0px rgb(233 233 233 / 50%);
+}
+
+@media (max-width: 768px) {
+    .faculty-phd-item {
+        width: 100%;
+        margin: 1% 0;
+    }
+}
+.faculty-phd-content {
+    padding: 10px;
+}
+.faculty-phd-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.faculty-phd-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.faculty-phd-year {
+    font-size: 0.8rem;
+    font-weight: 400;
+}

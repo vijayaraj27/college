@@ -61,8 +61,8 @@
                                 <div id="syllabusContainer" class="col-md-12">
                                     <h4>Syllabus List</h4>
                                     @php
-                                    $syllabusList = isset($row->syllabus) ? json_decode($row->syllabus, true) :
-                                    [];
+                                    // Use the already decoded data from controller
+                                    $syllabusList = $syllabus ?? [];
                                     $syllabusList = array_values($syllabusList ?? []);
                                     // $programs = \App\Models\Program::pluck('title', 'id'); // Fetch programs from DB
                                     $programs = Cache::remember('program_titles', 60, function() {
@@ -137,8 +137,16 @@
                             return;
                         }
 
-                        // Calculate new index dynamically
-                        const index = [...container.querySelectorAll('.syllabus-entry')].length;
+                        // Find the highest existing index to avoid conflicts
+                        let maxIndex = -1;
+                        const inputs = container.querySelectorAll('input[name^="syllabus"]');
+                        inputs.forEach(input => {
+                            const match = input.name.match(/syllabus\[(\d+)\]/);
+                            if (match) {
+                                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                            }
+                        });
+                        const index = maxIndex + 1;
 
                         const newEntry = `
                                 <div class="syllabus-entry row mb-2" id="syllabusEntry_${index}">
@@ -186,8 +194,8 @@
                                 <div id="regulationContainer" class="col-md-12">
                                     <h4>Regulation List</h4>
                                     @php
-                                    $regulationList = isset($row->regulation) ? json_decode($row->regulation, true) :
-                                    [];
+                                    // Use the already decoded data from controller
+                                    $regulationList = $regulation ?? [];
                                     $regulationList = array_values($regulationList ?? []);
                                     $programs = Cache::remember('program_titles', 60, function() {
                                     return \App\Models\Program::pluck('title', 'id');
@@ -274,8 +282,16 @@
                             return;
                         }
 
-                        // Calculate new index dynamically
-                        const index = [...container.querySelectorAll('.regulation-entry')].length;
+                        // Find the highest existing index to avoid conflicts
+                        let maxIndex = -1;
+                        const inputs = container.querySelectorAll('input[name^="regulation"]');
+                        inputs.forEach(input => {
+                            const match = input.name.match(/regulation\[(\d+)\]/);
+                            if (match) {
+                                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                            }
+                        });
+                        const index = maxIndex + 1;
 
                         const newEntry = `
         <div class="regulation-entry row mb-2" id="regulationEntry_${index}">
@@ -379,7 +395,17 @@
                     <script>
                     function addQuestionBankEntry() {
                         const container = document.querySelector('#questionBankEntries');
-                        const index = container.querySelectorAll('.question-bank-entry').length;
+                        
+                        // Find the highest existing index to avoid conflicts
+                        let maxIndex = -1;
+                        const inputs = container.querySelectorAll('input[name^="questionBank"]');
+                        inputs.forEach(input => {
+                            const match = input.name.match(/questionBank\[(\d+)\]/);
+                            if (match) {
+                                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                            }
+                        });
+                        const index = maxIndex + 1;
                         const newEntry = `
                             <div class="row mb-2 question-bank-entry" id="questionBankEntry_${index}">
                                 <div class="form-group col-md-4">

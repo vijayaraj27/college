@@ -292,15 +292,20 @@
                                 <div class="phd-awarded-header">
                                     <h4 class="phd-awarded-name">
                                         <i class="fa fa-user text-success"></i>
-                                        {{ $awarded['nameOfTheCandidate'] ?? 'PhD Awarded ' . ($index + 1) }}
+                                        {{ $awarded['NameofTheResearchScholar'] ?? 'PhD Awarded ' . ($index + 1) }}
                                     </h4>
-                                    @if(!empty($awarded['yearOfAward']))
+                                    @if(!empty($awarded['vivaVoceDate']))
                                     <span class="award-year badge badge-success">
-                                        <i class="fa fa-calendar"></i> {{ $awarded['yearOfAward'] }}
+                                        <i class="fa fa-calendar"></i> {{ date('Y', strtotime($awarded['vivaVoceDate'])) }}
                                     </span>
                                     @endif
                                 </div>
                                 <div class="phd-awarded-details">
+                                    @if(!empty($awarded['regNo']))
+                                    <p class="awarded-regno">
+                                        <strong>Registration No:</strong> {{ $awarded['regNo'] }}
+                                    </p>
+                                    @endif
                                     @if(!empty($awarded['supervisorName']))
                                     <p class="awarded-supervisor">
                                         <strong>Supervisor:</strong> {{ $awarded['supervisorName'] }}
@@ -311,9 +316,14 @@
                                         <strong>University:</strong> {{ $awarded['university'] }}
                                     </p>
                                     @endif
-                                    @if(!empty($awarded['areaOfResearch']))
-                                    <p class="awarded-area">
-                                        <strong>Research Area:</strong> {{ $awarded['areaOfResearch'] }}
+                                    @if(!empty($awarded['titleOfTheThesis']))
+                                    <p class="awarded-thesis">
+                                        <strong>Thesis Title:</strong> {{ $awarded['titleOfTheThesis'] }}
+                                    </p>
+                                    @endif
+                                    @if(!empty($awarded['vivaVoceDate']))
+                                    <p class="awarded-date">
+                                        <strong>Viva Voce Date:</strong> {{ date('d-m-Y', strtotime($awarded['vivaVoceDate'])) }}
                                     </p>
                                     @endif
                                 </div>

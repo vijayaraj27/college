@@ -67,8 +67,8 @@ class MagazinesController extends Controller
         $query->where('departmentId', $departmentId);
         $data['row'] =  $query->first();       
         
-            $data['courses'] = isset($data['row']['courses']) && is_string($data['row']['courses']) 
-            ? array_values(json_decode($data['row']['courses'], true) ?? []) 
+            $data['magazinesList'] = isset($data['row']['magazines']) && is_string($data['row']['magazines']) 
+            ? array_values(json_decode($data['row']['magazines'], true) ?? []) 
             : [];
 
 

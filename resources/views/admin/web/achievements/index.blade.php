@@ -758,7 +758,17 @@
     // Add a new staff achievement
     function addStaffAchievement() {
         const container = document.getElementById('sectionStaffAchievementsContainer');
-        const index = container.getElementsByClassName('sectionStaffAchievements-entry').length;
+        
+        // Find the highest existing index to avoid conflicts
+        let maxIndex = -1;
+        const inputs = container.querySelectorAll('input[name^="sectionStaffAchievements"]');
+        inputs.forEach(input => {
+            const match = input.name.match(/sectionStaffAchievements\[(\d+)\]/);
+            if (match) {
+                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+            }
+        });
+        const index = maxIndex + 1;
 
         const newEntry = `
             <div class="sectionStaffAchievements-entry row mb-2">
@@ -784,7 +794,17 @@
     function addStudentAchievement() {
         const container = document.getElementById('studentAchievementsContainer');
         const year = new Date().getFullYear();
-        const index = container.getElementsByClassName('studentAchievement-entry').length;
+        
+        // Find the highest existing index to avoid conflicts
+        let maxIndex = -1;
+        const inputs = container.querySelectorAll('input[name^="studentAchievements"]');
+        inputs.forEach(input => {
+            const match = input.name.match(/studentAchievements\[(\d+)\]/);
+            if (match) {
+                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+            }
+        });
+        const index = maxIndex + 1;
 
         const newEntry = `
             <div class="studentAchievement-entry row mb-3">

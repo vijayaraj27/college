@@ -110,19 +110,16 @@ class FacultiesController extends Controller
     
         // Handle 'teaching-staff' section
         elseif ($request->section === 'teaching-staff') {
-
-           
-                $Faculties->teachingStaff = json_encode($request->teachingStaffData, JSON_UNESCAPED_UNICODE);
-
-                echo json_encode($request->teachingStaff, JSON_UNESCAPED_UNICODE);
-            
+                // Re-index array to remove any gaps from deleted entries
+                $teachingStaffData = array_values($request->teachingStaffData ?? []);
+                $Faculties->teachingStaff = json_encode($teachingStaffData, JSON_UNESCAPED_UNICODE);
         }
     
         // Handle 'non-teaching-staff' section
         elseif ($request->section === 'non-teaching-staff') {
-            
-                $Faculties->nonTeachingStaff = json_encode($request->nonTeachingStaffData, JSON_UNESCAPED_UNICODE);
-             
+                // Re-index array to remove any gaps from deleted entries
+                $nonTeachingStaffData = array_values($request->nonTeachingStaffData ?? []);
+                $Faculties->nonTeachingStaff = json_encode($nonTeachingStaffData, JSON_UNESCAPED_UNICODE);
         }
     
         // Save the record
