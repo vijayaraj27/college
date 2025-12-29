@@ -136,9 +136,11 @@
                                         <!-- Year Input -->
                                         <div class="row">
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
-                                                    name="studentAchievements[{{ $key }}][year]" placeholder="Year"
-                                                    value="{{ $studentAchievement['year'] }}" required>
+                                                <label for="year_{{ $key }}">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="year_{{ $key }}"
+                                                    name="studentAchievements[{{ $key }}][year]" placeholder="e.g., 2023-24"
+                                                    value="{{ isset($studentAchievement['year']) ? $studentAchievement['year'] : '' }}" required>
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -207,8 +209,10 @@
                                     <div class="student-year-entry mb-4">
                                         <div class="row">
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
-                                                    name="studentAchievements[0][year]" placeholder="Year" required>
+                                                <label for="year_0">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="year_0"
+                                                    name="studentAchievements[0][year]" placeholder="e.g., 2023-24" required>
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -293,11 +297,12 @@
                                     <div class="student-year-entry mb-4">
                                         <div class="row">
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
+                                                <label for="tableYear_{{ $tableKey }}">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="tableYear_{{ $tableKey }}"
                                                     name="studentAchievementsTableFormat[{{ $tableKey }}][year]"
-                                                    placeholder="Year" value="{{ $studentAchievementsTable['year'] }}"
+                                                    placeholder="e.g., 2023-24" value="{{ isset($studentAchievementsTable['year']) ? $studentAchievementsTable['year'] : '' }}"
                                                     required>
-
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -305,6 +310,7 @@
                                             </div>
                                         </div>
                                         <div class="year-achievements-container">
+                                            @if(isset($studentAchievementsTable['achievements']) && is_array($studentAchievementsTable['achievements']))
                                             @foreach($studentAchievementsTable['achievements'] as $achievementIndex =>
                                             $achievement)
                                             <div class="student-achievement-entry row mb-2">
@@ -312,36 +318,36 @@
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][studentName]"
                                                         placeholder="Student Name"
-                                                        value="{{ $achievement['studentName'] }}" required>
+                                                        value="{{ isset($achievement['studentName']) ? $achievement['studentName'] : '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][eventNature]"
                                                         placeholder="Event Nature"
-                                                        value="{{ $achievement['eventNature'] }}" required>
+                                                        value="{{ isset($achievement['eventNature']) ? $achievement['eventNature'] : '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][eventName]"
-                                                        placeholder="Event Name" value="{{ $achievement['eventName'] }}"
+                                                        placeholder="Event Name" value="{{ isset($achievement['eventName']) ? $achievement['eventName'] : '' }}"
                                                         required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][periodDate]"
                                                         placeholder="Period Date"
-                                                        value="{{ $achievement['periodDate'] }}" required>
+                                                        value="{{ isset($achievement['periodDate']) ? $achievement['periodDate'] : '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][organizedBy]"
                                                         placeholder="Organized By"
-                                                        value="{{ $achievement['organizedBy'] }}" required>
+                                                        value="{{ isset($achievement['organizedBy']) ? $achievement['organizedBy'] : '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentAchievementsTableFormat[{{ $tableKey }}][achievements][{{ $achievementIndex }}][awards]"
-                                                        placeholder="Awards" value="{{ $achievement['awards'] }}"
+                                                        placeholder="Awards" value="{{ isset($achievement['awards']) ? $achievement['awards'] : '' }}"
                                                         required>
                                                 </div>
                                                 <div class="form-group col-md-2 text-end">
@@ -350,10 +356,11 @@
                                                 </div>
                                             </div>
                                             @endforeach
+                                            @endif
                                         </div>
                                         <div class="text-end">
                                             <button type="button" class="btn btn-info"
-                                                onclick="addAchievementstudentAchievementsTableFormat(this, {{ isset($achievementIndex) ? $achievementIndex : 0 }})">Add
+                                                onclick="addAchievementstudentAchievementsTableFormat(this, {{ $tableKey }})">Add
                                                 Achievement</button>
                                         </div>
                                     </div>
@@ -362,9 +369,11 @@
                                     <div class="student-year-entry mb-4">
                                         <div class="row">
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
-                                                    name="studentAchievementsTableFormat[0][year]" placeholder="Year"
+                                                <label for="tableYear_0">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="tableYear_0"
+                                                    name="studentAchievementsTableFormat[0][year]" placeholder="e.g., 2023-24"
                                                     required>
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -435,13 +444,24 @@
                     function addYearStudentAchievementsstudentAchievementsTableFormat() {
                         const container = document.getElementById(
                             'studentAchievementsContainerstudentAchievementsTableFormat');
-                        const yearIndex = container.getElementsByClassName('student-year-entry').length;
+                        // Find the maximum year index to ensure no conflicts
+                        let maxIndex = -1;
+                        const yearInputs = container.querySelectorAll('input[name*="[year]"]');
+                        yearInputs.forEach(input => {
+                            const match = input.name.match(/studentAchievementsTableFormat\[(\d+)\]/);
+                            if (match) {
+                                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                            }
+                        });
+                        const yearIndex = maxIndex + 1;
 
                         const newYear = `
                                 <div class="student-year-entry mb-4">
                                     <div class="row">
                                         <div class="form-group col-md-10">
-                                            <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][year]" placeholder="Year" required>
+                                            <label>Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                            <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][year]" placeholder="e.g., 2023-24" required>
+                                            <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                         </div>
                                         <div class="form-group col-md-2 text-end">
                                             <button type="button" class="btn btn-danger" onclick="removeYearStudentAchievementstf(this)">Remove Year</button>
@@ -489,29 +509,41 @@
 
                     // Add a new achievement
                     function addAchievementstudentAchievementsTableFormat(button, yearIndex) {
-                        const container = button.closest('.student-year-entry').querySelector(
-                            '.year-achievements-container');
+                        // Dynamically find the year index from the form structure to ensure correctness
+                        const yearEntry = button.closest('.student-year-entry');
+                        const yearInput = yearEntry.querySelector('input[name*="[year]"]');
+                        
+                        // Extract the year index from the input name attribute
+                        let actualYearIndex = yearIndex;
+                        if (yearInput) {
+                            const nameMatch = yearInput.name.match(/studentAchievementsTableFormat\[(\d+)\]/);
+                            if (nameMatch) {
+                                actualYearIndex = parseInt(nameMatch[1]);
+                            }
+                        }
+                        
+                        const container = yearEntry.querySelector('.year-achievements-container');
                         const achievementIndex = container.getElementsByClassName('student-achievement-entry').length;
 
                         const newAchievement = `
                                 <div class="student-achievement-entry row mb-2">
                                     <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][studentName]" placeholder="Student Name" required>
+                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[${actualYearIndex}][achievements][${achievementIndex}][studentName]" placeholder="Student Name" required>
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][eventNature]" placeholder="Event Nature" required>
+                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[${actualYearIndex}][achievements][${achievementIndex}][eventNature]" placeholder="Event Nature" required>
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][eventName]" placeholder="Event Name" required>
+                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[${actualYearIndex}][achievements][${achievementIndex}][eventName]" placeholder="Event Name" required>
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][periodDate]" placeholder="Period Date" required>
+                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[${actualYearIndex}][achievements][${achievementIndex}][periodDate]" placeholder="Period Date" required>
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][organizedBy]" placeholder="Organized By" required>
+                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[${actualYearIndex}][achievements][${achievementIndex}][organizedBy]" placeholder="Organized By" required>
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[${yearIndex}][achievements][${achievementIndex}][awards]" placeholder="Awards" required>
+                                        <input type="text" class="form-control" name="studentAchievementsTableFormat[${actualYearIndex}][achievements][${achievementIndex}][awards]" placeholder="Awards" required>
                                     </div>
                                     <div class="form-group col-md-3 text-end">
                                         <button type="button" class="btn btn-danger" onclick="removeAchievementstudentAchievementsTableFormat(this)">Remove</button>
@@ -560,41 +592,45 @@
                                             <div class="student-achievement-appreciation-year-entry mb-4" id="studentAchievementsAppreciationYearEntry{{ $appKey }}">
                                                 <div class="row">
                                                     <div class="form-group col-md-10">
-                                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][year]" placeholder="Year" value="{{ $studentAchievementsAppeciation['year'] }}" required>
+                                                        <label for="appYear_{{ $appKey }}">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                        <input type="text" class="form-control" id="appYear_{{ $appKey }}" name="studentAchievementsAppreciation[{{ $appKey }}][year]" placeholder="e.g., 2023-24" value="{{ isset($studentAchievementsAppeciation['year']) ? $studentAchievementsAppeciation['year'] : '' }}" required>
+                                                        <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                                     </div>
                                                     <div class="form-group col-md-2 text-end">
                                                         <button type="button" class="btn btn-danger" onclick="removeYearStudentAchievementsAppreciation(this)">Remove Year</button>
                                                     </div>
                                                 </div>
                                                 <div class="year-appreciations-container">
+                                                    @if(isset($studentAchievementsAppeciation['appreciations']) && is_array($studentAchievementsAppeciation['appreciations']))
                                                     @foreach($studentAchievementsAppeciation['appreciations'] as $appreciationIndex => $appreciation)
-                                                        <div class="student-achievement-appreciation-entry row mb-2" id="studentAchievementAppreciationEntry{{ $studentAchievementsAppeciation['year'] }}_{{ $appreciationIndex }}">
+                                                        <div class="student-achievement-appreciation-entry row mb-2" id="studentAchievementAppreciationEntry{{ isset($studentAchievementsAppeciation['year']) ? $studentAchievementsAppeciation['year'] : '' }}_{{ $appreciationIndex }}">
                                                             <div class="form-group col-md-2">
-                                                                <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][appreciations][{{ $appreciationIndex }}][studentName]" placeholder="Student Name" value="{{ $appreciation['studentName'] }}" required>
+                                                                <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][appreciations][{{ $appreciationIndex }}][studentName]" placeholder="Student Name" value="{{ isset($appreciation['studentName']) ? $appreciation['studentName'] : '' }}" required>
                                                             </div>
                                                             <div class="form-group col-md-2">
-                                                                <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][appreciations][{{ $appreciationIndex }}][yearOfStudent]" placeholder="Year of Student" value="{{ $appreciation['yearOfStudent'] }}" required>
+                                                                <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][appreciations][{{ $appreciationIndex }}][yearOfStudent]" placeholder="Year of Student" value="{{ isset($appreciation['yearOfStudent']) ? $appreciation['yearOfStudent'] : '' }}" required>
                                                             </div>
                                                             <div class="form-group col-md-2">
-                                                                <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][appreciations][{{ $appreciationIndex }}][eventName]" placeholder="Event Name" value="{{ $appreciation['eventName'] }}" required>
+                                                                <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][appreciations][{{ $appreciationIndex }}][eventName]" placeholder="Event Name" value="{{ isset($appreciation['eventName']) ? $appreciation['eventName'] : '' }}" required>
                                                             </div>
                                                             <div class="form-group col-md-2">
-                                                                <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][appreciations][{{ $appreciationIndex }}][projectName]" placeholder="Project Name" value="{{ $appreciation['projectName'] }}" required>
+                                                                <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][appreciations][{{ $appreciationIndex }}][projectName]" placeholder="Project Name" value="{{ isset($appreciation['projectName']) ? $appreciation['projectName'] : '' }}" required>
                                                             </div>
                                                             <div class="form-group col-md-2">
-                                                                <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][appreciations][{{ $appreciationIndex }}][supervisor]" placeholder="Supervisor" value="{{ $appreciation['supervisor'] }}" required>
+                                                                <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][appreciations][{{ $appreciationIndex }}][supervisor]" placeholder="Supervisor" value="{{ isset($appreciation['supervisor']) ? $appreciation['supervisor'] : '' }}" required>
                                                             </div>
                                                             <div class="form-group col-md-2">
-                                                                <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][appreciations][{{ $appreciationIndex }}][status]" placeholder="Status" value="{{ $appreciation['status'] }}" required>
+                                                                <input type="text" class="form-control" name="studentAchievementsAppreciation[{{ $appKey }}][appreciations][{{ $appreciationIndex }}][status]" placeholder="Status" value="{{ isset($appreciation['status']) ? $appreciation['status'] : '' }}" required>
                                                             </div>
                                                             <div class="form-group col-md-2 text-end">
                                                                 <button type="button" class="btn btn-danger" onclick="removeAchievementAppreciation(this)">Remove</button>
                                                             </div>
                                                         </div>
                                                     @endforeach
+                                                    @endif
                                                 </div>
                                                 <div class="text-end">
-                                                    <button type="button" class="btn btn-info" onclick="addAchievementAppreciation(this, {{ isset($appreciationIndex) ? $appreciationIndex : 0 }})"><i class="fa fa-plus"></i> Add Appreciation</button>
+                                                    <button type="button" class="btn btn-info" onclick="addAchievementAppreciation(this, {{ $appKey }})"><i class="fa fa-plus"></i> Add Appreciation</button>
                                                 </div>
                                             </div>
                                         @endforeach
@@ -602,7 +638,9 @@
                                         <div class="student-achievement-appreciation-year-entry mb-4" id="studentAchievementsAppreciationYearEntry0">
                                             <div class="row">
                                                 <div class="form-group col-md-10">
-                                                    <input type="text" class="form-control" name="studentAchievementsAppreciation[0][year]" placeholder="Year" required>
+                                                    <label for="appYear_0">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                    <input type="text" class="form-control" id="appYear_0" name="studentAchievementsAppreciation[0][year]" placeholder="e.g., 2023-24" required>
+                                                    <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                                 </div>
                                                 <div class="form-group col-md-2 text-end">
                                                     <button type="button" class="btn btn-danger" onclick="removeYearStudentAchievementsAppreciation(this)">Remove Year</button>
@@ -654,13 +692,24 @@
                         // Add a new year for Student Achievements Appreciation
                         function addYearStudentAchievementsAppreciation() {
                             const container = document.getElementById('studentAchievementsAppreciationContainer');
-                            const yearIndex = container.getElementsByClassName('student-achievement-appreciation-year-entry').length;
+                            // Find the maximum year index to ensure no conflicts
+                            let maxIndex = -1;
+                            const yearInputs = container.querySelectorAll('input[name*="[year]"]');
+                            yearInputs.forEach(input => {
+                                const match = input.name.match(/studentAchievementsAppreciation\[(\d+)\]/);
+                                if (match) {
+                                    maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                                }
+                            });
+                            const yearIndex = maxIndex + 1;
 
                             const newYear = `
                                 <div class="student-achievement-appreciation-year-entry mb-4" id="studentAchievementsAppreciationYearEntry${yearIndex}">
                                     <div class="row">
                                         <div class="form-group col-md-10">
-                                            <input type="text" class="form-control" name="studentAchievementsAppreciation[${yearIndex}][year]" placeholder="Year" required>
+                                            <label>Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                            <input type="text" class="form-control" name="studentAchievementsAppreciation[${yearIndex}][year]" placeholder="e.g., 2023-24" required>
+                                            <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                         </div>
                                         <div class="form-group col-md-2 text-end">
                                             <button type="button" class="btn btn-danger" onclick="removeYearStudentAchievementsAppreciation(this)">Remove Year</button>
@@ -707,28 +756,41 @@
 
                         // Add a new achievement to the year
                         function addAchievementAppreciation(button, yearIndex) {
-                            const container = button.closest('.student-achievement-appreciation-year-entry').querySelector('.year-appreciations-container');
+                            // Dynamically find the year index from the form structure to ensure correctness
+                            const yearEntry = button.closest('.student-achievement-appreciation-year-entry');
+                            const yearInput = yearEntry.querySelector('input[name*="[year]"]');
+                            
+                            // Extract the year index from the input name attribute
+                            let actualYearIndex = yearIndex;
+                            if (yearInput) {
+                                const nameMatch = yearInput.name.match(/studentAchievementsAppreciation\[(\d+)\]/);
+                                if (nameMatch) {
+                                    actualYearIndex = parseInt(nameMatch[1]);
+                                }
+                            }
+                            
+                            const container = yearEntry.querySelector('.year-appreciations-container');
                             const appreciationIndex = container.getElementsByClassName('student-achievement-appreciation-entry').length;
 
                             const newAchievement = `
-                                <div class="student-achievement-appreciation-entry row mb-2" id="studentAchievementAppreciationEntry${yearIndex}_${appreciationIndex}">
+                                <div class="student-achievement-appreciation-entry row mb-2" id="studentAchievementAppreciationEntry${actualYearIndex}_${appreciationIndex}">
                                     <div class="form-group col-md-2">
-                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[${yearIndex}][appreciations][${appreciationIndex}][studentName]" placeholder="Student Name" required>
+                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[${actualYearIndex}][appreciations][${appreciationIndex}][studentName]" placeholder="Student Name" required>
                                     </div>
                                     <div class="form-group col-md-2">
-                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[${yearIndex}][appreciations][${appreciationIndex}][yearOfStudent]" placeholder="Year of Student" required>
+                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[${actualYearIndex}][appreciations][${appreciationIndex}][yearOfStudent]" placeholder="Year of Student" required>
                                     </div>
                                     <div class="form-group col-md-2">
-                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[${yearIndex}][appreciations][${appreciationIndex}][eventName]" placeholder="Event Name" required>
+                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[${actualYearIndex}][appreciations][${appreciationIndex}][eventName]" placeholder="Event Name" required>
                                     </div>
                                     <div class="form-group col-md-2">
-                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[${yearIndex}][appreciations][${appreciationIndex}][projectName]" placeholder="Project Name" required>
+                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[${actualYearIndex}][appreciations][${appreciationIndex}][projectName]" placeholder="Project Name" required>
                                     </div>
                                     <div class="form-group col-md-2">
-                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[${yearIndex}][appreciations][${appreciationIndex}][supervisor]" placeholder="Supervisor" required>
+                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[${actualYearIndex}][appreciations][${appreciationIndex}][supervisor]" placeholder="Supervisor" required>
                                     </div>
                                     <div class="form-group col-md-2">
-                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[${yearIndex}][appreciations][${appreciationIndex}][status]" placeholder="Status" required>
+                                        <input type="text" class="form-control" name="studentAchievementsAppreciation[${actualYearIndex}][appreciations][${appreciationIndex}][status]" placeholder="Status" required>
                                     </div>
                                     <div class="form-group col-md-2 text-end">
                                         <button type="button" class="btn btn-danger" onclick="removeAchievementAppreciation(this)">Remove</button>
@@ -825,13 +887,24 @@
     // Add a new year
     function addYearStaffAcheivements() {
         const container = document.getElementById('studentAchievementsContainer');
-        const yearIndex = container.getElementsByClassName('student-year-entry').length;
+        // Find the maximum year index to ensure no conflicts
+        let maxIndex = -1;
+        const yearInputs = container.querySelectorAll('input[name*="[year]"]');
+        yearInputs.forEach(input => {
+            const match = input.name.match(/studentAchievements\[(\d+)\]/);
+            if (match) {
+                maxIndex = Math.max(maxIndex, parseInt(match[1]));
+            }
+        });
+        const yearIndex = maxIndex + 1;
 
         const newYear = `
-            <div class="student-year-entry mb-4">
+                                <div class="student-year-entry mb-4">
                 <div class="row">
                     <div class="form-group col-md-10">
-                        <input type="text" class="form-control" name="studentAchievements[${yearIndex}][year]" placeholder="Year" required>
+                        <label>Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                        <input type="text" class="form-control" name="studentAchievements[${yearIndex}][year]" placeholder="e.g., 2023-24" required>
+                        <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                     </div>
                     <div class="form-group col-md-2 text-end">
                         <button type="button" class="btn btn-danger" onclick="removeYearStaffAcheivements(this)">Remove Year</button>
@@ -869,19 +942,32 @@
 
     // Add a new achievement
     function addAchievement(button, yearIndex) {
-        const container = button.closest('.student-year-entry').querySelector('.year-achievements-container');
+        // Dynamically find the year index from the form structure to ensure correctness
+        const yearEntry = button.closest('.student-year-entry');
+        const yearInput = yearEntry.querySelector('input[name*="[year]"]');
+        
+        // Extract the year index from the input name attribute
+        let actualYearIndex = yearIndex;
+        if (yearInput) {
+            const nameMatch = yearInput.name.match(/studentAchievements\[(\d+)\]/);
+            if (nameMatch) {
+                actualYearIndex = parseInt(nameMatch[1]);
+            }
+        }
+        
+        const container = yearEntry.querySelector('.year-achievements-container');
         const achievementIndex = container.getElementsByClassName('student-achievement-entry').length;
 
         const newAchievement = `
             <div class="student-achievement-entry row mb-2">
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" name="studentAchievements[${yearIndex}][achievements][${achievementIndex}][title]" placeholder="Achievement Title" required>
+                    <input type="text" class="form-control" name="studentAchievements[${actualYearIndex}][achievements][${achievementIndex}][title]" placeholder="Achievement Title" required>
                 </div>
                 <div class="form-group col-md-6">
-                    <input type="file" class="form-control" name="studentAchievements[${yearIndex}][achievements][${achievementIndex}][image]" accept="image/*">
+                    <input type="file" class="form-control" name="studentAchievements[${actualYearIndex}][achievements][${achievementIndex}][image]" accept="image/*">
                 </div>
                 <div class="form-group col-md-6">
-                    <textarea class="form-control" name="studentAchievements[${yearIndex}][achievements][${achievementIndex}][description]" placeholder="Achievement Description" required></textarea>
+                    <textarea class="form-control" name="studentAchievements[${actualYearIndex}][achievements][${achievementIndex}][description]" placeholder="Achievement Description" required></textarea>
                 </div>
                 <div class="form-group col-md-6 text-end">
                     <button type="button" class="btn btn-danger" onclick="removeAchievement(this)">Remove</button>

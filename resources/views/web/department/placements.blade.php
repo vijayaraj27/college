@@ -65,6 +65,19 @@
         @if(!empty($data->studentPlaced))
         @php
             $studentPlacements = is_string($data->studentPlaced) ? json_decode($data->studentPlaced, true) : $data->studentPlaced;
+            // Sort by year in descending order (newest first) - handles multiple years and multiple records per year
+            if (is_array($studentPlacements) && count($studentPlacements) > 0) {
+                usort($studentPlacements, function($a, $b) {
+                    $yearA = isset($a['year']) && !empty($a['year']) ? (string)$a['year'] : '0000';
+                    $yearB = isset($b['year']) && !empty($b['year']) ? (string)$b['year'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($studentPlacements) && count($studentPlacements) > 0)
         <div class="row mb-5">
@@ -130,6 +143,19 @@
         @if(!empty($data->studentPlaced) && is_string($data->studentPlaced))
         @php
             $placementTable = json_decode($data->studentPlaced, true);
+            // Sort by year in descending order (newest first) - handles multiple years and multiple records per year
+            if (is_array($placementTable) && count($placementTable) > 0) {
+                usort($placementTable, function($a, $b) {
+                    $yearA = isset($a['year']) && !empty($a['year']) ? (string)$a['year'] : '0000';
+                    $yearB = isset($b['year']) && !empty($b['year']) ? (string)$b['year'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($placementTable) && count($placementTable) > 0)
         <div class="row mb-5">

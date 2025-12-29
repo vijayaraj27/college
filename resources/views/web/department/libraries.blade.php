@@ -91,7 +91,7 @@
                                 </div>
                                 @if(!empty($record['description']))
                                 <div class="record-description">
-                                    <p>{!! $syllabus['description'] !!}</p>
+                                    <p>{!! $record['description'] !!}</p>
                                 </div>
                                 @endif
                             </div>
@@ -128,7 +128,7 @@
                                 </div>
                                 @if(!empty($detail['description']))
                                 <div class="detail-description">
-                                    <p>{!! $syllabus['description'] !!}</p>
+                                    <p>{!! $detail['description'] !!}</p>
                                 </div>
                                 @endif
                                 @if(!empty($detail['count']))

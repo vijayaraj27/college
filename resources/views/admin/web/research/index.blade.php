@@ -1068,8 +1068,11 @@
 
                 <div class="card-block">
                     <form id="fundsForm" class="needs-validation" method="POST"
-                        action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                        action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}"
+                        onsubmit="reindexAllFunds(); return true;">
                         @csrf
+                        <input type="hidden" name="departmentId" value="{{ $departmentId }}">
+                        <input type="hidden" name="section" value="{{ $section }}">
                         <div class="row">
                             <!-- Funds Section -->
                             <div id="fundsContainer" class="col-md-12">
@@ -1084,8 +1087,10 @@
                                 <div class="fund-year-entry mb-4">
                                     <div class="row">
                                         <div class="form-group col-md-10">
-                                            <input type="text" class="form-control" name="funds[{{ $yearIndex }}][year]"
-                                                placeholder="Year" value="{{ $fund['year'] }}" required>
+                                            <label for="fundYear_{{ $yearIndex }}">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                            <input type="text" class="form-control" id="fundYear_{{ $yearIndex }}" name="funds[{{ $yearIndex }}][year]"
+                                                placeholder="e.g., 2023-24" value="{{ isset($fund['year']) ? $fund['year'] : '' }}" required>
+                                            <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                         </div>
                                         <div class="form-group col-md-2 text-end">
                                             <button type="button" class="btn btn-danger"
@@ -1093,41 +1098,42 @@
                                         </div>
                                     </div>
                                     <div class="year-funds-container">
+                                        @if(isset($fund['fundDetails']) && is_array($fund['fundDetails']))
                                         @foreach($fund['fundDetails'] as $fundIndex => $fundDetail)
                                         <div class="fund-entry row mb-2">
                                             <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
                                                     name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][nameOfPi]"
-                                                    placeholder="Name of PI" value="{{ $fundDetail['nameOfPi'] }}"
+                                                    placeholder="Name of PI" value="{{ isset($fundDetail['nameOfPi']) ? $fundDetail['nameOfPi'] : '' }}"
                                                     required>
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
                                                     name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][titleOfTheProject]"
                                                     placeholder="Title of the Project"
-                                                    value="{{ $fundDetail['titleOfTheProject'] }}" required>
+                                                    value="{{ isset($fundDetail['titleOfTheProject']) ? $fundDetail['titleOfTheProject'] : '' }}" required>
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
                                                     name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][amount]"
-                                                    placeholder="Amount" value="{{ $fundDetail['amount'] }}" required>
+                                                    placeholder="Amount" value="{{ isset($fundDetail['amount']) ? $fundDetail['amount'] : '' }}" required>
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
                                                     name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][fundingAgency]"
                                                     placeholder="Funding Agency"
-                                                    value="{{ $fundDetail['fundingAgency'] }}" required>
+                                                    value="{{ isset($fundDetail['fundingAgency']) ? $fundDetail['fundingAgency'] : '' }}" required>
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
                                                     name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][OrderNoAndDate]"
                                                     placeholder="Order No. and Date"
-                                                    value="{{ $fundDetail['OrderNoAndDate'] }}" required>
+                                                    value="{{ isset($fundDetail['OrderNoAndDate']) ? $fundDetail['OrderNoAndDate'] : '' }}" required>
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <input type="text" class="form-control"
                                                     name="funds[{{ $yearIndex }}][fundDetails][{{ $fundIndex }}][status]"
-                                                    placeholder="Status" value="{{ $fundDetail['status'] }}" required>
+                                                    placeholder="Status" value="{{ isset($fundDetail['status']) ? $fundDetail['status'] : '' }}" required>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -1135,6 +1141,7 @@
                                             </div>
                                         </div>
                                         @endforeach
+                                        @endif
                                     </div>
                                     <div class="text-end">
                                         <button type="button" class="btn btn-info"
@@ -1147,8 +1154,10 @@
                                 <div class="fund-year-entry mb-4">
                                     <div class="row">
                                         <div class="form-group col-md-10">
-                                            <input type="text" class="form-control" name="funds[0][year]"
-                                                placeholder="Year" required>
+                                            <label for="fundYear_0">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                            <input type="text" class="form-control" id="fundYear_0" name="funds[0][year]"
+                                                placeholder="e.g., 2023-24" required>
+                                            <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                         </div>
                                         <div class="form-group col-md-2 text-end">
                                             <button type="button" class="btn btn-danger"
@@ -1213,6 +1222,35 @@
                 </div>
 
                 <script>
+                // Re-index ALL fund entries to ensure sequential indices before submission
+                function reindexAllFunds() {
+                    const container = document.getElementById('fundsContainer');
+                    const yearEntries = container.querySelectorAll('.fund-year-entry');
+                    
+                    yearEntries.forEach((yearEntry, yearIndex) => {
+                        // Update year input index
+                        const yearInput = yearEntry.querySelector('input[name*="[year]"]');
+                        if (yearInput) {
+                            yearInput.name = `funds[${yearIndex}][year]`;
+                        }
+                        
+                        // Re-index all fund entries within this year
+                        const fundEntries = yearEntry.querySelectorAll('.fund-entry');
+                        fundEntries.forEach((fundEntry, fundIndex) => {
+                            const inputs = fundEntry.querySelectorAll('input[name*="[fundDetails]"]');
+                            inputs.forEach(input => {
+                                // Extract the field name
+                                const fieldMatch = input.name.match(/\[fundDetails\]\[\d+\]\[(\w+)\]/);
+                                if (fieldMatch) {
+                                    const fieldName = fieldMatch[1];
+                                    // Set new name with sequential indices
+                                    input.name = `funds[${yearIndex}][fundDetails][${fundIndex}][${fieldName}]`;
+                                }
+                            });
+                        });
+                    });
+                }
+                
                 // Add a new year for funds
                 function addYearFund() {
                     const container = document.getElementById('fundsContainer');
@@ -1222,7 +1260,9 @@
         <div class="fund-year-entry mb-4">
             <div class="row">
                 <div class="form-group col-md-10">
-                    <input type="text" class="form-control" name="funds[${yearIndex}][year]" placeholder="Year" required>
+                    <label>Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                    <input type="text" class="form-control" name="funds[${yearIndex}][year]" placeholder="e.g., 2023-24" required>
+                    <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                 </div>
                 <div class="form-group col-md-2 text-end">
                     <button type="button" class="btn btn-danger" onclick="removeYearFund(this)">Remove Year</button>

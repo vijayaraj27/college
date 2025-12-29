@@ -236,6 +236,11 @@ class DepartmentController extends Controller
                 case 'videos':
                     $response['videos'] = json_decode($getValue($data, 'videos', '[]'), true);
                     break;
+                    
+                case 'courses':
+                    $coursesData = json_decode($getValue($data, 'courses', '[]'), true);
+                    $response['courses'] = is_array($coursesData) ? array_values($coursesData) : [];
+                    break;
             }
         }
 

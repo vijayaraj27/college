@@ -266,11 +266,15 @@
                                         <span class="badge bg-primary rounded-circle p-3 fw-bold">{{ $index + 1 }}</span>
                                     </div>
                                     <div class="objective-content">
+                                        @if(is_array($objective) && isset($objective['title']))
                                         <h5 class="objective-title fw-bold text-dark mb-3">
-                                            {{ $objective['title'] ?? 'Objective ' . ($index + 1) }}
+                                            {{ $objective['title'] }}
                                         </h5>
                                         @if(!empty($objective['description']))
                                         <p class="objective-description text-muted lh-lg mb-0">{{ $objective['description'] }}</p>
+                                        @endif
+                                        @else
+                                        <p class="objective-description text-muted lh-lg mb-0">{{ is_string($objective) ? $objective : ($objective['description'] ?? 'Objective ' . ($index + 1)) }}</p>
                                         @endif
                                     </div>
                                 </div>
@@ -291,17 +295,27 @@
                     <h3 class="section-title text-center mb-4">
                         <i class="fa fa-trophy text-primary"></i> Programme Outcomes
                     </h3>
-                    <div class="row">
+                    <div class="row g-4">
                         @foreach($programmeOutcomes as $index => $outcome)
-                        <div class="col-md-6 mb-3">
-                            <div class="outcome-item p-3 border rounded">
-                                <h5 class="outcome-title">
-                                    <span class="badge badge-success">{{ $index + 1 }}</span>
-                                    {{ $outcome['title'] ?? 'Outcome ' . ($index + 1) }}
-                                </h5>
-                                @if(!empty($outcome['description']))
-                                <p class="outcome-description">{{ $outcome['description'] }}</p>
-                                @endif
+                        <div class="col-lg-6">
+                            <div class="outcome-item p-4 border-0 rounded-3 shadow-sm h-100 animate-fade-in-up" style="animation-delay: {{ $index * 0.1 }}s;">
+                                <div class="d-flex align-items-start">
+                                    <div class="outcome-number me-3">
+                                        <span class="badge bg-primary rounded-circle p-3 fw-bold">{{ $index + 1 }}</span>
+                                    </div>
+                                    <div class="outcome-content">
+                                        @if(is_array($outcome) && isset($outcome['title']))
+                                        <h5 class="outcome-title fw-bold text-dark mb-3">
+                                            {{ $outcome['title'] }}
+                                        </h5>
+                                        @if(!empty($outcome['description']))
+                                        <p class="outcome-description text-muted lh-lg mb-0">{{ $outcome['description'] }}</p>
+                                        @endif
+                                        @else
+                                        <p class="outcome-description text-muted lh-lg mb-0">{{ is_string($outcome) ? $outcome : ($outcome['description'] ?? 'Outcome ' . ($index + 1)) }}</p>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endforeach
@@ -319,17 +333,27 @@
                     <h3 class="section-title text-center mb-4">
                         <i class="fa fa-cogs text-primary"></i> Programme Specific Outcomes
                     </h3>
-                    <div class="row">
+                    <div class="row g-4">
                         @foreach($programmeSpecificOutcomes as $index => $outcome)
-                        <div class="col-md-6 mb-3">
-                            <div class="specific-outcome-item p-3 border rounded">
-                                <h5 class="specific-outcome-title">
-                                    <span class="badge badge-info">{{ $index + 1 }}</span>
-                                    {{ $outcome['title'] ?? 'Specific Outcome ' . ($index + 1) }}
-                                </h5>
-                                @if(!empty($outcome['description']))
-                                <p class="specific-outcome-description">{{ $outcome['description'] }}</p>
-                                @endif
+                        <div class="col-lg-6">
+                            <div class="specific-outcome-item p-4 border-0 rounded-3 shadow-sm h-100 animate-fade-in-up" style="animation-delay: {{ $index * 0.1 }}s;">
+                                <div class="d-flex align-items-start">
+                                    <div class="specific-outcome-number me-3">
+                                        <span class="badge bg-primary rounded-circle p-3 fw-bold">{{ $index + 1 }}</span>
+                                    </div>
+                                    <div class="specific-outcome-content">
+                                        @if(is_array($outcome) && isset($outcome['title']))
+                                        <h5 class="specific-outcome-title fw-bold text-dark mb-3">
+                                            {{ $outcome['title'] }}
+                                        </h5>
+                                        @if(!empty($outcome['description']))
+                                        <p class="specific-outcome-description text-muted lh-lg mb-0">{{ $outcome['description'] }}</p>
+                                        @endif
+                                        @else
+                                        <p class="specific-outcome-description text-muted lh-lg mb-0">{{ is_string($outcome) ? $outcome : ($outcome['description'] ?? 'Specific Outcome ' . ($index + 1)) }}</p>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endforeach

@@ -54,20 +54,32 @@
                                     @endif
                                 </div>
                                 <div class="event-info">
+                                    @if(!empty($event['title']))
                                     <h4 class="event-title">
                                         <i class="fa fa-star text-warning"></i>
-                                        {{ $event['title'] ?? 'Event ' . ($index + 1) }}
+                                        {{ $event['title'] }}
                                     </h4>
+                                    @endif
                                     @if(!empty($event['description']))
                                     <p class="event-description">{!! $event['description'] !!}</p>
                                     @endif
-                                    @if(!empty($event['date']))
                                     <div class="event-meta">
+                                        @if(!empty($event['date']))
                                         <span class="event-date badge badge-info">
                                             <i class="fa fa-calendar"></i> {{ $event['date'] }}
                                         </span>
+                                        @endif
+                                        @if(!empty($event['time']))
+                                        <span class="event-time badge badge-secondary ml-2">
+                                            <i class="fa fa-clock-o"></i> {{ $event['time'] }}
+                                        </span>
+                                        @endif
+                                        @if(!empty($event['address']))
+                                        <div class="event-address mt-2">
+                                            <strong><i class="fa fa-map-marker text-danger"></i> Venue:</strong> {{ $event['address'] }}
+                                        </div>
+                                        @endif
                                     </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>

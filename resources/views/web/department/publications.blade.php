@@ -86,6 +86,19 @@
         @if(!empty($data->bookChapter))
         @php
             $bookChapters = is_string($data->bookChapter) ? json_decode($data->bookChapter, true) : $data->bookChapter;
+            // Sort by year in descending order (newest first) - handles multiple years and multiple records per year
+            if (is_array($bookChapters) && count($bookChapters) > 0) {
+                usort($bookChapters, function($a, $b) {
+                    $yearA = isset($a['year']) && !empty($a['year']) ? (string)$a['year'] : '0000';
+                    $yearB = isset($b['year']) && !empty($b['year']) ? (string)$b['year'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($bookChapters) && count($bookChapters) > 0)
         <div class="row mb-5">
@@ -140,6 +153,19 @@
         @if(!empty($data->journalPublication))
         @php
             $journalPublications = is_string($data->journalPublication) ? json_decode($data->journalPublication, true) : $data->journalPublication;
+            // Sort by year in descending order (newest first) - handles multiple years and multiple records per year
+            if (is_array($journalPublications) && count($journalPublications) > 0) {
+                usort($journalPublications, function($a, $b) {
+                    $yearA = isset($a['year']) && !empty($a['year']) ? (string)$a['year'] : '0000';
+                    $yearB = isset($b['year']) && !empty($b['year']) ? (string)$b['year'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($journalPublications) && count($journalPublications) > 0)
         <div class="row mb-5">

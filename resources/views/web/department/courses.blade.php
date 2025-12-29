@@ -264,8 +264,47 @@
         @endif
         @endif
 
+        <!-- Course Materials Links -->
+        @if(!empty($courses) && is_array($courses) && count($courses) > 0)
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="course-materials-section">
+                    <div class="text-center mb-5">
+                        <h2 class="section-title fw-bold text-primary mb-3 animate-fade-in">
+                            <i class="fas fa-link me-3"></i> Course Materials
+                        </h2>
+                        <div class="title-underline mx-auto"></div>
+                    </div>
+                    <div class="row g-4">
+                        @foreach($courses as $index => $course)
+                        <div class="col-lg-6 col-xl-4">
+                            <div class="course-material-card p-4 border-0 rounded-3 shadow-sm h-100 animate-fade-in-up" style="animation-delay: {{ $index * 0.1 }}s;">
+                                <div class="course-material-icon mb-3">
+                                    <i class="fas fa-book-open fa-3x text-primary"></i>
+                                </div>
+                                <h4 class="course-material-title fw-bold text-dark mb-3">
+                                    {{ $course['title'] ?? 'Course Material ' . ($index + 1) }}
+                                </h4>
+                                @if(!empty($course['pdfLink']))
+                                <div class="course-material-link">
+                                    <a href="{{ $course['pdfLink'] }}" 
+                                       target="_blank" 
+                                       class="btn btn-primary btn-sm w-100">
+                                        <i class="fas fa-external-link-alt me-2"></i> View Course Material
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+
         <!-- No Data Message -->
-        @if(empty($data->undergraduatePrograms) && empty($data->postgraduatePrograms) && empty($data->courseStructure) && empty($data->admissionRequirements) && empty($data->careerOpportunities))
+        @if(empty($data->undergraduatePrograms) && empty($data->postgraduatePrograms) && empty($data->courseStructure) && empty($data->admissionRequirements) && empty($data->careerOpportunities) && (empty($courses) || !is_array($courses) || count($courses) == 0))
         <div class="row">
             <div class="col-12">
                 <div class="no-data-message text-center py-5">

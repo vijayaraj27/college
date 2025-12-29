@@ -34,6 +34,19 @@
         @if(!empty($data->departmentActivity))
         @php
             $departmentActivities = is_string($data->departmentActivity) ? json_decode($data->departmentActivity, true) : $data->departmentActivity;
+            // Sort by year in descending order (newest first) - handles multiple years and multiple records per year
+            if (is_array($departmentActivities) && count($departmentActivities) > 0) {
+                usort($departmentActivities, function($a, $b) {
+                    $yearA = isset($a['year']) && !empty($a['year']) ? (string)$a['year'] : '0000';
+                    $yearB = isset($b['year']) && !empty($b['year']) ? (string)$b['year'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($departmentActivities) && count($departmentActivities) > 0)
         <div class="row mb-5">
@@ -55,10 +68,12 @@
                                     <div class="activity-item p-4 mb-3 border rounded">
                                         <div class="activity-content">
                                             <div class="activity-header">
+                                                @if(!empty($activity['programmeTitle']))
                                                 <h5 class="activity-title">
                                                     <i class="fa fa-graduation-cap text-primary"></i>
-                                                    {{ $activity['programmeTitle'] ?? 'Activity' }}
+                                                    {{ $activity['programmeTitle'] }}
                                                 </h5>
+                                                @endif
                                                 <span class="activity-date badge badge-info">
                                                     <i class="fa fa-clock-o"></i> {{ $activity['duration'] ?? 'Date not specified' }}
                                                 </span>
@@ -94,6 +109,19 @@
         @if(!empty($data->studentParticipation))
         @php
             $studentParticipation = is_string($data->studentParticipation) ? json_decode($data->studentParticipation, true) : $data->studentParticipation;
+            // Sort by year in descending order (newest first) - handles multiple years and multiple records per year
+            if (is_array($studentParticipation) && count($studentParticipation) > 0) {
+                usort($studentParticipation, function($a, $b) {
+                    $yearA = isset($a['year']) && !empty($a['year']) ? (string)$a['year'] : '0000';
+                    $yearB = isset($b['year']) && !empty($b['year']) ? (string)$b['year'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($studentParticipation) && count($studentParticipation) > 0)
         <div class="row mb-5">
@@ -115,10 +143,12 @@
                                     <div class="participation-item p-4 mb-3 border rounded">
                                         <div class="participation-content">
                                             <div class="participation-header">
+                                                @if(!empty($participation['eventName']))
                                                 <h5 class="participation-title">
                                                     <i class="fa fa-trophy text-warning"></i>
-                                                    {{ $participation['eventName'] ?? 'Event' }}
+                                                    {{ $participation['eventName'] }}
                                                 </h5>
+                                                @endif
                                                 <span class="participation-date badge badge-success">
                                                     <i class="fa fa-calendar"></i> {{ $participation['eventDate'] ?? 'Date not specified' }}
                                                 </span>
@@ -155,6 +185,19 @@
         @if(!empty($data->interInstituteEventsWinningPrize))
         @php
             $winningEvents = is_string($data->interInstituteEventsWinningPrize) ? json_decode($data->interInstituteEventsWinningPrize, true) : $data->interInstituteEventsWinningPrize;
+            // Sort by year in descending order (newest first) - handles multiple years and multiple records per year
+            if (is_array($winningEvents) && count($winningEvents) > 0) {
+                usort($winningEvents, function($a, $b) {
+                    $yearA = isset($a['year']) && !empty($a['year']) ? (string)$a['year'] : '0000';
+                    $yearB = isset($b['year']) && !empty($b['year']) ? (string)$b['year'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($winningEvents) && count($winningEvents) > 0)
         <div class="row mb-5">
@@ -176,10 +219,12 @@
                                     <div class="event-item p-4 mb-3 border rounded bg-light">
                                         <div class="event-content">
                                             <div class="event-header">
+                                                @if(!empty($event['eventName']))
                                                 <h5 class="event-title">
                                                     <i class="fa fa-star text-warning"></i>
-                                                    {{ $event['eventName'] ?? 'Event' }}
+                                                    {{ $event['eventName'] }}
                                                 </h5>
+                                                @endif
                                                 <span class="event-prize badge badge-warning">
                                                     <i class="fa fa-trophy"></i> {{ $event['prize'] ?? 'Prize' }}
                                                 </span>
@@ -233,10 +278,12 @@
                         <div class="visit-item p-4 mb-3 border rounded">
                             <div class="visit-content">
                                 <div class="visit-header">
-                                    <h5 class="visit-title">
-                                        <i class="fa fa-building text-primary"></i>
-                                        {{ $visit['nameOftheIndustry'] ?? 'Industrial Visit' }}
-                                    </h5>
+                                                @if(!empty($visit['nameOftheIndustry']))
+                                                <h5 class="visit-title">
+                                                    <i class="fa fa-building text-primary"></i>
+                                                    {{ $visit['nameOftheIndustry'] }}
+                                                </h5>
+                                                @endif
                                     <span class="visit-duration badge badge-info">
                                         <i class="fa fa-clock-o"></i> {{ $visit['Duration'] ?? 'Duration not specified' }}
                                     </span>

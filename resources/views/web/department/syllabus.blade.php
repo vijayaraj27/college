@@ -208,7 +208,7 @@
                                 </div>
                                 <div class="syllabus-info-details">
                                     @if(!empty($info['description']))
-                                    <p class="syllabus-info-description">{!! $syllabus['description'] !!}</p>
+                                    <p class="syllabus-info-description">{!! $info['description'] !!}</p>
                                     @endif
                                     @if(!empty($info['pdfLink']))
                                     <div class="syllabus-info-download">

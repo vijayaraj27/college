@@ -108,7 +108,82 @@ class PlacementsController extends Controller
             $Placements->title = $request->title;
             $Placements->description = $request->description;            
         }else if($request->section === 'student-placed'){
-            $Placements->studentPlaced = json_encode($request->studentPlaced, JSON_UNESCAPED_UNICODE);
+            // Get data from request - handle both array and JSON string formats
+            $studentPlacedData = $request->input('studentPlaced', []);
+            
+            // If it's a string, try to decode it
+            if (is_string($studentPlacedData) && !empty($studentPlacedData)) {
+                $decoded = json_decode($studentPlacedData, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $studentPlacedData = $decoded;
+                } else {
+                    // If decode fails, try getting from raw POST
+                    $rawPost = $_POST ?? [];
+                    if (isset($rawPost['studentPlaced']) && is_array($rawPost['studentPlaced'])) {
+                        $studentPlacedData = $rawPost['studentPlaced'];
+                    }
+                }
+            }
+            
+            // If still not array, try raw POST directly
+            if (!is_array($studentPlacedData) || empty($studentPlacedData)) {
+                $rawPost = $_POST ?? [];
+                if (isset($rawPost['studentPlaced'])) {
+                    if (is_array($rawPost['studentPlaced'])) {
+                        $studentPlacedData = $rawPost['studentPlaced'];
+                    } elseif (is_string($rawPost['studentPlaced'])) {
+                        $decoded = json_decode($rawPost['studentPlaced'], true);
+                        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                            $studentPlacedData = $decoded;
+                        }
+                    }
+                }
+            }
+            
+            // Process ALL data - iterate through every entry
+            $processedData = [];
+            
+            if (is_array($studentPlacedData) && !empty($studentPlacedData)) {
+                // Re-index years to handle any gaps
+                foreach (array_values($studentPlacedData) as $yearData) {
+                    if (is_array($yearData) && isset($yearData['year']) && !empty(trim($yearData['year']))) {
+                        $yearEntry = [
+                            'year' => trim($yearData['year']),
+                            'placements' => []
+                        ];
+                        
+                        // Process ALL placements - iterate through ALL keys
+                        if (isset($yearData['placements']) && is_array($yearData['placements'])) {
+                            // Use array_values to ensure we get ALL entries regardless of index gaps
+                            $placements = array_values($yearData['placements']);
+                            
+                            foreach ($placements as $placement) {
+                                if (is_array($placement)) {
+                                    $studentRegNumber = isset($placement['studentRegNumber']) ? trim($placement['studentRegNumber']) : '';
+                                    $studentName = isset($placement['studentName']) ? trim($placement['studentName']) : '';
+                                    $companyName = isset($placement['companyName']) ? trim($placement['companyName']) : '';
+                                    
+                                    // Add placement if it has at least one non-empty field
+                                    if (!empty($studentRegNumber) || !empty($studentName) || !empty($companyName)) {
+                                        $yearEntry['placements'][] = [
+                                            'studentRegNumber' => $studentRegNumber,
+                                            'studentName' => $studentName,
+                                            'companyName' => $companyName
+                                        ];
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Only add year if it has placements
+                        if (!empty($yearEntry['placements'])) {
+                            $processedData[] = $yearEntry;
+                        }
+                    }
+                }
+            }
+            
+            $Placements->studentPlaced = json_encode($processedData, JSON_UNESCAPED_UNICODE);
         }       
         $Placements->save();
         Toastr::success(__($message), __('msg_success'));

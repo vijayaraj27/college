@@ -75,13 +75,22 @@
                                             @foreach($magazinesList as $index => $magazines)
                                             <div class="student-achievement-appreciation-entry row mb-2"
                                                 id="studentAchievementAppreciationEntry_{{ $index }}">
-                                                @foreach(['year' => 'Registration Number', 'pdfLink' => 'Student
-                                                Name'] as $key => $placeholder)
+                                                @foreach(['year' => 'Year (Format: 2023-24)', 'pdfLink' => 'PDF Link'] as $key => $placeholder)
                                                 <div class="form-group col-md-4">
-                                                    <input type="text" class="form-control"
+                                                    @if($key === 'year')
+                                                    <label for="magazineYear_{{ $index }}">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                    <input type="text" class="form-control" id="magazineYear_{{ $index }}"
+                                                        name="magazines[{{ $index }}][{{ $key }}]"
+                                                        placeholder="e.g., 2023-24"
+                                                        value="{{ $magazines[$key] ?? '' }}" required>
+                                                    <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
+                                                    @else
+                                                    <label for="magazineLink_{{ $index }}">{{ $placeholder }}</label>
+                                                    <input type="text" class="form-control" id="magazineLink_{{ $index }}"
                                                         name="magazines[{{ $index }}][{{ $key }}]"
                                                         placeholder="{{ $placeholder }}"
                                                         value="{{ $magazines[$key] ?? '' }}" required>
+                                                    @endif
                                                 </div>
                                                 @endforeach
                                                 <div class="form-group col-md-2 text-end">
@@ -136,9 +145,12 @@
                         const newAchievement = `
                             <div class="student-achievement-appreciation-entry row mb-2" id="studentAchievementAppreciationEntry_${appreciationIndex}">
                                 <div class="form-group col-md-4">
-                                    <input type="text" class="form-control" name="magazines[${appreciationIndex}][year]" placeholder="Title" required>
+                                    <label>Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                    <input type="text" class="form-control" name="magazines[${appreciationIndex}][year]" placeholder="e.g., 2023-24" required>
+                                    <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                 </div>
                                 <div class="form-group col-md-4">
+                                    <label>PDF Link</label>
                                     <input type="text" class="form-control" name="magazines[${appreciationIndex}][pdfLink]" placeholder="PDF Link" required>
                                 </div>
                                 <div class="form-group col-md-2 text-end">

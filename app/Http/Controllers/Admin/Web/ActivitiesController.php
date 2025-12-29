@@ -118,13 +118,192 @@ class ActivitiesController extends Controller
             $Activities->title = $request->title;
             $Activities->description = $request->description;            
         }else if($request->section === 'departmentActivity'){
-            $Activities->departmentActivity = json_encode($request->departmentActivity, JSON_UNESCAPED_UNICODE);
+            // Get data and process to ensure ALL entries are captured
+            $departmentActivityData = $request->input('departmentActivity', []);
+            
+            // Handle JSON string if needed
+            if (is_string($departmentActivityData) && !empty($departmentActivityData)) {
+                $decoded = json_decode($departmentActivityData, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $departmentActivityData = $decoded;
+                }
+            }
+            
+            // Process and normalize
+            $processedData = [];
+            if (is_array($departmentActivityData) && !empty($departmentActivityData)) {
+                foreach (array_values($departmentActivityData) as $yearData) {
+                    if (is_array($yearData) && isset($yearData['year']) && !empty(trim($yearData['year']))) {
+                        $yearEntry = [
+                            'year' => trim($yearData['year']),
+                            'activities' => []
+                        ];
+                        
+                        if (isset($yearData['activities']) && is_array($yearData['activities'])) {
+                            foreach (array_values($yearData['activities']) as $activity) {
+                                if (is_array($activity)) {
+                                    $teacherName = isset($activity['teacherName']) ? trim($activity['teacherName']) : '';
+                                    $programmeTitle = isset($activity['programmeTitle']) ? trim($activity['programmeTitle']) : '';
+                                    $organizer = isset($activity['organizer']) ? trim($activity['organizer']) : '';
+                                    $duration = isset($activity['duration']) ? trim($activity['duration']) : '';
+                                    
+                                    if (!empty($teacherName) || !empty($programmeTitle) || !empty($organizer) || !empty($duration)) {
+                                        $yearEntry['activities'][] = [
+                                            'teacherName' => $teacherName,
+                                            'programmeTitle' => $programmeTitle,
+                                            'organizer' => $organizer,
+                                            'duration' => $duration
+                                        ];
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (!empty($yearEntry['activities'])) {
+                            $processedData[] = $yearEntry;
+                        }
+                    }
+                }
+            }
+            
+            $Activities->departmentActivity = json_encode($processedData, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'studentParticipation'){
-            $Activities->studentParticipation = json_encode($request->studentParticipation, JSON_UNESCAPED_UNICODE);
+            // Get data and process to ensure ALL entries are captured
+            $studentParticipationData = $request->input('studentParticipation', []);
+            
+            // Handle JSON string if needed
+            if (is_string($studentParticipationData) && !empty($studentParticipationData)) {
+                $decoded = json_decode($studentParticipationData, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $studentParticipationData = $decoded;
+                }
+            }
+            
+            // Process and normalize
+            $processedData = [];
+            if (is_array($studentParticipationData) && !empty($studentParticipationData)) {
+                foreach (array_values($studentParticipationData) as $yearData) {
+                    if (is_array($yearData) && isset($yearData['year']) && !empty(trim($yearData['year']))) {
+                        $yearEntry = [
+                            'year' => trim($yearData['year']),
+                            'participations' => []
+                        ];
+                        
+                        if (isset($yearData['participations']) && is_array($yearData['participations'])) {
+                            foreach (array_values($yearData['participations']) as $participation) {
+                                if (is_array($participation)) {
+                                    $eventDate = isset($participation['eventDate']) ? trim($participation['eventDate']) : '';
+                                    $eventName = isset($participation['eventName']) ? trim($participation['eventName']) : '';
+                                    $conductedBy = isset($participation['conductedBy']) ? trim($participation['conductedBy']) : '';
+                                    $nameOfTheStudentsParticipated = isset($participation['nameOfTheStudentsParticipated']) ? trim($participation['nameOfTheStudentsParticipated']) : '';
+                                    
+                                    if (!empty($eventDate) || !empty($eventName) || !empty($conductedBy) || !empty($nameOfTheStudentsParticipated)) {
+                                        $yearEntry['participations'][] = [
+                                            'eventDate' => $eventDate,
+                                            'eventName' => $eventName,
+                                            'conductedBy' => $conductedBy,
+                                            'nameOfTheStudentsParticipated' => $nameOfTheStudentsParticipated
+                                        ];
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (!empty($yearEntry['participations'])) {
+                            $processedData[] = $yearEntry;
+                        }
+                    }
+                }
+            }
+            
+            $Activities->studentParticipation = json_encode($processedData, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'interInstituteEventsWinningPrize'){
-            $Activities->interInstituteEventsWinningPrize = json_encode($request->interInstituteEventsWinningPrize, JSON_UNESCAPED_UNICODE);
+            // Get data and process to ensure ALL entries are captured
+            $interInstituteData = $request->input('interInstituteEventsWinningPrize', []);
+            
+            // Handle JSON string if needed
+            if (is_string($interInstituteData) && !empty($interInstituteData)) {
+                $decoded = json_decode($interInstituteData, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $interInstituteData = $decoded;
+                }
+            }
+            
+            // Process and normalize
+            $processedData = [];
+            if (is_array($interInstituteData) && !empty($interInstituteData)) {
+                foreach (array_values($interInstituteData) as $yearData) {
+                    if (is_array($yearData) && isset($yearData['year']) && !empty(trim($yearData['year']))) {
+                        $yearEntry = [
+                            'year' => trim($yearData['year']),
+                            'events' => []
+                        ];
+                        
+                        if (isset($yearData['events']) && is_array($yearData['events'])) {
+                            foreach (array_values($yearData['events']) as $event) {
+                                if (is_array($event)) {
+                                    $eventDate = isset($event['eventDate']) ? trim($event['eventDate']) : '';
+                                    $eventName = isset($event['eventName']) ? trim($event['eventName']) : '';
+                                    $conductedBy = isset($event['conductedBy']) ? trim($event['conductedBy']) : '';
+                                    $nameOfTheStudentsParticipated = isset($event['nameOfTheStudentsParticipated']) ? trim($event['nameOfTheStudentsParticipated']) : '';
+                                    $prizeWon = isset($event['prizeWon']) ? trim($event['prizeWon']) : '';
+                                    
+                                    if (!empty($eventDate) || !empty($eventName) || !empty($conductedBy) || !empty($nameOfTheStudentsParticipated) || !empty($prizeWon)) {
+                                        $yearEntry['events'][] = [
+                                            'eventDate' => $eventDate,
+                                            'eventName' => $eventName,
+                                            'conductedBy' => $conductedBy,
+                                            'nameOfTheStudentsParticipated' => $nameOfTheStudentsParticipated,
+                                            'prizeWon' => $prizeWon
+                                        ];
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (!empty($yearEntry['events'])) {
+                            $processedData[] = $yearEntry;
+                        }
+                    }
+                }
+            }
+            
+            $Activities->interInstituteEventsWinningPrize = json_encode($processedData, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'industrialVisit'){
-            $Activities->industrialVisit = json_encode($request->industrialVisit, JSON_UNESCAPED_UNICODE);
+            // Get data and process to ensure ALL entries are captured
+            $industrialVisitData = $request->input('industrialVisit', []);
+            
+            // Handle JSON string if needed
+            if (is_string($industrialVisitData) && !empty($industrialVisitData)) {
+                $decoded = json_decode($industrialVisitData, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $industrialVisitData = $decoded;
+                }
+            }
+            
+            // Process and normalize (flat array, not grouped by year)
+            $processedData = [];
+            if (is_array($industrialVisitData) && !empty($industrialVisitData)) {
+                foreach (array_values($industrialVisitData) as $visit) {
+                    if (is_array($visit)) {
+                        $nameOftheIndustry = isset($visit['nameOftheIndustry']) ? trim($visit['nameOftheIndustry']) : '';
+                        $semester = isset($visit['semester']) ? trim($visit['semester']) : '';
+                        $staffAccompanied = isset($visit['staffAccompanied']) ? trim($visit['staffAccompanied']) : '';
+                        $Duration = isset($visit['Duration']) ? trim($visit['Duration']) : '';
+                        
+                        if (!empty($nameOftheIndustry) || !empty($semester) || !empty($staffAccompanied) || !empty($Duration)) {
+                            $processedData[] = [
+                                'nameOftheIndustry' => $nameOftheIndustry,
+                                'semester' => $semester,
+                                'staffAccompanied' => $staffAccompanied,
+                                'Duration' => $Duration
+                            ];
+                        }
+                    }
+                }
+            }
+            
+            $Activities->industrialVisit = json_encode($processedData, JSON_UNESCAPED_UNICODE);
         }     
         $Activities->save();
         Toastr::success(__($message), __('msg_success'));

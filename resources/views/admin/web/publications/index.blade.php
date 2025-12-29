@@ -202,13 +202,15 @@
                                     $bookChapter = isset($row->bookChapter) ? json_decode($row->bookChapter, true) : [];
                                     @endphp
                                     @if(!empty($bookChapter))
-                                    @foreach($bookChapter as $tableKey => $bookChapter)
+                                    @foreach($bookChapter as $tableKey => $bookChapterItem)
                                     <div class="book-year-entry mb-4">
                                         <div class="row">
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
-                                                    name="bookChapter[{{ $tableKey }}][year]" placeholder="Year"
-                                                    value="{{ $bookChapter['year'] }}" required>
+                                                <label for="bookYear_{{ $tableKey }}">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="bookYear_{{ $tableKey }}"
+                                                    name="bookChapter[{{ $tableKey }}][year]" placeholder="e.g., 2023-24"
+                                                    value="{{ isset($bookChapterItem['year']) ? $bookChapterItem['year'] : '' }}" required>
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -216,7 +218,8 @@
                                             </div>
                                         </div>
                                         <div class="year-book-chapters-container">
-                                            @foreach($bookChapter['bookChapters'] as $chapterIndex =>
+                                            @if(isset($bookChapterItem['bookChapters']) && is_array($bookChapterItem['bookChapters']))
+                                            @foreach($bookChapterItem['bookChapters'] as $chapterIndex =>
                                             $bookChapterDetail)
                                             <div class="book-chapter-entry row mb-2">
 
@@ -224,7 +227,7 @@
                                                     <input type="text" class="form-control"
                                                         name="bookChapter[{{ $tableKey }}][bookChapters][{{ $chapterIndex }}][bookName]"
                                                         placeholder="Book Chapter Name"
-                                                        value="{{ $bookChapterDetail['bookName'] }}" required>
+                                                        value="{{ isset($bookChapterDetail['bookName']) ? $bookChapterDetail['bookName'] : '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-2 text-end">
                                                     <button type="button" class="btn btn-danger"
@@ -232,6 +235,7 @@
                                                 </div>
                                             </div>
                                             @endforeach
+                                            @endif
                                         </div>
                                         <div class="text-end">
                                             <button type="button" class="btn btn-info"
@@ -244,8 +248,10 @@
                                     <div class="book-year-entry mb-4">
                                         <div class="row">
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control" name="bookChapter[0][year]"
-                                                    placeholder="Year" required>
+                                                <label for="bookYear_0">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="bookYear_0" name="bookChapter[0][year]"
+                                                    placeholder="e.g., 2023-24" required>
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -295,7 +301,9 @@
                             <div class="book-year-entry mb-4">
                                 <div class="row">
                                     <div class="form-group col-md-10">
-                                        <input type="text" class="form-control" name="bookChapter[${yearIndex}][year]" placeholder="Year" required>
+                                        <label>Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                        <input type="text" class="form-control" name="bookChapter[${yearIndex}][year]" placeholder="e.g., 2023-24" required>
+                                        <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                     </div>
                                     <div class="form-group col-md-2 text-end">
                                         <button type="button" class="btn btn-danger" onclick="removeYearBookChapter(this)">Remove Year</button>
@@ -365,8 +373,11 @@
 
                     <div class="card-block">
                         <form id="journalPublication" class="needs-validation" method="POST"
-                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}"
+                            onsubmit="reindexAllJournalPublications(); return true;">
                             @csrf
+                            <input type="hidden" name="departmentId" value="{{ $departmentId }}">
+                            <input type="hidden" name="section" value="{{ $section }}">
                             <div class="row">
                                 <!-- Journal Publications Section -->
                                 <div id="journalPublicationsContainerjournalPublication" class="col-md-12">
@@ -384,9 +395,11 @@
                                         <div class="row">
                                             <!-- Year Input -->
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
-                                                    name="journalPublication[{{ $tableKey }}][year]" placeholder="Year"
-                                                    value="{{ $publicationData['year'] }}" required>
+                                                <label for="journalYear_{{ $tableKey }}">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="journalYear_{{ $tableKey }}"
+                                                    name="journalPublication[{{ $tableKey }}][year]" placeholder="e.g., 2023-24"
+                                                    value="{{ isset($publicationData['year']) ? $publicationData['year'] : '' }}" required>
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -396,6 +409,7 @@
 
                                         <!-- Publications Section for the Year -->
                                         <div class="year-publications-container">
+                                            @if(isset($publicationData['publications']) && is_array($publicationData['publications']))
                                             @foreach($publicationData['publications'] as $publicationIndex =>
                                             $publication)
                                             <div class="journal-publication-entry row mb-2">
@@ -404,7 +418,7 @@
                                                     <input type="text" class="form-control"
                                                         name="journalPublication[{{ $tableKey }}][publications][{{ $publicationIndex }}][journalName]"
                                                         placeholder="Journal Name"
-                                                        value="{{ $publication['journalName'] }}" required>
+                                                        value="{{ isset($publication['journalName']) ? $publication['journalName'] : '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-2 text-end">
                                                     <button type="button" class="btn btn-danger"
@@ -412,6 +426,7 @@
                                                 </div>
                                             </div>
                                             @endforeach
+                                            @endif
                                         </div>
 
                                         <!-- Add Publication Button -->
@@ -426,8 +441,10 @@
                                     <div class="journal-year-entry mb-4">
                                         <div class="row">
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
-                                                    name="journalPublication[0][year]" placeholder="Year" required>
+                                                <label for="journalYear_0">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="journalYear_0"
+                                                    name="journalPublication[0][year]" placeholder="e.g., 2023-24" required>
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -471,6 +488,35 @@
 
                     <!-- JavaScript for Dynamic Year & Publication Management -->
                     <script>
+                    // Re-index ALL publication entries to ensure sequential indices before submission
+                    function reindexAllJournalPublications() {
+                        const container = document.getElementById('journalPublicationsContainerjournalPublication');
+                        const yearEntries = container.querySelectorAll('.journal-year-entry');
+                        
+                        yearEntries.forEach((yearEntry, yearIndex) => {
+                            // Update year input index
+                            const yearInput = yearEntry.querySelector('input[name*="[year]"]');
+                            if (yearInput) {
+                                yearInput.name = `journalPublication[${yearIndex}][year]`;
+                            }
+                            
+                            // Re-index all publication entries within this year
+                            const publicationEntries = yearEntry.querySelectorAll('.journal-publication-entry');
+                            publicationEntries.forEach((publicationEntry, publicationIndex) => {
+                                const inputs = publicationEntry.querySelectorAll('input[name*="[publications]"]');
+                                inputs.forEach(input => {
+                                    // Extract the field name
+                                    const fieldMatch = input.name.match(/\[publications\]\[\d+\]\[(\w+)\]/);
+                                    if (fieldMatch) {
+                                        const fieldName = fieldMatch[1];
+                                        // Set new name with sequential indices
+                                        input.name = `journalPublication[${yearIndex}][publications][${publicationIndex}][${fieldName}]`;
+                                    }
+                                });
+                            });
+                        });
+                    }
+                    
                     // Add a new year
                     function addYearJournalPublication() {
                         const container = document.getElementById('journalPublicationsContainerjournalPublication');
@@ -480,7 +526,9 @@
                                 <div class="journal-year-entry mb-4">
                                     <div class="row">
                                         <div class="form-group col-md-10">
-                                            <input type="text" class="form-control" name="journalPublication[${yearIndex}][year]" placeholder="Year" required>
+                                            <label>Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                            <input type="text" class="form-control" name="journalPublication[${yearIndex}][year]" placeholder="e.g., 2023-24" required>
+                                            <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                         </div>
                                         <div class="form-group col-md-2 text-end">
                                             <button type="button" class="btn btn-danger" onclick="removeYearJournalPublication(this)">Remove Year</button>

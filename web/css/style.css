@@ -14673,3 +14673,114 @@ h4.faculty-name {
     font-size: 0.8rem;
     font-weight: 400;
 }
+
+/* Department grids unified layout */
+.appreciations-grid,
+.achievements-list,
+.placements-list,
+.activities-list,
+.participations-list,
+.events-list,
+.industrial-visits-list,
+.faculties-grid,
+.buildings-grid,
+.facilities-grid,
+.records-grid,
+.library-details-grid,
+.phd-holders-grid,
+.supervisors-grid,
+.candidates-grid,
+.phd-awarded-grid,
+.magazines-grid,
+.newsletters-grid,
+.question-bank-grid,
+.syllabus-details-grid,
+.syllabus-info-grid,
+.videos-grid,
+.video-details-grid,
+/* also cover common bootstrap rows used as grids in department pages */
+.programs-section .row.g-4,
+.course-structure-section .row.g-4,
+.admission-section .row.g-4,
+.career-section .row.g-4 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+/* Unified item styling within department grids */
+.appreciation-item,
+.achievement-item,
+.placement-item,
+.activity-item,
+.participation-item,
+.event-item,
+.visit-item,
+.faculty-item,
+.building-item,
+.facility-item,
+.record-item,
+.detail-item,
+.phd-holder-item,
+.supervisor-item,
+.candidate-item,
+.phd-awarded-item,
+.magazine-item,
+.newsletter-item,
+.question-item,
+.syllabus-item,
+.syllabus-info-item,
+.video-item,
+.video-detail-item,
+.program-card,
+.semester-card,
+.requirement-card,
+.career-card {
+    width: 48%;
+    margin: 1%;
+    border-radius: 5% !important;
+    cursor: pointer;
+    position: relative;
+    background: #ececec;
+    box-shadow: 0px 10px 30px 0px rgba(233, 233, 233, 0.5);
+}
+
+@media (max-width: 768px) {
+    .appreciation-item,
+    .achievement-item,
+    .placement-item,
+    .activity-item,
+    .participation-item,
+    .event-item,
+    .visit-item,
+    .faculty-item,
+    .building-item,
+    .facility-item,
+    .record-item,
+    .detail-item,
+    .phd-holder-item,
+    .supervisor-item,
+    .candidate-item,
+    .phd-awarded-item,
+    .magazine-item,
+    .newsletter-item,
+    .question-item,
+    .syllabus-item,
+    .syllabus-info-item,
+    .video-item,
+    .video-detail-item,
+    .program-card,
+    .semester-card,
+    .requirement-card,
+    .career-card {
+        width: 100%;
+        margin: 1% 0;
+    }
+}
+
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem 3px rgba(0, 0, 0, .075) !important;
+}

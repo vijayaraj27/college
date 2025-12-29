@@ -54,7 +54,6 @@
                                 <div class="achievement-content">
                                     <div class="achievement-header d-flex align-items-center mb-3">
                                         <span class="achievement-number badge bg-primary rounded-circle p-3 me-3 fw-bold">{{ $index + 1 }}</span>
-                                        <h5 class="achievement-title fw-bold text-dark mb-0">Staff Achievement</h5>
                                     </div>
                                     <div class="achievement-text">
                                         <p class="text-muted lh-lg mb-0">{{ $achievement }}</p>
@@ -74,6 +73,19 @@
         @if(!empty($data->studentAchievements))
         @php
             $studentAchievements = is_string($data->studentAchievements) ? json_decode($data->studentAchievements, true) : $data->studentAchievements;
+            // Sort by year in descending order (newest first) - handles multiple years and multiple records per year
+            if (is_array($studentAchievements) && count($studentAchievements) > 0) {
+                usort($studentAchievements, function($a, $b) {
+                    $yearA = isset($a['year']) && !empty($a['year']) ? (string)$a['year'] : '0000';
+                    $yearB = isset($b['year']) && !empty($b['year']) ? (string)$b['year'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($studentAchievements) && count($studentAchievements) > 0)
         <div class="row mb-5">
@@ -119,13 +131,26 @@
         @if(!empty($data->studentAchievementsTableFormat))
         @php
             $tableAchievements = is_string($data->studentAchievementsTableFormat) ? json_decode($data->studentAchievementsTableFormat, true) : $data->studentAchievementsTableFormat;
+            // Sort by year in descending order (newest first) - handles multiple years and multiple records per year
+            if (is_array($tableAchievements) && count($tableAchievements) > 0) {
+                usort($tableAchievements, function($a, $b) {
+                    $yearA = isset($a['year']) && !empty($a['year']) ? (string)$a['year'] : '0000';
+                    $yearB = isset($b['year']) && !empty($b['year']) ? (string)$b['year'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($tableAchievements) && count($tableAchievements) > 0)
         <div class="row mb-5">
             <div class="col-md-12">
                 <div class="achievements-section">
                     <h2 class="section-title text-center mb-4">
-                        <i class="fa fa-table text-warning"></i> Student Achievements (Table Format)
+                        <i class="fa fa-table text-warning"></i> Student Achievements
                     </h2>
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
@@ -173,6 +198,19 @@
         @if(!empty($data->studentAchievementsAppeciationList))
         @php
             $appreciationList = is_string($data->studentAchievementsAppeciationList) ? json_decode($data->studentAchievementsAppeciationList, true) : $data->studentAchievementsAppeciationList;
+            // Sort by year in descending order (newest first) - handles multiple years and multiple records per year
+            if (is_array($appreciationList) && count($appreciationList) > 0) {
+                usort($appreciationList, function($a, $b) {
+                    $yearA = isset($a['year']) && !empty($a['year']) ? (string)$a['year'] : '0000';
+                    $yearB = isset($b['year']) && !empty($b['year']) ? (string)$b['year'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($appreciationList) && count($appreciationList) > 0)
         <div class="row mb-5">
@@ -198,9 +236,26 @@
                                                 <i class="fa fa-user text-primary"></i> {{ $appreciation['studentName'] }}
                                             </h5>
                                             @endif
-                                            @if(!empty($appreciation['achievement']))
-                                            <p class="appreciation-text mb-0">{{ $appreciation['achievement'] }}</p>
-                                            @endif
+                                            <div class="appreciation-details small text-muted">
+                                                @if(!empty($appreciation['yearOfStudent']))
+                                                <div><strong>Year:</strong> {{ $appreciation['yearOfStudent'] }}</div>
+                                                @endif
+                                                @if(!empty($appreciation['eventName']))
+                                                <div><strong>Event:</strong> {{ $appreciation['eventName'] }}</div>
+                                                @endif
+                                                @if(!empty($appreciation['projectName']))
+                                                <div><strong>Project:</strong> {{ $appreciation['projectName'] }}</div>
+                                                @endif
+                                                @if(!empty($appreciation['supervisor']))
+                                                <div><strong>Supervisor:</strong> {{ $appreciation['supervisor'] }}</div>
+                                                @endif
+                                                @if(!empty($appreciation['status']))
+                                                <div><strong>Status:</strong> {{ $appreciation['status'] }}</div>
+                                                @endif
+                                                @if(!empty($appreciation['achievement']))
+                                                <div><strong>Achievement:</strong> {{ $appreciation['achievement'] }}</div>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                     @endforeach

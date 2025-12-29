@@ -123,7 +123,48 @@ class PublicationsController extends Controller
         }else if($request->section === 'bookchapter'){
             $Publications->bookChapter = json_encode($request->bookChapter, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'journalpublication'){
-            $Publications->journalPublication = json_encode($request->journalPublication, JSON_UNESCAPED_UNICODE);
+            // Get data and process to ensure ALL entries are captured
+            $journalPublicationData = $request->input('journalPublication', []);
+            
+            // Handle JSON string if needed
+            if (is_string($journalPublicationData) && !empty($journalPublicationData)) {
+                $decoded = json_decode($journalPublicationData, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $journalPublicationData = $decoded;
+                }
+            }
+            
+            // Process and normalize
+            $processedData = [];
+            if (is_array($journalPublicationData) && !empty($journalPublicationData)) {
+                foreach (array_values($journalPublicationData) as $yearData) {
+                    if (is_array($yearData) && isset($yearData['year']) && !empty(trim($yearData['year']))) {
+                        $yearEntry = [
+                            'year' => trim($yearData['year']),
+                            'publications' => []
+                        ];
+                        
+                        if (isset($yearData['publications']) && is_array($yearData['publications'])) {
+                            foreach (array_values($yearData['publications']) as $publication) {
+                                if (is_array($publication)) {
+                                    $journalName = isset($publication['journalName']) ? trim($publication['journalName']) : '';
+                                    if (!empty($journalName)) {
+                                        $yearEntry['publications'][] = [
+                                            'journalName' => $journalName
+                                        ];
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (!empty($yearEntry['publications'])) {
+                            $processedData[] = $yearEntry;
+                        }
+                    }
+                }
+            }
+            
+            $Publications->journalPublication = json_encode($processedData, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'conferenceList'){
             $Publications->conferenceList = json_encode($request->conferenceList, JSON_UNESCAPED_UNICODE);
         }        

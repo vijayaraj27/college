@@ -37,6 +37,19 @@
         @if(!empty($data->phdHoldersList))
         @php
             $phdHolders = is_string($data->phdHoldersList) ? json_decode($data->phdHoldersList, true) : $data->phdHoldersList;
+            // Sort by yearOfAward in descending order (newest first) - handles multiple records
+            if (is_array($phdHolders) && count($phdHolders) > 0) {
+                usort($phdHolders, function($a, $b) {
+                    $yearA = isset($a['yearOfAward']) && !empty($a['yearOfAward']) ? (string)$a['yearOfAward'] : '0000';
+                    $yearB = isset($b['yearOfAward']) && !empty($b['yearOfAward']) ? (string)$b['yearOfAward'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($phdHolders) && count($phdHolders) > 0)
         <div class="row mb-5">
@@ -147,6 +160,19 @@
         @if(!empty($data->listOfCandidatesPursuingPhdUnderDepartmentSupervisors))
         @php
             $candidates = is_string($data->listOfCandidatesPursuingPhdUnderDepartmentSupervisors) ? json_decode($data->listOfCandidatesPursuingPhdUnderDepartmentSupervisors, true) : $data->listOfCandidatesPursuingPhdUnderDepartmentSupervisors;
+            // Sort by yearOfRegistration in descending order (newest first) - handles multiple records
+            if (is_array($candidates) && count($candidates) > 0) {
+                usort($candidates, function($a, $b) {
+                    $yearA = isset($a['yearOfRegistration']) && !empty($a['yearOfRegistration']) ? (string)$a['yearOfRegistration'] : '0000';
+                    $yearB = isset($b['yearOfRegistration']) && !empty($b['yearOfRegistration']) ? (string)$b['yearOfRegistration'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($candidates) && count($candidates) > 0)
         <div class="row mb-5">
@@ -212,6 +238,19 @@
         @if(!empty($data->listOfDepartmentFacultiesPursuingPhd))
         @php
             $facultyPhd = is_string($data->listOfDepartmentFacultiesPursuingPhd) ? json_decode($data->listOfDepartmentFacultiesPursuingPhd, true) : $data->listOfDepartmentFacultiesPursuingPhd;
+            // Sort by yearOfRegistration in descending order (newest first) - handles multiple records
+            if (is_array($facultyPhd) && count($facultyPhd) > 0) {
+                usort($facultyPhd, function($a, $b) {
+                    $yearA = isset($a['yearOfRegistration']) && !empty($a['yearOfRegistration']) ? (string)$a['yearOfRegistration'] : '0000';
+                    $yearB = isset($b['yearOfRegistration']) && !empty($b['yearOfRegistration']) ? (string)$b['yearOfRegistration'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($facultyPhd) && count($facultyPhd) > 0)
         <div class="row mb-5">
@@ -277,6 +316,16 @@
         @if(!empty($data->phdAwardedUnderDepartmentSupervisor))
         @php
             $phdAwarded = is_string($data->phdAwardedUnderDepartmentSupervisor) ? json_decode($data->phdAwardedUnderDepartmentSupervisor, true) : $data->phdAwardedUnderDepartmentSupervisor;
+            // Sort by vivaVoceDate year in descending order (newest first) - handles multiple records
+            if (is_array($phdAwarded) && count($phdAwarded) > 0) {
+                usort($phdAwarded, function($a, $b) {
+                    $dateA = isset($a['vivaVoceDate']) && !empty($a['vivaVoceDate']) ? $a['vivaVoceDate'] : '';
+                    $dateB = isset($b['vivaVoceDate']) && !empty($b['vivaVoceDate']) ? $b['vivaVoceDate'] : '';
+                    $yearA = $dateA ? date('Y', strtotime($dateA)) : '0000';
+                    $yearB = $dateB ? date('Y', strtotime($dateB)) : '0000';
+                    return (int)$yearB - (int)$yearA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($phdAwarded) && count($phdAwarded) > 0)
         <div class="row mb-5">

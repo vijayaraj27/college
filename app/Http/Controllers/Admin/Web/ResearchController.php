@@ -134,7 +134,59 @@ class ResearchController extends Controller
         }else if($request->section === 'supervisor'){
             $Research->supervisor = json_encode($request->supervisor, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'funds'){
-            $Research->funds = json_encode($request->funds, JSON_UNESCAPED_UNICODE);
+            // Get data and process to ensure ALL entries are captured
+            $fundsData = $request->input('funds', []);
+            
+            // Handle JSON string if needed
+            if (is_string($fundsData) && !empty($fundsData)) {
+                $decoded = json_decode($fundsData, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $fundsData = $decoded;
+                }
+            }
+            
+            // Process and normalize
+            $processedData = [];
+            if (is_array($fundsData) && !empty($fundsData)) {
+                foreach (array_values($fundsData) as $yearData) {
+                    if (is_array($yearData) && isset($yearData['year']) && !empty(trim($yearData['year']))) {
+                        $yearEntry = [
+                            'year' => trim($yearData['year']),
+                            'fundDetails' => []
+                        ];
+                        
+                        if (isset($yearData['fundDetails']) && is_array($yearData['fundDetails'])) {
+                            foreach (array_values($yearData['fundDetails']) as $fundDetail) {
+                                if (is_array($fundDetail)) {
+                                    $nameOfPi = isset($fundDetail['nameOfPi']) ? trim($fundDetail['nameOfPi']) : '';
+                                    $titleOfTheProject = isset($fundDetail['titleOfTheProject']) ? trim($fundDetail['titleOfTheProject']) : '';
+                                    $amount = isset($fundDetail['amount']) ? trim($fundDetail['amount']) : '';
+                                    $fundingAgency = isset($fundDetail['fundingAgency']) ? trim($fundDetail['fundingAgency']) : '';
+                                    $OrderNoAndDate = isset($fundDetail['OrderNoAndDate']) ? trim($fundDetail['OrderNoAndDate']) : '';
+                                    $status = isset($fundDetail['status']) ? trim($fundDetail['status']) : '';
+                                    
+                                    if (!empty($nameOfPi) || !empty($titleOfTheProject) || !empty($amount) || !empty($fundingAgency) || !empty($OrderNoAndDate) || !empty($status)) {
+                                        $yearEntry['fundDetails'][] = [
+                                            'nameOfPi' => $nameOfPi,
+                                            'titleOfTheProject' => $titleOfTheProject,
+                                            'amount' => $amount,
+                                            'fundingAgency' => $fundingAgency,
+                                            'OrderNoAndDate' => $OrderNoAndDate,
+                                            'status' => $status
+                                        ];
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (!empty($yearEntry['fundDetails'])) {
+                            $processedData[] = $yearEntry;
+                        }
+                    }
+                }
+            }
+            
+            $Research->funds = json_encode($processedData, JSON_UNESCAPED_UNICODE);
         }else if($request->section === 'value-added-group'){
             $Research->valueAddedGroup = json_encode($request->valueAddedGroup, JSON_UNESCAPED_UNICODE);
         }     

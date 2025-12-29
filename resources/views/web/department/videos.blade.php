@@ -114,7 +114,7 @@
                                     </div>
                                     @endif
                                     @if(!empty($video['description']))
-                                    <p class="video-description">{!! $syllabus['description'] !!}</p>
+                                    <p class="video-description">{!! $video['description'] !!}</p>
                                     @endif
                                 </div>
                             </div>
@@ -151,7 +151,7 @@
                                 </div>
                                 <div class="video-detail-info">
                                     @if(!empty($detail['description']))
-                                    <p class="video-detail-description">{!! $syllabus['description'] !!}</p>
+                                    <p class="video-detail-description">{!! $detail['description'] !!}</p>
                                     @endif
                                     @if(!empty($detail['url']))
                                     <div class="video-detail-link">

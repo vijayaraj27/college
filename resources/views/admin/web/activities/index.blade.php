@@ -55,8 +55,11 @@
 
                     <div class="card-block">
                         <form id="departmentActivityForm" class="needs-validation" method="POST"
-                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}"
+                            onsubmit="reindexAllDepartmentActivities(); return true;">
                             @csrf
+                            <input type="hidden" name="departmentId" value="{{ $departmentId }}">
+                            <input type="hidden" name="section" value="{{ $section }}">
                             <div class="row">
                                 <!-- Department Activities Section -->
                                 <div id="departmentActivitiesContainer" class="col-md-12">
@@ -73,9 +76,11 @@
                                     <div class="activity-year-entry mb-4">
                                         <div class="row">
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
-                                                    name="departmentActivity[{{ $yearIndex }}][year]" placeholder="Year"
-                                                    value="{{ $activity['year'] }}" required>
+                                                <label for="activityYear_{{ $yearIndex }}">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="activityYear_{{ $yearIndex }}"
+                                                    name="departmentActivity[{{ $yearIndex }}][year]" placeholder="e.g., 2023-24"
+                                                    value="{{ isset($activity['year']) ? $activity['year'] : '' }}" required>
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -83,6 +88,7 @@
                                             </div>
                                         </div>
                                         <div class="year-activities-container">
+                                            @if(isset($activity['activities']) && is_array($activity['activities']))
                                             @foreach($activity['activities'] as $activityIndex => $activityDetail)
                                             <div class="activity-entry row mb-2">
 
@@ -90,24 +96,24 @@
                                                     <input type="text" class="form-control"
                                                         name="departmentActivity[{{ $yearIndex }}][activities][{{ $activityIndex }}][teacherName]"
                                                         placeholder="Name of the Teacher"
-                                                        value="{{ $activityDetail['teacherName'] }}" required>
+                                                        value="{{ isset($activityDetail['teacherName']) ? $activityDetail['teacherName'] : '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="departmentActivity[{{ $yearIndex }}][activities][{{ $activityIndex }}][programmeTitle]"
                                                         placeholder="Title of the Programme"
-                                                        value="{{ $activityDetail['programmeTitle'] }}" required>
+                                                        value="{{ isset($activityDetail['programmeTitle']) ? $activityDetail['programmeTitle'] : '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="departmentActivity[{{ $yearIndex }}][activities][{{ $activityIndex }}][organizer]"
                                                         placeholder="Organizer"
-                                                        value="{{ $activityDetail['organizer'] }}" required>
+                                                        value="{{ isset($activityDetail['organizer']) ? $activityDetail['organizer'] : '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="departmentActivity[{{ $yearIndex }}][activities][{{ $activityIndex }}][duration]"
-                                                        placeholder="Duration" value="{{ $activityDetail['duration'] }}"
+                                                        placeholder="Duration" value="{{ isset($activityDetail['duration']) ? $activityDetail['duration'] : '' }}"
                                                         required>
                                                 </div>
                                                 <div class="form-group col-md-12 text-end">
@@ -116,6 +122,7 @@
                                                 </div>
                                             </div>
                                             @endforeach
+                                            @endif
                                         </div>
                                         <div class="text-end">
                                             <button type="button" class="btn btn-info"
@@ -127,8 +134,10 @@
                                     <div class="activity-year-entry mb-4">
                                         <div class="row">
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
-                                                    name="departmentActivity[0][year]" placeholder="Year" required>
+                                                <label for="activityYear_0">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="activityYear_0"
+                                                    name="departmentActivity[0][year]" placeholder="e.g., 2023-24" required>
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -184,6 +193,35 @@
                     </div>
 
                     <script>
+                    // Re-index ALL activity entries to ensure sequential indices before submission
+                    function reindexAllDepartmentActivities() {
+                        const container = document.getElementById('departmentActivitiesContainer');
+                        const yearEntries = container.querySelectorAll('.activity-year-entry');
+                        
+                        yearEntries.forEach((yearEntry, yearIndex) => {
+                            // Update year input index
+                            const yearInput = yearEntry.querySelector('input[name*="[year]"]');
+                            if (yearInput) {
+                                yearInput.name = `departmentActivity[${yearIndex}][year]`;
+                            }
+                            
+                            // Re-index all activity entries within this year
+                            const activityEntries = yearEntry.querySelectorAll('.activity-entry');
+                            activityEntries.forEach((activityEntry, activityIndex) => {
+                                const inputs = activityEntry.querySelectorAll('input[name*="[activities]"]');
+                                inputs.forEach(input => {
+                                    // Extract the field name
+                                    const fieldMatch = input.name.match(/\[activities\]\[\d+\]\[(\w+)\]/);
+                                    if (fieldMatch) {
+                                        const fieldName = fieldMatch[1];
+                                        // Set new name with sequential indices
+                                        input.name = `departmentActivity[${yearIndex}][activities][${activityIndex}][${fieldName}]`;
+                                    }
+                                });
+                            });
+                        });
+                    }
+                    
                     // Add a new year for department activities
                     function addYearActivity() {
                         const container = document.getElementById('departmentActivitiesContainer');
@@ -193,7 +231,9 @@
                         <div class="activity-year-entry mb-4">
                             <div class="row">
                                 <div class="form-group col-md-10">
-                                    <input type="text" class="form-control" name="departmentActivity[${yearIndex}][year]" placeholder="Year" required>
+                                    <label>Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                    <input type="text" class="form-control" name="departmentActivity[${yearIndex}][year]" placeholder="e.g., 2023-24" required>
+                                    <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                 </div>
                                 <div class="form-group col-md-2 text-end">
                                     <button type="button" class="btn btn-danger" onclick="removeYearActivity(this)">Remove Year</button>
@@ -278,8 +318,11 @@
 
                     <div class="card-block">
                         <form id="studentParticipationForm" class="needs-validation" method="POST"
-                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}"
+                            onsubmit="reindexAllStudentParticipations(); return true;">
                             @csrf
+                            <input type="hidden" name="departmentId" value="{{ $departmentId }}">
+                            <input type="hidden" name="section" value="{{ $section }}">
                             <div class="row">
                                 <!-- Student Participation Section -->
                                 <div id="studentParticipationContainer" class="col-md-12">
@@ -294,9 +337,11 @@
                                     <div class="participation-year-entry mb-4">
                                         <div class="row">
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
+                                                <label for="participationYear_{{ $yearIndex }}">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="participationYear_{{ $yearIndex }}"
                                                     name="studentParticipation[{{ $yearIndex }}][year]"
-                                                    placeholder="Year" value="{{ $activity['year'] }}" required>
+                                                    placeholder="e.g., 2023-24" value="{{ isset($activity['year']) ? $activity['year'] : '' }}" required>
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -304,6 +349,7 @@
                                             </div>
                                         </div>
                                         <div class="year-participations-container">
+                                            @if(isset($activity['participations']) && is_array($activity['participations']))
                                             @foreach($activity['participations'] as $participationIndex =>
                                             $participationDetail)
                                             <div class="participation-entry row mb-2">
@@ -312,25 +358,25 @@
                                                     <input type="date" class="form-control"
                                                         name="studentParticipation[{{ $yearIndex }}][participations][{{ $participationIndex }}][eventDate]"
                                                         placeholder="Event Date"
-                                                        value="{{ $participationDetail['eventDate'] }}" required>
+                                                        value="{{ isset($participationDetail['eventDate']) ? $participationDetail['eventDate'] : '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentParticipation[{{ $yearIndex }}][participations][{{ $participationIndex }}][eventName]"
                                                         placeholder="Event Name"
-                                                        value="{{ $participationDetail['eventName'] }}" required>
+                                                        value="{{ isset($participationDetail['eventName']) ? $participationDetail['eventName'] : '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentParticipation[{{ $yearIndex }}][participations][{{ $participationIndex }}][conductedBy]"
                                                         placeholder="Conducted By"
-                                                        value="{{ $participationDetail['conductedBy'] }}" required>
+                                                        value="{{ isset($participationDetail['conductedBy']) ? $participationDetail['conductedBy'] : '' }}" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <input type="text" class="form-control"
                                                         name="studentParticipation[{{ $yearIndex }}][participations][{{ $participationIndex }}][nameOfTheStudentsParticipated]"
                                                         placeholder="Name of the Students Participated"
-                                                        value="{{ $participationDetail['nameOfTheStudentsParticipated'] }}"
+                                                        value="{{ isset($participationDetail['nameOfTheStudentsParticipated']) ? $participationDetail['nameOfTheStudentsParticipated'] : '' }}"
                                                         required>
                                                 </div>
                                                 <div class="form-group col-md-2 text-end">
@@ -339,6 +385,7 @@
                                                 </div>
                                             </div>
                                             @endforeach
+                                            @endif
                                         </div>
                                         <div class="text-end">
                                             <button type="button" class="btn btn-info"
@@ -351,8 +398,10 @@
                                     <div class="participation-year-entry mb-4">
                                         <div class="row">
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
-                                                    name="studentParticipation[0][year]" placeholder="Year" required>
+                                                <label for="participationYear_0">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="participationYear_0"
+                                                    name="studentParticipation[0][year]" placeholder="e.g., 2023-24" required>
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -408,6 +457,35 @@
                     </div>
 
                     <script>
+                    // Re-index ALL participation entries to ensure sequential indices before submission
+                    function reindexAllStudentParticipations() {
+                        const container = document.getElementById('studentParticipationContainer');
+                        const yearEntries = container.querySelectorAll('.participation-year-entry');
+                        
+                        yearEntries.forEach((yearEntry, yearIndex) => {
+                            // Update year input index
+                            const yearInput = yearEntry.querySelector('input[name*="[year]"]');
+                            if (yearInput) {
+                                yearInput.name = `studentParticipation[${yearIndex}][year]`;
+                            }
+                            
+                            // Re-index all participation entries within this year
+                            const participationEntries = yearEntry.querySelectorAll('.participation-entry');
+                            participationEntries.forEach((participationEntry, participationIndex) => {
+                                const inputs = participationEntry.querySelectorAll('input[name*="[participations]"]');
+                                inputs.forEach(input => {
+                                    // Extract the field name
+                                    const fieldMatch = input.name.match(/\[participations\]\[\d+\]\[(\w+)\]/);
+                                    if (fieldMatch) {
+                                        const fieldName = fieldMatch[1];
+                                        // Set new name with sequential indices
+                                        input.name = `studentParticipation[${yearIndex}][participations][${participationIndex}][${fieldName}]`;
+                                    }
+                                });
+                            });
+                        });
+                    }
+                    
                     // Add a new year for student participation
                     function addYearParticipation() {
                         const container = document.getElementById('studentParticipationContainer');
@@ -417,7 +495,9 @@
         <div class="participation-year-entry mb-4">
             <div class="row">
                 <div class="form-group col-md-10">
-                    <input type="text" class="form-control" name="studentParticipation[${yearIndex}][year]" placeholder="Year" required>
+                    <label>Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                    <input type="text" class="form-control" name="studentParticipation[${yearIndex}][year]" placeholder="e.g., 2023-24" required>
+                    <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                 </div>
                 <div class="form-group col-md-2 text-end">
                     <button type="button" class="btn btn-danger" onclick="removeYearParticipation(this)">Remove Year</button>
@@ -503,8 +583,11 @@
 
                     <div class="card-block">
                         <form id="interInstituteEventsForm" class="needs-validation" method="POST"
-                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}"
+                            onsubmit="reindexAllInterInstituteEvents(); return true;">
                             @csrf
+                            <input type="hidden" name="departmentId" value="{{ $departmentId }}">
+                            <input type="hidden" name="section" value="{{ $section }}">
                             <div class="row">
                                 <!-- Inter Institute Events Section -->
                                 <div id="interInstituteEventsContainer" class="col-md-12">
@@ -521,7 +604,7 @@
                                             <div class="form-group col-md-10">
                                                 <input type="text" class="form-control"
                                                     name="interInstituteEventsWinningPrize[{{ $yearIndex }}][year]"
-                                                    placeholder="Year" value="{{ $event['year'] }}" required>
+                                                    placeholder="Year" value="{{ isset($event['year']) ? $event['year'] : '' }}" required>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -582,9 +665,11 @@
                                     <div class="event-year-entry mb-4">
                                         <div class="row">
                                             <div class="form-group col-md-10">
-                                                <input type="text" class="form-control"
-                                                    name="interInstituteEventsWinningPrize[0][year]" placeholder="Year"
+                                                <label for="eventYear_0">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                <input type="text" class="form-control" id="eventYear_0"
+                                                    name="interInstituteEventsWinningPrize[0][year]" placeholder="e.g., 2023-24"
                                                     required>
+                                                <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                             </div>
                                             <div class="form-group col-md-2 text-end">
                                                 <button type="button" class="btn btn-danger"
@@ -645,6 +730,35 @@
                     </div>
 
                     <script>
+                    // Re-index ALL event entries to ensure sequential indices before submission
+                    function reindexAllInterInstituteEvents() {
+                        const container = document.getElementById('interInstituteEventsContainer');
+                        const yearEntries = container.querySelectorAll('.event-year-entry');
+                        
+                        yearEntries.forEach((yearEntry, yearIndex) => {
+                            // Update year input index
+                            const yearInput = yearEntry.querySelector('input[name*="[year]"]');
+                            if (yearInput) {
+                                yearInput.name = `interInstituteEventsWinningPrize[${yearIndex}][year]`;
+                            }
+                            
+                            // Re-index all event entries within this year
+                            const eventEntries = yearEntry.querySelectorAll('.event-entry');
+                            eventEntries.forEach((eventEntry, eventIndex) => {
+                                const inputs = eventEntry.querySelectorAll('input[name*="[events]"]');
+                                inputs.forEach(input => {
+                                    // Extract the field name
+                                    const fieldMatch = input.name.match(/\[events\]\[\d+\]\[(\w+)\]/);
+                                    if (fieldMatch) {
+                                        const fieldName = fieldMatch[1];
+                                        // Set new name with sequential indices
+                                        input.name = `interInstituteEventsWinningPrize[${yearIndex}][events][${eventIndex}][${fieldName}]`;
+                                    }
+                                });
+                            });
+                        });
+                    }
+                    
                     // Add a new year for inter institute events winning prize
                     function addYearEvent() {
                         const container = document.getElementById('interInstituteEventsContainer');
@@ -654,7 +768,9 @@
         <div class="event-year-entry mb-4">
             <div class="row">
                 <div class="form-group col-md-10">
-                    <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][year]" placeholder="Year" required>
+                    <label>Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                    <input type="text" class="form-control" name="interInstituteEventsWinningPrize[${yearIndex}][year]" placeholder="e.g., 2023-24" required>
+                    <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                 </div>
                 <div class="form-group col-md-2 text-end">
                     <button type="button" class="btn btn-danger" onclick="removeYearEvent(this)">Remove Year</button>
@@ -742,8 +858,11 @@
                     </div>
                     <div class="card-block">
                         <form id="industrialVisitForm" class="needs-validation" method="POST"
-                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                            action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}"
+                            onsubmit="reindexAllIndustrialVisits(); return true;">
                             @csrf
+                            <input type="hidden" name="departmentId" value="{{ $departmentId }}">
+                            <input type="hidden" name="section" value="{{ $section }}">
                             <div id="industrialVisitContainer">
                                 <!-- Dynamic Visits Section -->
                                 @foreach($industrialVisit as $index => $visit)
@@ -785,6 +904,25 @@
                     </div>
 
                     <script>
+                    // Re-index ALL visit entries to ensure sequential indices before submission
+                    function reindexAllIndustrialVisits() {
+                        const container = document.getElementById('industrialVisitContainer');
+                        const visitEntries = container.querySelectorAll('.visit-entry');
+                        
+                        visitEntries.forEach((visitEntry, visitIndex) => {
+                            const inputs = visitEntry.querySelectorAll('input[name^="industrialVisit"]');
+                            inputs.forEach(input => {
+                                // Extract the field name
+                                const fieldMatch = input.name.match(/industrialVisit\[\d+\]\[(\w+)\]/);
+                                if (fieldMatch) {
+                                    const fieldName = fieldMatch[1];
+                                    // Set new name with sequential index
+                                    input.name = `industrialVisit[${visitIndex}][${fieldName}]`;
+                                }
+                            });
+                        });
+                    }
+                    
                     function addVisit() {
                         const container = document.getElementById('industrialVisitContainer');
                         

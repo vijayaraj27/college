@@ -37,6 +37,19 @@
         @if(!empty($data->magazines))
         @php
             $magazines = is_string($data->magazines) ? json_decode($data->magazines, true) : $data->magazines;
+            // Sort by year in descending order (newest first) - handles multiple records
+            if (is_array($magazines) && count($magazines) > 0) {
+                usort($magazines, function($a, $b) {
+                    $yearA = isset($a['year']) && !empty($a['year']) ? (string)$a['year'] : '0000';
+                    $yearB = isset($b['year']) && !empty($b['year']) ? (string)$b['year'] : '0000';
+                    // Extract first year from formats like "2023-24" or "2020-21"
+                    preg_match('/(\d{4})/', $yearA, $matchA);
+                    preg_match('/(\d{4})/', $yearB, $matchB);
+                    $numA = isset($matchA[1]) ? (int)$matchA[1] : 0;
+                    $numB = isset($matchB[1]) ? (int)$matchB[1] : 0;
+                    return $numB - $numA; // Descending order (newest first)
+                });
+            }
         @endphp
         @if(is_array($magazines) && count($magazines) > 0)
         <div class="row mb-5">
@@ -66,7 +79,7 @@
                                     </div>
                                     @endif
                                     @if(!empty($magazine['description']))
-                                    <p class="magazine-description">{!! $syllabus['description'] !!}</p>
+                                    <p class="magazine-description">{!! $magazine['description'] !!}</p>
                                     @endif
                                 </div>
                             </div>
@@ -103,7 +116,7 @@
                                 </div>
                                 @if(!empty($detail['description']))
                                 <div class="detail-description">
-                                    <p>{!! $syllabus['description'] !!}</p>
+                                    <p>{!! $detail['description'] !!}</p>
                                 </div>
                                 @endif
                                 @if(!empty($detail['pdfLink']))

@@ -49,7 +49,7 @@
                     @if($section === 'buildings')
                     <!-- Department Infrastructures - Buildings -->
                     <div class="card-header">
-                        <h3 class="bold">Department Infrastructures - Buildings</h3>
+                        <h3 class="bold">Department Infrastructures laboratories</h3>
                     </div>
 
                     <div class="card-block">

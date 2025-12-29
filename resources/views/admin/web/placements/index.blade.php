@@ -58,8 +58,11 @@
 
                         <div class="card-block">
                             <form id="studentPlacedForm" class="needs-validation" method="POST"
-                                action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}">
+                                action="{{ route($route . '.store', ['departmentId' => $departmentId, 'section' => $section]) }}"
+                                onsubmit="reindexAllPlacements(); return true;">
                                 @csrf
+                                <input type="hidden" name="departmentId" value="{{ $departmentId }}">
+                                <input type="hidden" name="section" value="{{ $section }}">
                                 <div class="row">
                                     <!-- Student Placed Section -->
                                     <div id="studentPlacedContainer" class="col-md-12">
@@ -74,9 +77,11 @@
                                         <div class="placement-year-entry mb-4">
                                             <div class="row">
                                                 <div class="form-group col-md-10">
-                                                    <input type="text" class="form-control"
-                                                        name="studentPlaced[{{ $yearIndex }}][year]" placeholder="Year"
-                                                        value="{{ $placement['year'] }}" required>
+                                                    <label for="placementYear_{{ $yearIndex }}">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                    <input type="text" class="form-control" id="placementYear_{{ $yearIndex }}"
+                                                        name="studentPlaced[{{ $yearIndex }}][year]" placeholder="e.g., 2023-24"
+                                                        value="{{ isset($placement['year']) ? $placement['year'] : '' }}" required>
+                                                    <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                                 </div>
                                                 <div class="form-group col-md-2 text-end">
                                                     <button type="button" class="btn btn-danger"
@@ -84,6 +89,7 @@
                                                 </div>
                                             </div>
                                             <div class="year-placements-container">
+                                                @if(isset($placement['placements']) && is_array($placement['placements']))
                                                 @foreach($placement['placements'] as $placementIndex =>
                                                 $placementDetail)
                                                 <div class="placement-entry row mb-2">
@@ -91,19 +97,19 @@
                                                         <input type="text" class="form-control"
                                                             name="studentPlaced[{{ $yearIndex }}][placements][{{ $placementIndex }}][studentRegNumber]"
                                                             placeholder="Student Registration Number"
-                                                            value="{{ $placementDetail['studentRegNumber'] }}" required>
+                                                            value="{{ isset($placementDetail['studentRegNumber']) ? $placementDetail['studentRegNumber'] : '' }}" required>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <input type="text" class="form-control"
                                                             name="studentPlaced[{{ $yearIndex }}][placements][{{ $placementIndex }}][studentName]"
                                                             placeholder="Student Name"
-                                                            value="{{ $placementDetail['studentName'] }}" required>
+                                                            value="{{ isset($placementDetail['studentName']) ? $placementDetail['studentName'] : '' }}" required>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <input type="text" class="form-control"
                                                             name="studentPlaced[{{ $yearIndex }}][placements][{{ $placementIndex }}][companyName]"
                                                             placeholder="Company Name"
-                                                            value="{{ $placementDetail['companyName'] }}" required>
+                                                            value="{{ isset($placementDetail['companyName']) ? $placementDetail['companyName'] : '' }}" required>
                                                     </div>
                                                     <div class="form-group col-md-2 text-end">
                                                         <button type="button" class="btn btn-danger"
@@ -111,6 +117,7 @@
                                                     </div>
                                                 </div>
                                                 @endforeach
+                                                @endif
                                             </div>
                                             <div class="text-end">
                                                 <button type="button" class="btn btn-info"
@@ -123,8 +130,10 @@
                                         <div class="placement-year-entry mb-4">
                                             <div class="row">
                                                 <div class="form-group col-md-10">
-                                                    <input type="text" class="form-control"
-                                                        name="studentPlaced[0][year]" placeholder="Year" required>
+                                                    <label for="placementYear_0">Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                                    <input type="text" class="form-control" id="placementYear_0"
+                                                        name="studentPlaced[0][year]" placeholder="e.g., 2023-24" required>
+                                                    <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                                 </div>
                                                 <div class="form-group col-md-2 text-end">
                                                     <button type="button" class="btn btn-danger"
@@ -175,6 +184,163 @@
                         </div>
 
                         <script>
+                        // Re-index ALL placement entries to ensure sequential indices before submission
+                        function reindexAllPlacements() {
+                            const container = document.getElementById('studentPlacedContainer');
+                            const yearEntries = container.querySelectorAll('.placement-year-entry');
+                            
+                            yearEntries.forEach((yearEntry, yearIndex) => {
+                                // Update year input index
+                                const yearInput = yearEntry.querySelector('input[name*="[year]"]');
+                                if (yearInput) {
+                                    yearInput.name = `studentPlaced[${yearIndex}][year]`;
+                                }
+                                
+                                // Re-index all placement entries within this year
+                                const placementEntries = yearEntry.querySelectorAll('.placement-entry');
+                                placementEntries.forEach((placementEntry, placementIndex) => {
+                                    const inputs = placementEntry.querySelectorAll('input[name*="[placements]"]');
+                                    inputs.forEach(input => {
+                                        // Extract the field name (studentRegNumber, studentName, companyName)
+                                        const fieldMatch = input.name.match(/\[placements\]\[\d+\]\[(\w+)\]/);
+                                        if (fieldMatch) {
+                                            const fieldName = fieldMatch[1];
+                                            // Set new name with sequential indices
+                                            input.name = `studentPlaced[${yearIndex}][placements][${placementIndex}][${fieldName}]`;
+                                        }
+                                    });
+                                });
+                            });
+                            
+                            // Log the re-indexed data
+                            const formData = new FormData(document.getElementById('studentPlacedForm'));
+                            const placementFields = [];
+                            for (let [key, value] of formData.entries()) {
+                                if (key.includes('placements')) {
+                                    placementFields.push({ key: key, value: value });
+                                }
+                            }
+                            console.log('=== AFTER RE-INDEXING ===');
+                            console.log('Total placement fields:', placementFields.length);
+                            console.log('Placement fields:', placementFields);
+                        }
+                        
+                        // Log all form fields before submission to debug
+                        function logFormDataBeforeSubmit(form) {
+                            const formData = new FormData(form);
+                            const placementFields = [];
+                            
+                            for (let [key, value] of formData.entries()) {
+                                if (key.includes('placements')) {
+                                    placementFields.push({ key: key, value: value });
+                                }
+                            }
+                            
+                            console.log('=== FORM SUBMISSION DEBUG ===');
+                            console.log('Total placement fields found:', placementFields.length);
+                            console.log('Placement fields:', placementFields);
+                            
+                            // Count unique placement indices per year
+                            const yearPlacements = {};
+                            placementFields.forEach(field => {
+                                const match = field.key.match(/studentPlaced\[(\d+)\]\[placements\]\[(\d+)\]/);
+                                if (match) {
+                                    const yearIdx = match[1];
+                                    const placementIdx = match[2];
+                                    if (!yearPlacements[yearIdx]) {
+                                        yearPlacements[yearIdx] = new Set();
+                                    }
+                                    yearPlacements[yearIdx].add(placementIdx);
+                                }
+                            });
+                            
+                            for (let yearIdx in yearPlacements) {
+                                console.log(`Year ${yearIdx} has ${yearPlacements[yearIdx].size} unique placement indices:`, Array.from(yearPlacements[yearIdx]));
+                            }
+                            console.log('=== END DEBUG ===');
+                        }
+                        
+                        // Validate and log form data before submission
+                        function validateAndSubmitForm(form) {
+                            const formData = new FormData(form);
+                            const studentPlacedData = {};
+                            
+                            // Collect all form data
+                            for (let [key, value] of formData.entries()) {
+                                if (key.startsWith('studentPlaced[')) {
+                                    // Parse the key structure: studentPlaced[yearIndex][placements][placementIndex][field]
+                                    const match = key.match(/studentPlaced\[(\d+)\]\[placements\]\[(\d+)\]\[(\w+)\]/);
+                                    if (match) {
+                                        const yearIndex = match[1];
+                                        const placementIndex = match[2];
+                                        const field = match[3];
+                                        
+                                        if (!studentPlacedData[yearIndex]) {
+                                            studentPlacedData[yearIndex] = { placements: {} };
+                                        }
+                                        if (!studentPlacedData[yearIndex].placements[placementIndex]) {
+                                            studentPlacedData[yearIndex].placements[placementIndex] = {};
+                                        }
+                                        studentPlacedData[yearIndex].placements[placementIndex][field] = value;
+                                    } else {
+                                        // Handle year field: studentPlaced[yearIndex][year]
+                                        const yearMatch = key.match(/studentPlaced\[(\d+)\]\[year\]/);
+                                        if (yearMatch) {
+                                            const yearIndex = yearMatch[1];
+                                            if (!studentPlacedData[yearIndex]) {
+                                                studentPlacedData[yearIndex] = { placements: {} };
+                                            }
+                                            studentPlacedData[yearIndex].year = value;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // Log the collected data
+                            console.log('Form data being submitted:', studentPlacedData);
+                            
+                            // Count placements per year
+                            for (let yearIndex in studentPlacedData) {
+                                const placementCount = Object.keys(studentPlacedData[yearIndex].placements || {}).length;
+                                console.log(`Year ${yearIndex} has ${placementCount} placements`);
+                            }
+                            
+                            // Allow form submission
+                            return true;
+                        }
+                        
+                        // Re-index form fields before submission to ensure no gaps in array indices
+                        function reindexFormFields(form) {
+                            const container = document.getElementById('studentPlacedContainer');
+                            const yearEntries = container.querySelectorAll('.placement-year-entry');
+                            
+                            yearEntries.forEach((yearEntry, yearIndex) => {
+                                // Update year input index
+                                const yearInput = yearEntry.querySelector('input[name*="[year]"]');
+                                if (yearInput) {
+                                    const oldName = yearInput.name;
+                                    const newName = oldName.replace(/studentPlaced\[\d+\]/, `studentPlaced[${yearIndex}]`);
+                                    yearInput.name = newName;
+                                }
+                                
+                                // Re-index placement entries within this year
+                                const placementEntries = yearEntry.querySelectorAll('.placement-entry');
+                                placementEntries.forEach((placementEntry, placementIndex) => {
+                                    const inputs = placementEntry.querySelectorAll('input[name*="[placements]"]');
+                                    inputs.forEach(input => {
+                                        // Update the name to use the new indices
+                                        const oldName = input.name;
+                                        const newName = oldName
+                                            .replace(/studentPlaced\[\d+\]/, `studentPlaced[${yearIndex}]`)
+                                            .replace(/placements\[\d+\]/, `placements[${placementIndex}]`);
+                                        input.name = newName;
+                                    });
+                                });
+                            });
+                            
+                            return true; // Allow form submission to proceed
+                        }
+                        
                         // Add a new year for student placements
                         function addYearPlacement() {
                             const container = document.getElementById('studentPlacedContainer');
@@ -194,7 +360,9 @@
                         <div class="placement-year-entry mb-4">
                             <div class="row">
                                 <div class="form-group col-md-10">
-                                    <input type="text" class="form-control" name="studentPlaced[${yearIndex}][year]" placeholder="Year" required>
+                                    <label>Year <small class="text-muted">(Format: 2023-24 or 2020-21)</small></label>
+                                    <input type="text" class="form-control" name="studentPlaced[${yearIndex}][year]" placeholder="e.g., 2023-24" required>
+                                    <small class="form-text text-muted">Please use format: YYYY-YY (e.g., 2023-24, 2020-21)</small>
                                 </div>
                                 <div class="form-group col-md-2 text-end">
                                     <button type="button" class="btn btn-danger" onclick="removeYearPlacement(this)">Remove Year</button>
@@ -232,30 +400,51 @@
 
                         // Add a new placement for a specific year
                         function addPlacement(button, yearIndex) {
-                            const container = button.closest('.placement-year-entry').querySelector(
-                                '.year-placements-container');
+                            // Dynamically find the year index from the form structure to ensure correctness
+                            const yearEntry = button.closest('.placement-year-entry');
+                            const yearInput = yearEntry.querySelector('input[name*="[year]"]');
+                            
+                            // Extract the year index from the input name attribute
+                            let actualYearIndex = yearIndex;
+                            if (yearInput) {
+                                const nameMatch = yearInput.name.match(/studentPlaced\[(\d+)\]/);
+                                if (nameMatch) {
+                                    actualYearIndex = parseInt(nameMatch[1]);
+                                }
+                            }
+                            
+                            const container = yearEntry.querySelector('.year-placements-container');
                             
                             // Find the highest existing placement index for this year
                             let maxIndex = -1;
-                            const inputs = container.querySelectorAll(`input[name^="studentPlaced[${yearIndex}][placements]"]`);
+                            const inputs = container.querySelectorAll(`input[name^="studentPlaced[${actualYearIndex}][placements]"]`);
                             inputs.forEach(input => {
                                 const match = input.name.match(/placements\[(\d+)\]/);
                                 if (match) {
-                                    maxIndex = Math.max(maxIndex, parseInt(match[1]));
+                                    const idx = parseInt(match[1]);
+                                    maxIndex = Math.max(maxIndex, idx);
                                 }
                             });
                             const placementIndex = maxIndex + 1;
+                            
+                            // Debug: Log to console (remove in production)
+                            console.log('Adding placement:', {
+                                yearIndex: actualYearIndex,
+                                placementIndex: placementIndex,
+                                maxIndex: maxIndex,
+                                totalInputs: inputs.length
+                            });
 
                             const newPlacement = `
                     <div class="placement-entry row mb-2">
                         <div class="form-group col-md-4">
-                            <input type="text" class="form-control" name="studentPlaced[${yearIndex}][placements][${placementIndex}][studentRegNumber]" placeholder="Student Registration Number" required>
+                            <input type="text" class="form-control" name="studentPlaced[${actualYearIndex}][placements][${placementIndex}][studentRegNumber]" placeholder="Student Registration Number" required>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="text" class="form-control" name="studentPlaced[${yearIndex}][placements][${placementIndex}][studentName]" placeholder="Student Name" required>
+                            <input type="text" class="form-control" name="studentPlaced[${actualYearIndex}][placements][${placementIndex}][studentName]" placeholder="Student Name" required>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="text" class="form-control" name="studentPlaced[${yearIndex}][placements][${placementIndex}][companyName]" placeholder="Company Name" required>
+                            <input type="text" class="form-control" name="studentPlaced[${actualYearIndex}][placements][${placementIndex}][companyName]" placeholder="Company Name" required>
                         </div>
                         <div class="form-group col-md-2 text-end">
                             <button type="button" class="btn btn-danger" onclick="removePlacement(this)">Remove</button>
