@@ -90,15 +90,20 @@
                     theme: 'bootstrap'
                 });
             });
-            // Number Musk
-            // $('.autonumber').autoNumeric('init');
-            new AutoNumeric('.autonumber', {
-                minimumValue : '0',
-                maximumValue : '999999999',
-                decimalPlaces : 0,
-                decimalCharacter : '.',
-                digitGroupSeparator : '',
-            });
+            // Number Musk - Only initialize if elements exist
+            if ($('.autonumber').length > 0) {
+                try {
+                    new AutoNumeric('.autonumber', {
+                        minimumValue : '0',
+                        maximumValue : '999999999',
+                        decimalPlaces : 0,
+                        decimalCharacter : '.',
+                        digitGroupSeparator : '',
+                    });
+                } catch(e) {
+                    console.warn('AutoNumeric initialization skipped:', e.message);
+                }
+            }
         });
     </script>
     <script type="text/javascript">

@@ -40,6 +40,41 @@
         </section>
         <!-- breadcrumb-area-end -->
                    
+        @php
+            // Check if this is IQAC page or IQAC sub-page
+            $isIQACPage = ($page->slug === 'iqac' || strpos($page->slug, 'iqac-') === 0);
+            $iqacSubPages = [
+                ['title' => 'Introduction', 'url' => url('/iqac/introduction'), 'slug' => 'introduction'],
+                ['title' => 'AQAR Reports', 'url' => url('/iqac/aqar-reports'), 'slug' => 'aqar-reports'],
+                ['title' => 'Minutes / Action Taken', 'url' => url('/iqac/minutes-action-taken'), 'slug' => 'minutes-action-taken'],
+                ['title' => 'Members', 'url' => url('/iqac/members'), 'slug' => 'members'],
+                ['title' => 'Best Practices', 'url' => url('/iqac/best-practices'), 'slug' => 'best-practices'],
+                ['title' => 'Distinctiveness', 'url' => url('/iqac/distinctiveness'), 'slug' => 'distinctiveness'],
+                ['title' => 'Student Satisfaction Survey', 'url' => url('/iqac/student-satisfaction-survey'), 'slug' => 'student-satisfaction-survey']
+            ];
+        @endphp
+        
+        @if($isIQACPage)
+        <!-- Quick Navigation for IQAC -->
+        <section class="py-5 bg-white border-bottom my-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="d-flex flex-wrap listmargin clearfix">
+                            @foreach($iqacSubPages as $subPage)
+                            <li>
+                                <a class="btn ss-btn mr-10" href="{{ $subPage['url'] }}"> 
+                                    <strong>{{ $subPage['title'] }}</strong> 
+                                </a>         
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        @endif
+                   
         <!-- Page Detail -->
         <section class="project-detail">
             <div class="container">
@@ -72,5 +107,6 @@
        
     </main>
     <!-- main-area-end -->
+
 
 @endsection

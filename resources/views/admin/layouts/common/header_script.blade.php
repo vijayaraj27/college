@@ -29,7 +29,9 @@
         <!-- select2 css -->
         <link rel="stylesheet" href="{{ asset('dashboard/plugins/select2/css/select2.min.css') }}">
         <!-- material datetimepicker css -->
+        @if(file_exists(public_path('dashboard/plugins/material-datetimepicker/css/bootstrap-material-datetimepicker.css')))
         <link rel="stylesheet" href="{{ asset('dashboard/plugins/material-datetimepicker/css/bootstrap-material-datetimepicker.css') }}">
+        @endif
         <!-- minicolors css -->
         <link rel="stylesheet" href="{{ asset('dashboard/plugins/mini-color/css/jquery.minicolors.css') }}">
         <!-- toastr css -->

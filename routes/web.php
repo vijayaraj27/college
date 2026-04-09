@@ -49,6 +49,9 @@ Route::middleware(['XSS'])->namespace('Web')->group(function () {
     // SetCookie Route
     Route::get('/set-cookie', 'HomeController@setCookie')->name('setCookie');
     
+    // IQAC Sub-pages Route - Must be before general page route
+    Route::get('/iqac/{subpage}', 'PageController@showIQACSubPage')->name('iqac.subpage');
+    
     // Page Routes - Must be last to avoid conflicts with other routes
     Route::get('/{slug}', 'PageController@show')->name('page.single');
 });

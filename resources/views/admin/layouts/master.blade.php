@@ -173,10 +173,16 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right profile-notification">
                     <div class="pro-head">
-                        <img src="{{ asset('uploads/user/'.Auth::user()->photo) }}" class="img-radius"
-                            alt="User Profile" @if(Auth::user()->gender == 1)
-                        onerror="this.src='{{ asset('dashboard/images/user/avatar-2.jpg') }}';" @else
-                        onerror="this.src='{{ asset('dashboard/images/user/avatar-1.jpg') }}';" @endif>
+                        @php
+                            $userPhoto = Auth::user()->photo;
+                            $photoPath = ($userPhoto && file_exists(public_path('uploads/user/'.$userPhoto))) 
+                                ? asset('uploads/user/'.$userPhoto) 
+                                : (Auth::user()->gender == 1 
+                                    ? asset('dashboard/images/user/avatar-2.jpg') 
+                                    : asset('dashboard/images/user/avatar-1.jpg'));
+                        @endphp
+                        <img src="{{ $photoPath }}" class="img-radius" alt="User Profile"
+                            onerror="this.src='{{ Auth::user()->gender == 1 ? asset('dashboard/images/user/avatar-2.jpg') : asset('dashboard/images/user/avatar-1.jpg') }}';">
                         <span>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span>
                         <a href="javascript:void(0);" class="dud-logout" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
